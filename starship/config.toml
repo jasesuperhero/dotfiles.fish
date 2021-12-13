@@ -19,7 +19,7 @@ disabled = true
 
 [directory]
 read_only = " "
-truncate_to_repo = false
+truncate_to_repo = true
 
 [docker_context]
 disabled = true
@@ -34,7 +34,7 @@ disabled = true
 disabled = true
 
 [env_var]
-disabled = true
+disabled = false
 
 [erlang]
 disabled = true
@@ -79,7 +79,7 @@ disabled = true
 disabled = true
 
 [nodejs]
-disabled = true
+disabled = false
 
 [ocaml]
 disabled = true
@@ -88,7 +88,7 @@ disabled = true
 disabled = true
 
 [package]
-disabled = true
+disabled = false
 
 [perl]
 disabled = true
@@ -100,10 +100,10 @@ disabled = true
 disabled = true
 
 [python]
-disabled = true
+disabled = false
 
 [ruby]
-disabled = true
+disabled = false
 
 [rust]
 disabled = true
@@ -118,9 +118,12 @@ disabled = true
 disabled = true
 
 [swift]
-disabled = true
+disabled = false
 
 [terraform]
+disabled = true
+
+[time]
 disabled = true
 
 [vagrant]

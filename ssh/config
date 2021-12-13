@@ -1,0 +1,6 @@
+Include ~/.ssh/config.dotfiles
+
+Host *
+  StrictHostKeyChecking no
+  UseKeychain yes
+
