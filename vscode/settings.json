@@ -94,7 +94,7 @@
   "terminal.integrated.fontSize": 14,
   "workbench.iconTheme": "material-icon-theme",
   "[json]": {
-    "editor.defaultFormatter": "vscode.json-language-features"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "python.showStartPage": false,
   "notebook.cellToolbarLocation": {
@@ -118,5 +118,14 @@
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "cSpell.language": "en,ru"
+  "cSpell.language": "en,ru",
+  "[dockerfile]": {
+    "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
