@@ -1,0 +1,8 @@
+{
+	"alfredsnippet": {
+		"snippet": "h1. Описание\n\n\nh1. Что делаем?\n*\n\nh1. Результат\n* Влитый PR\n* WTH\n",
+		"uid": "01CD6D24-20A3-4DAB-BFC0-777528646E1C",
+		"name": "[JIRA] Task description",
+		"keyword": "desc"
+	}
+}
