@@ -1,0 +1,77 @@
+brew "aria2"
+brew "bat"
+brew "cantino/mcfly/mcfly"
+brew "carthage"
+brew "cmake"
+brew "coreutils"
+brew "dog"
+brew "exa"
+brew "fd"
+brew "fish"
+brew "fzf"
+brew "gcc"
+brew "gd"
+brew "gdk-pixbuf"
+brew "gh"
+brew "git-delta"
+brew "git-lfs"
+brew "git"
+brew "gnutls"
+brew "httpie"
+brew "kubectx"
+brew "mas"
+brew "mint"
+brew "mono-libgdiplus"
+brew "mono", link: false
+brew "neovim"
+brew "pango"
+brew "python@3.9"
+brew "rbenv"
+brew "ripgrep"
+brew "robotsandpencils/made/xcodes"
+brew "tldr"
+brew "transmission-cli"
+brew "virtualenv"
+brew "webp"
+brew "wget"
+brew "m-cli"
+
+tap "adoptopenjdk/openjdk"
+tap "cantino/mcfly"
+tap "homebrew/bundle"
+tap "homebrew/cask-fonts"
+tap "homebrew/cask-versions"
+tap "homebrew/cask"
+tap "homebrew/core"
+
+cask "1password"
+cask "alfred"
+cask "bartender"
+cask "discord"
+cask "docker"
+cask "firefox"
+cask "font-jetbrains-mono"
+cask "fork"
+cask "iterm2"
+cask "kap"
+cask "notion"
+cask "obsidian"
+cask "plex-media-server"
+cask "postman"
+cask "rescuetime"
+cask "telegram-desktop"
+cask "transmission"
+cask "visual-studio-code"
+cask "vlc"
+
+mas "Adblock Plus", id: 1432731683
+mas "Magnet", id: 441258766
+mas "Next Meeting", id: 1017470484
+mas "Noizio", id: 928871589
+mas "OhMyStar", id: 1218642292
+mas "Reeder", id: 880001334
+mas "Spark", id: 1176895641
+mas "The Unarchiver", id: 425424353
+mas "Things", id: 904280696
+mas "Trello", id: 1278508951
+mas "Twitter", id: 1482454543
