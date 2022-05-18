@@ -5,7 +5,6 @@ jethrokuan/z
 oh-my-fish/plugin-grc
 oh-my-fish/plugin-gi
 mattgreen/lucid.fish
-jorgebucaran/fisher
 rbenv/fish-rbenv
-edc/bass
-reitzig/sdkman-for-fish@v1.4.0
+brigand/fast-nvm-fish
+jorgebucaran/fisher

@@ -23,3 +23,6 @@ statiolake.vscode-rustfmt
 timonwong.shellcheck
 wingrunr21.vscode-ruby
 zxh404.vscode-proto3
+pinage404.bash-extension-pack
+gquittet.vscode-better-fish-extension-pack
+jabacchetta.vscode-essentials

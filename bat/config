@@ -1,4 +1,5 @@
+# Set the theme to "Dracula"
 --theme="Dracula"
--n
--p
---plain
+
+# Show line numbers, Git modifications and file header (but no grid)
+--style="numbers,changes,header"

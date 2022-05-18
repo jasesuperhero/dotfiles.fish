@@ -1,2 +1,2 @@
 builds:
-- skip: true
+  - skip: true

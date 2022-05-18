@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 if test (uname) != Darwin
-	exit
+    exit
 end
 
 abbr -a airport /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport

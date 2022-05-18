@@ -5,8 +5,8 @@ disabled = true
 disabled = true
 
 [cmd_duration]
-min_time = 500
 format = "[$duration]($style) "
+min_time = 500
 
 [conda]
 disabled = true

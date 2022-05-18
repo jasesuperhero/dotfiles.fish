@@ -21,7 +21,7 @@ k9s:
       namespace:
         active: ""
         favorites:
-        - default
+          - default
       view:
         active: po
       featureGates:

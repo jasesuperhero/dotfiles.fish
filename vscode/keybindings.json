@@ -8,5 +8,5 @@
 	{
 		"key": "ctrl+shift+enter",
 		"command": "go.test.package"
-	},
+	}
 ]
