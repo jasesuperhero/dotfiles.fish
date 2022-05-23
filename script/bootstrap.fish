@@ -105,6 +105,8 @@ function install_dotfiles
     or abort htoprc
     link_file $DOTFILES_ROOT/ssh/config.dotfiles $HOME/.ssh/config.dotfiles backup
     or abort ssh
+	link_file $DOTFILES_ROOT/nvim/config $HOME/.config/nvim backup
+	or abort nvim
 end
 
 curl -sL git.io/fisher | source && fisher install jorgebucaran/fisher

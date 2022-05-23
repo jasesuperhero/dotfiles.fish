@@ -9,7 +9,7 @@ local M = {}
 -- example of changing theme:
 
 M.ui = {
-   theme = "gruvchad",
+   theme = "chadracula",
 }
 
 return M
