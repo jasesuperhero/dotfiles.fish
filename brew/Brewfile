@@ -58,6 +58,7 @@ cask "telegram-desktop"
 cask "transmission"
 cask "visual-studio-code"
 cask "vlc"
+cask "lulu"
 
 mas "Adblock Plus", id: 1432731683
 mas "Magnet", id: 441258766
