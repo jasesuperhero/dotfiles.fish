@@ -37,6 +37,7 @@ brew "transmission-cli"
 brew "virtualenv"
 brew "webp"
 brew "wget"
+brew "asdf"
 
 cask "1password"
 cask "alfred"
