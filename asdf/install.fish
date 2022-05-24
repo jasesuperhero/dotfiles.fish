@@ -1,10 +1,10 @@
 #!/usr/bin/env fish
 
 if command -qa asdf
-	echo "asdf installed. Everyting is fine"
+  echo "asdf installed. Everyting is fine"
 else
-	echo "There is no asdf on the machine"
-	exit 1
+  echo "There is no asdf on the machine"
+  exit 1
 end
 
 asdf plugin add python

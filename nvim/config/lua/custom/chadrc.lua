@@ -1,15 +1,37 @@
--- Just an example, supposed to be placed in /lua/custom/
-
--- remove this if you dont use custom.init.lua at all
-require "custom"
-
 local M = {}
 
--- make sure you maintain the structure of `core/default_config.lua` here,
--- example of changing theme:
+local override = require("custom.override")
+local userPlugins = require("custom.plugins")
 
 M.ui = {
-   theme = "chadracula",
+	theme = "chadracula",
 }
+
+M.plugins = {
+	user = userPlugins,
+	options = {
+		lspconfig = {
+			setup_lspconf = "custom.plugins.lspconfig",
+		},
+
+		statusline = {
+			separator_style = "round",
+		},
+	},
+
+	override = {
+		["kyazdani42/nvim-tree.lua"] = override.nvimtree,
+		["nvim-treesitter/nvim-treesitter"] = override.treesitter,
+		["lukas-reineke/indent-blankline.nvim"] = override.blankline,
+	},
+}
+
+M.options = {
+	user = function()
+		require("custom.options")
+	end,
+}
+
+M.mappings = require("custom.mappings")
 
 return M
