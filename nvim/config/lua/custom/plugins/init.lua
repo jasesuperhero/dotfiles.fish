@@ -25,4 +25,11 @@ return {
 			require("nvim-treesitter.configs").setup()
 		end,
 	},
+
+	["sindrets/diffview.nvim"] = {
+		after = "plenary.nvim",
+		config = function()
+			require("custom.plugins.diffview")
+		end,
+	},
 }

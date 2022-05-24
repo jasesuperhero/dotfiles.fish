@@ -61,7 +61,7 @@
 	},
 	"window.newWindowDimensions": "maximized",
 	"go.buildFlags": ["-v"],
-	"editor.fontFamily": "'JetBrainsMono', Menlo, Monaco, 'Courier New', monospace",
+	"editor.fontFamily": "'JetBrainsMonoNerdFontCompleteM-Regular', Menlo, Monaco, 'Courier New', monospace",
 	"editor.smoothScrolling": true,
 	"files.exclude": {
 		"yarn.lock": true
@@ -72,7 +72,7 @@
 	"go.toolsManagement.autoUpdate": true,
 	"workbench.sideBar.location": "right",
 	"debug.console.fontSize": 14,
-	"terminal.integrated.fontFamily": "'JetBrainsMono Nerd Font Mono'",
+	"terminal.integrated.fontFamily": "'JetBrainsMonoNerdFontCompleteM-Regular'",
 	"diffEditor.codeLens": true,
 	"remote.SSH.remotePlatform": {
 		"darkstar.local": "linux"
