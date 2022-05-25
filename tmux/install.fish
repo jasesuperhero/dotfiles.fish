@@ -1,8 +1,8 @@
 #!/usr/bin/env fish
 
-if not command -qs tmux
+if ! command -qs tmux
 	exit
 end
 
-rm -rf ~/.config/tmux/plugins
-test -d ~/.config/tmux/plugins/tpm || git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
+curl -sL https://raw.githubusercontent.com/catppuccin/tmux/main/catppuccin.conf -o $DOTFILES/tmux/catppuccin.conf
+test -d ~/.tmux/plugins/tpm || git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm

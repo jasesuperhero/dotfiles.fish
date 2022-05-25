@@ -1,45 +1,61 @@
-#################################### OPTIONS ###################################
-tmux_dir="~/.tmux"
-tmux_conf_dir="$tmux_dir/conf"
-tmux_plugins_dir="$tmux_dir/plugins"
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-sensible'
+set -g @plugin 'tmux-plugins/tmux-yank'
+set -g @plugin 'tmux-plugins/tmux-resurrect'
+set -g @plugin 'tmux-plugins/tmux-continuum'
+run -b '~/.tmux/plugins/tpm/tpm'
 
-################################## CONF FILES ##################################
-source "$tmux_conf_dir/opts.conf"
-source "$tmux_conf_dir/keybind.conf"
-source "$tmux_conf_dir/skin.conf"
+set -g default-terminal "xterm-256color"
+set -ga terminal-overrides ",*256col*:Tc"
+setenv -g COLORTERM truecolor
 
-#################################### PLUGINS ###################################
-set-environment -g TMUX_PLUGIN_MANAGER_PATH "$tmux_plugins_dir"
+set -s escape-time 0
+setw -g mouse on
 
-set -g @plugin 'tmux-plugins/tpm'                   # Plugin Manager
+# fix SSH agent after reconnecting
+# see also ssh/rc
+# https://blog.testdouble.com/posts/2016-11-18-reconciling-tmux-and-ssh-agent-forwarding/
+set -g update-environment "DISPLAY SSH_ASKPASS SSH_AGENT_PID SSH_CONNECTION WINDOWID XAUTHORITY"
+setenv -g SSH_AUTH_SOCK $HOME/.ssh/ssh_auth_sock
 
-set -g @plugin 'tmux-plugins/tmux-cpu'              # Display CPU performance
-set -g @plugin 'tmux-plugins/tmux-open'             # Open links from tmux - Select path and press o
-set -g @plugin 'tmux-plugins/tmux-yank'             # Copy to system clipboard
-set -g @plugin 'tmux-plugins/tmux-battery'          # Battery status in tmux
-set -g @plugin 'tmux-plugins/tmux-sensible'         # Sensible defaults
-set -g @plugin 'olimorris/tmux-pomodoro-plus'       # Pomodoro timer in tmux
-set -g @plugin 'tmux-plugins/tmux-resurrect'        # Restore tmux sessions
-set -g @plugin 'MunifTanjim/tmux-mode-indicator'    # Display current tmux mode
-set -g @plugin 'tmux-plugins/tmux-online-status'    # Are we connected to the internet?!
+# Start windows and panes index at 1, not 0.
+set -g base-index 1
+setw -g pane-base-index 1
 
-set -g @plugin 'tmux-plugins/tmux-continuum'        # Continuous saving of tmux environment - MUST BE LAST
+# Auto restore tmux
+set -g @continuum-restore 'on'
 
-## Plugin options
-set -g @resurrect-dir "$tmux_dir/resurrect"
-set -g @resurrect-save 'S'                          # Save the session
-set -g @resurrect-restore 'R'                       # Reload the session
-set -g @continuum-restore 'on'                      # Last saved session is always restored
-set -g @resurrect-strategy-nvim 'session'           # Restore Neovim session if a Session.vim file is present
+# Ensure window index numbers get reordered on delete.
+set-option -g renumber-windows on
 
-set -g @pomodoro_start 'p'                          # Start a Pomodoro
-set -g @pomodoro_cancel 'P'                         # Cancel a Pomodoro
-set -g @pomodoro_notifications 'on'                 # Enable desktop notifications
-set -g @pomodoro_sound 'Pop'                        # Sound for desktop notifications (Run `ls /System/Library/Sounds` for all sounds)
-set -g @pomodoro_mins 25
-set -g @pomodoro_break_mins 5
+# set terminal title
+set-option -g set-titles on
+set-option -g set-titles-string "#S / #W"
 
-set -g @yank_with_mouse on                          # Just select with the mouse to copy
+# auto rename tmux window to current cwd
+set-option -g status-interval 1
+set-option -g automatic-rename on
+set-option -g automatic-rename-format '#{b:pane_current_path}'
 
-# Run the plugins
-run "$tmux_plugins_dir/tpm/tpm"
+# vim-mode copy/paste
+bind-key -T copy-mode-vi v send-keys -X begin-selection
+bind-key -T copy-mode-vi y send-keys -X copy-selection
+bind-key -T copy-mode-vi r send-keys -X rectangle-toggle
+
+# open windows et al in the same folder
+bind u split-window -c "#{pane_current_path}"
+bind i split-window -h -c "#{pane_current_path}"
+bind c new-window -c "#{pane_current_path}"
+
+# vim-like pane switching
+bind -r o last-window
+bind -r k select-pane -U
+bind -r j select-pane -D
+bind -r h select-pane -L
+bind -r l select-pane -R
+bind r source-file ~/.tmux.conf
+
+bind-key -r f run-shell "tmux neww tmux-sessionizer"
+
+source-file ~/.dotfiles/tmux/catppuccin.conf
+set -g status-position bottom
