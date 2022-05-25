@@ -98,6 +98,8 @@ precomposeunicode = false
 # https://git-scm.com/docs/git-update-index#_untracked_cache
 untrackedCache = true
 
+editor = nvim
+
 [delta]
 syntax-theme = Dracula
 line-numbers = true
@@ -151,6 +153,9 @@ helper = osxkeychain
 
 [interactive]
 diffFilter = delta --color-only
+
+[diff]
+tool = neovim
 
 [merge]
 tool = vscode

@@ -95,7 +95,7 @@ function install_dotfiles
         or abort 'failed to link config file'
     end
 
-	link_file $DOTFILES_ROOT/fish/config.fish $HOME/.config/fish/config.fish backup
+    link_file $DOTFILES_ROOT/fish/config.fish $HOME/.config/fish/config.fish backup
     or abort bat
     link_file $DOTFILES_ROOT/fisher/plugins $__fish_config_dir/fish_plugins backup
     or abort plugins
@@ -105,8 +105,8 @@ function install_dotfiles
     or abort htoprc
     link_file $DOTFILES_ROOT/ssh/config.dotfiles $HOME/.ssh/config.dotfiles backup
     or abort ssh
-	link_file $DOTFILES_ROOT/nvim/config $HOME/.config/nvim backup
-	or abort nvim
+    link_file $DOTFILES_ROOT/nvim/config $HOME/.config/nvim backup
+    or abort nvim
 end
 
 curl -sL git.io/fisher | source && fisher install jorgebucaran/fisher

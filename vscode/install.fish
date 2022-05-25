@@ -1,7 +1,8 @@
 #!/usr/bin/env fish
 #
-if ! command -qs code
-    exit 0
+if not command -qs code
+  echo "Visual Studio Code is not installed"
+  exit 0
 end
 
 switch (uname)
@@ -14,7 +15,7 @@ end
 mkdir -p $vscode_home
 and ln -sf "$DOTFILES/vscode/settings.json" "$vscode_home/User/settings.json"
 and ln -sf "$DOTFILES/vscode/keybindings.json" "$vscode_home/User/keybindings.json"
-and ln -sf "$DOTFILES/vscode/snippets" "$vscode_home/User/"
+and ln -sf "$DOTFILES/vscode/snippets" "$vscode_home/User/snippets"
 and echo "vscode: linked config files"
 
 cat $DOTFILES/vscode/extensions.txt | while read module
