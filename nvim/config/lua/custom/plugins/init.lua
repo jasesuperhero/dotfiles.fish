@@ -32,4 +32,17 @@ return {
 			require("custom.plugins.diffview")
 		end,
 	},
+
+	["folke/trouble.nvim"] = {
+		after = "nvim-web-devicons",
+		config = function()
+			require("custom.plugins.troubles")
+		end,
+	},
+
+	["rcarriga/nvim-notify"] = {
+		config = function()
+			require("custom.plugins.notify")
+		end,
+	},
 }
