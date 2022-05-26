@@ -45,4 +45,10 @@ return {
 			require("custom.plugins.notify")
 		end,
 	},
+
+	["phaazon/hop.nvim"] = {
+		config = function()
+			require("hop").setup()
+		end,
+	},
 }
