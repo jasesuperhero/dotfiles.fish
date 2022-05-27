@@ -2,6 +2,6 @@
 	name = jasesuperhero
 	email = jase.superhero@gmail.com
 [include]
-	path = /Users/kalintsev-ds/.gitconfig
+	path = /Users/a17238803/.gitconfig
 [dotfiles]
 	managed = true

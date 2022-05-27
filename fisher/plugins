@@ -1,3 +1,4 @@
+jorgebucaran/fisher
 dracula/fish
 jethrokuan/fzf
 caarlos0/fish-gcp-machines
@@ -6,6 +7,6 @@ oh-my-fish/plugin-grc
 oh-my-fish/plugin-gi
 mattgreen/lucid.fish
 rbenv/fish-rbenv
-brigand/fast-nvm-fish
-PatrickF1/fzf.fish
-jorgebucaran/fisher
+edc/bass
+reitzig/sdkman-for-fish@v1.4.0
+rstacruz/fish-asdf

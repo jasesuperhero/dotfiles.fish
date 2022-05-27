@@ -142,9 +142,6 @@ autocorrect = 1
 name = Daniel Kalintsev
 email = d.kalintsev@gmail.com
 
-[include]
-path = /Users/a17238803/.gitconfig.local
-
 [dotfiles]
 managed = true
 
