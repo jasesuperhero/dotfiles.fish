@@ -28,13 +28,13 @@ function on_exit -p %self
 end
 
 function setup_gitconfig
-    if not test -f ~/.gitconfig.local
-        touch ~/.gitconfig.local
+    if not test -f $HOME/.gitconfig.local
+        touch $HOME/.gitconfig.local
     end
 
-    set managed (git config --file ~/.gitconfig.local --get dotfiles.managed)
+    set managed (git config --file $HOME/.gitconfig.local --get dotfiles.managed)
     # if there is no user.email, we'll assume it's a new machine/setup and ask it
-    if test -z (git config --file ~/.gitconfig.local --get user.email)
+    if test -z (git config --file $HOME/.gitconfig.local --get user.email)
         user 'What is your github author name?'
         read user_name
         user 'What is your github author email?'
@@ -45,17 +45,17 @@ function setup_gitconfig
         test -n $user_email
         or abort "please inform the git author email"
 
-        git config --file ~/.gitconfig.local user.name $user_name
-        and git config --file ~/.gitconfig.local user.email $user_email
+        git config --file $HOME/.gitconfig.local user.name $user_name
+        and git config --file $HOME/.gitconfig.local user.email $user_email
         or abort 'failed to setup git user name and email'
     else if test '$managed' = true
         # if user.email exists, let's check for dotfiles.managed config. If it is
         # not true, we'll backup the gitconfig file and set previous user.email and
         # user.name in the new one
-        set user_name (git config --file ~/.gitconfig.local --get user.name)
-        and set user_email (git config --file ~/.gitconfig.local --get user.email)
-        and git config --file ~/.gitconfig.local user.name $user_name
-        and git config --file ~/.gitconfig.local user.email $user_email
+        set user_name (git config --file $HOME/.gitconfig.local --get user.name)
+        and set user_email (git config --file $HOME/.gitconfig.local --get user.email)
+        and git config --file $HOME/.gitconfig.local user.name $user_name
+        and git config --file $HOME/.gitconfig.local user.email $user_email
         and success "moved ~/.gitconfig to ~/.gitconfig.backup"
         or abort 'failed to setup git user name and email'
     else
