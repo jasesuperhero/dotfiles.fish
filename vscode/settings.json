@@ -68,7 +68,7 @@
 	},
 	"workbench.preferredDarkColorTheme": "Dracula",
 	"files.insertFinalNewline": true,
-	"workbench.colorTheme": "Dracula",
+	"workbench.colorTheme": "Dracula.min",
 	"go.toolsManagement.autoUpdate": true,
 	"workbench.sideBar.location": "right",
 	"debug.console.fontSize": 14,

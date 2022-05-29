@@ -7,6 +7,6 @@ if not command -qa brew
 end
 
 brew bundle \
-  --file "$DOTFILES/brew/Brewfile" \
+  --file "$DOTFILES/01-brew/Brewfile" \
   --no-lock \
   --quiet
