@@ -23,8 +23,6 @@ brew "kubectx"
 brew "m-cli"
 brew "mas"
 brew "mint"
-brew "mono-libgdiplus"
-brew "mono", link: false
 brew "neovim"
 brew "pango"
 brew "ripgrep"
@@ -33,7 +31,6 @@ brew "sox"
 brew "starship"
 brew "tldr"
 brew "tmux"
-brew "transmission-cli"
 brew "virtualenv"
 brew "webp"
 brew "wget"
@@ -41,10 +38,8 @@ brew "shfmt"
 brew "shellcheck"
 brew "clang-format"
 
-cask "1password"
 cask "alfred"
 cask "bartender"
-cask "discord"
 cask "docker"
 cask "firefox"
 cask "font-jetbrains-mono"
@@ -53,14 +48,11 @@ cask "iterm2"
 cask "kap"
 cask "notion"
 cask "obsidian"
-cask "plex-media-server"
 cask "postman"
 cask "rescuetime"
 cask "telegram-desktop"
-cask "transmission"
 cask "visual-studio-code"
 cask "vlc"
-cask "lulu"
 
 mas "Adblock Plus", id: 1432731683
 mas "Magnet", id: 441258766
@@ -69,7 +61,6 @@ mas "Noizio", id: 928871589
 mas "OhMyStar", id: 1218642292
 mas "Reeder", id: 880001334
 mas "Spark", id: 1176895641
-mas "The Unarchiver", id: 425424353
 mas "Things", id: 904280696
 mas "Trello", id: 1278508951
 mas "Twitter", id: 1482454543
