@@ -51,4 +51,8 @@ return {
 			require("hop").setup()
 		end,
 	},
+
+	["hrsh7th/cmp-cmdline"] = {
+		after = "cmp-path",
+	},
 }
