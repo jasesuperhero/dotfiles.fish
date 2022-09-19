@@ -64,7 +64,7 @@
 	"editor.fontFamily": "'JetBrainsMonoNerdFontCompleteM-Regular', Menlo, Monaco, 'Courier New', monospace",
 	"editor.smoothScrolling": true,
 	"files.exclude": {
-		"yarn.lock": true
+		"**/.trunk/*out": true
 	},
 	"workbench.preferredDarkColorTheme": "Dracula",
 	"files.insertFinalNewline": true,
@@ -87,8 +87,8 @@
 	"workbench.editorAssociations": {
 		"*.ipynb": "jupyter-notebook"
 	},
-	"security.workspace.trust.untrustedFiles": "open",
-	"http.proxyStrictSSL": false,
+"security.workspace.trust.untrustedFiles": "open",
+"http.proxyStrictSSL": false,
 	"terminal.integrated.defaultProfile.osx": "fish",
 	"editor.fontSize": 14,
 	"terminal.integrated.fontSize": 14,
@@ -142,5 +142,15 @@
 	"[html]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
-	"explorer.confirmDelete": false
+	"explorer.confirmDelete": false,
+	"files.watcherExclude": {
+		"**/.trunk/*out": true
+	},
+	"trunk.trunkGrayOutNonBlockingIssues": false,
+	"[ruby]": {
+		"editor.defaultFormatter": "rebornix.ruby"
+	},
+	"gitlens.hovers.changesDiff": "hunk",
+	"gitlens.hovers.annotations.changes": false,
+	"gitlens.hovers.currentLine.changes": false
 }
