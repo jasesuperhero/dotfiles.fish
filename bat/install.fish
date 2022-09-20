@@ -1,4 +1,7 @@
 #!/usr/bin/env fish
+
+bat cache --build
+
 if command -qa bat
     abbr -a cat "bat --paging=always "
     set -Ux MANPAGER "sh -c 'col -bx | bat -l man --paging=always'"

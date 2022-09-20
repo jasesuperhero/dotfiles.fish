@@ -4,7 +4,7 @@ local override = require("custom.override")
 local userPlugins = require("custom.plugins")
 
 M.ui = {
-	theme = "chadracula",
+	theme = "catppuccin",
 }
 
 M.plugins = {

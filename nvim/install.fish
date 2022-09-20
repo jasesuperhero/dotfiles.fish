@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 
-ln -s "$DOTFILES/nvim/custom" "$DOTFILES/nvim/config/lua/custom"
+ln -s "$DOTFILES/nvim/custom" "$HOME/.config/nvim/config/lua/custom"
 
 abbr -a vi 'nvim'
-nvim --headless "+PackerSync" "+quit!"
+nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'

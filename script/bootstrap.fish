@@ -97,7 +97,7 @@ function install_dotfiles
 
     link_file $DOTFILES_ROOT/02-fish/config.fish $HOME/.config/fish/config.fish backup
     or abort fish
-    link_file $DOTFILES_ROOT/bat/config $HOME/.config/bat/config backup
+    link_file $DOTFILES_ROOT/bat/config $HOME/.config/bat backup
     or abort bat
     link_file $DOTFILES_ROOT/htop/htoprc $HOME/.config/htop/htoprc backup
     or abort htoprc
@@ -105,6 +105,8 @@ function install_dotfiles
     or abort ssh
     link_file $DOTFILES_ROOT/nvim/config $HOME/.config/nvim backup
     or abort nvim
+	link_file $DOTFILES_ROOT/btop/config $HOME/.config/btop backup
+    or abort btop
 end
 
 curl -sL git.io/fisher | source && fisher install jorgebucaran/fisher
