@@ -1,0 +1,61 @@
+{
+  "alfredtheme" : {
+    "result" : {
+      "textSpacing" : 5,
+      "subtext" : {
+        "size" : 11,
+        "colorSelected" : "#A5ADCEFF",
+        "font" : "JetBrains Mono NL Thin",
+        "color" : "#B5BFE2FF"
+      },
+      "shortcut" : {
+        "size" : 20,
+        "colorSelected" : "#C6D0F5FF",
+        "font" : "System",
+        "color" : "#B5BFE2FF"
+      },
+      "backgroundSelected" : "#222534FF",
+      "text" : {
+        "size" : 16,
+        "colorSelected" : "#C6D0F5FF",
+        "font" : "JetBrains Mono NL Regular",
+        "color" : "#B5BFE2FF"
+      },
+      "iconPaddingHorizontal" : 7,
+      "paddingVertical" : 3,
+      "iconSize" : 40
+    },
+    "search" : {
+      "paddingVertical" : 5,
+      "background" : "#282B3CFF",
+      "spacing" : 9,
+      "text" : {
+        "size" : 24,
+        "colorSelected" : "#C6D0F5FF",
+        "font" : "JetBrains Mono Medium",
+        "color" : "#C6D0F5FF"
+      },
+      "backgroundSelected" : "#626880FF"
+    },
+    "window" : {
+      "color" : "#292C3CFF",
+      "paddingHorizontal" : 9,
+      "width" : 700,
+      "borderPadding" : 0,
+      "borderColor" : "#232634FF",
+      "blur" : 0,
+      "roundness" : 15,
+      "paddingVertical" : 9
+    },
+    "credit" : "Catppuccin Org",
+    "separator" : {
+      "color" : "#737994FF",
+      "thickness" : 0
+    },
+    "scrollbar" : {
+      "color" : "#737994FF",
+      "thickness" : 2
+    },
+    "name" : "Catppuccin Modern - Frappe"
+  }
+}

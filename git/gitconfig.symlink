@@ -142,8 +142,8 @@ textconv = hexdump -v -C
 autocorrect = 1
 
 [user]
-name = Daniel Kalintsev
-email = d.kalintsev@gmail.com
+	name = Daniel Kalintsev
+	email = d.kalintsev@gmail.com
 
 [dotfiles]
 managed = true

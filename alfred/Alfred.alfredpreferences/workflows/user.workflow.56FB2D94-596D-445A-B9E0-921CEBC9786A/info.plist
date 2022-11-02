@@ -152,6 +152,8 @@
 				<false/>
 				<key>alfredfiltersresultsmatchmode</key>
 				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
@@ -171,7 +173,7 @@
 				<key>runningsubtext</key>
 				<string>Searching…</string>
 				<key>script</key>
-				<string>./SnippetsLabAlfredWorkflow --search "{query}"</string>
+				<string>./SnippetsLabAlfredWorkflow --action=search --query="{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -190,7 +192,7 @@
 			<key>uid</key>
 			<string>55D83194-5870-403C-99F3-BB84529D5ADE</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -200,7 +202,7 @@
 				<key>escaping</key>
 				<integer>110</integer>
 				<key>script</key>
-				<string>./SnippetsLabAlfredWorkflow --fetch "{query}"</string>
+				<string>./SnippetsLabAlfredWorkflow --action=fetch --query="{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -222,6 +224,8 @@
 				<true/>
 				<key>clipboardtext</key>
 				<string>{query}</string>
+				<key>ignoredynamicplaceholders</key>
+				<false/>
 				<key>transient</key>
 				<false/>
 			</dict>
@@ -230,7 +234,7 @@
 			<key>uid</key>
 			<string>2DCC28F1-9B76-4084-B20E-6A6F93FCCB28</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -288,12 +292,11 @@
 	<key>readme</key>
 	<string>Type “snippet {query}” to search.
 
-- Press Return to choose the primary action (defaults to “Copy to Clipboard”).
-- Press Option-Return to choose the secondary action (defaults to “Open in Main App”).
-- Press Command-Return to paste directly to frontmost app.
-- The primary/secondary action can be customized in SnippetsLab Preferences &gt; Assistant.
+- Press Return to choose the primary action (defaults to “Copy to Clipboard”, configurable in SnippetsLab Preferences).
 
-Note: Requires SnippetsLab 1.7.1 or higher. Works with macOS High Sierra.</string>
+- Press Option-Return to choose the secondary action (defaults to “Open in Main App”, configurable in SnippetsLab Preferences).
+
+- Press Command-Return to paste directly to the frontmost app.</string>
 	<key>uidata</key>
 	<dict>
 		<key>2DCC28F1-9B76-4084-B20E-6A6F93FCCB28</key>
@@ -346,8 +349,10 @@ Note: Requires SnippetsLab 1.7.1 or higher. Works with macOS High Sierra.</strin
 			<real>320</real>
 		</dict>
 	</dict>
+	<key>variablesdontexport</key>
+	<array/>
 	<key>version</key>
-	<string>1.7.1</string>
+	<string>2.0</string>
 	<key>webaddress</key>
 	<string>https://www.renfei.org/snippets-lab/</string>
 </dict>
