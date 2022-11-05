@@ -1,4 +1,5 @@
 #!/usr/bin/env fish
+
 if command -qa exa
     abbr -a ls exa
     abbr -a lg 'exa --git'

@@ -1,0 +1,7 @@
+[storage]
+engine = file_system
+path = .dotfiles/mackup/data
+
+[applications_to_sync]
+iTerm2
+Xcode

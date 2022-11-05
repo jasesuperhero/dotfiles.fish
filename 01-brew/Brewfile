@@ -36,6 +36,8 @@ brew "wget"
 brew "shfmt"
 brew "shellcheck"
 brew "clang-format"
+brew "mackup"
+brew "mc"
 
 cask "alfred"
 cask "bartender"
