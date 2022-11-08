@@ -103,6 +103,8 @@ function install_dotfiles
     or abort htoprc
     link_file $DOTFILES_ROOT/ssh/config.dotfiles $HOME/.ssh/config.dotfiles backup
     or abort ssh
+	link_file $DOTFILES_ROOT/kitty/kitty.conf $HOME/.config/kitty/kitty.conf backup
+	or abort kitty
     link_file $DOTFILES_ROOT/nvim/config $HOME/.config/nvim backup
     or abort nvim
 	link_file $DOTFILES_ROOT/btop/config $HOME/.config/btop backup

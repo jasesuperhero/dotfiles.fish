@@ -5,20 +5,20 @@
       "subtext" : {
         "size" : 11,
         "colorSelected" : "#A5ADCEFF",
-        "font" : "JetBrains Mono NL Thin",
+        "font" : "JetBrains Mono NL Thin Nerd Font Complete Mono",
         "color" : "#B5BFE2FF"
       },
       "shortcut" : {
         "size" : 20,
         "colorSelected" : "#C6D0F5FF",
-        "font" : "System",
+        "font" : "JetBrains Mono Regular Nerd Font Complete Mono",
         "color" : "#B5BFE2FF"
       },
       "backgroundSelected" : "#222534FF",
       "text" : {
         "size" : 16,
         "colorSelected" : "#C6D0F5FF",
-        "font" : "JetBrains Mono NL Regular",
+        "font" : "JetBrains Mono Regular Nerd Font Complete Mono",
         "color" : "#B5BFE2FF"
       },
       "iconPaddingHorizontal" : 7,
@@ -32,7 +32,7 @@
       "text" : {
         "size" : 24,
         "colorSelected" : "#C6D0F5FF",
-        "font" : "JetBrains Mono Medium",
+        "font" : "JetBrains Mono Medium Nerd Font Complete Mono",
         "color" : "#C6D0F5FF"
       },
       "backgroundSelected" : "#626880FF"
