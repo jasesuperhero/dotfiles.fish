@@ -4,61 +4,62 @@
       "textSpacing" : 5,
       "subtext" : {
         "size" : 11,
-        "colorSelected" : "#A5ADCEFF",
-        "font" : "JetBrains Mono NL Thin Nerd Font Complete Mono",
-        "color" : "#B5BFE2FF"
+        "colorSelected" : "#6C6F85FF",
+        "font" : "JetBrainsMono Nerd Font Mono Thin",
+        "color" : "#5C5F77FF"
       },
       "shortcut" : {
         "size" : 16,
-        "colorSelected" : "#C6D0F5FF",
+        "colorSelected" : "#4C4F69FF",
         "font" : "System",
-        "color" : "#B5BFE2FF"
+        "color" : "#5C5F77FF"
       },
-      "backgroundSelected" : "#222534FF",
+      "backgroundSelected" : "#ACB0BEFF",
       "text" : {
         "size" : 16,
-        "colorSelected" : "#C6D0F5FF",
-        "font" : "JetBrains Mono Regular Nerd Font Complete Mono",
-        "color" : "#B5BFE2FF"
+        "colorSelected" : "#4C4F69FF",
+        "font" : "JetBrainsMono Nerd Font Mono",
+        "color" : "#5C5F77FF"
       },
       "iconPaddingHorizontal" : 7,
-      "roundness" : 0,
+      "roundness" : 8,
       "paddingVertical" : 3,
       "iconSize" : 40
     },
     "search" : {
-      "backgroundSelected" : "#626880FF",
-      "paddingHorizontal" : 8,
+      "backgroundSelected" : "#ACB0BEFF",
+      "paddingHorizontal" : 7,
       "spacing" : 9,
       "text" : {
-        "size" : 24,
-        "colorSelected" : "#C6D0F5FF",
+        "size" : 26,
+        "colorSelected" : "#4C4F69FF",
         "font" : "JetBrains Mono Medium Nerd Font Complete Mono",
-        "color" : "#C6D0F5FF"
+        "color" : "#4C4F69FF"
       },
-      "background" : "#282B3CFF",
-      "roundness" : 0,
+      "background" : "#E6E9EFFF",
+      "roundness" : 8,
       "paddingVertical" : 5
     },
     "window" : {
-      "color" : "#292C3CFF",
+      "color" : "#E6E9EFFF",
       "paddingHorizontal" : 9,
       "width" : 700,
       "borderPadding" : 0,
-      "borderColor" : "#232634FF",
+      "borderColor" : "#DCE0E8FF",
       "blur" : 0,
       "roundness" : 15,
       "paddingVertical" : 9
     },
     "credit" : "Catppuccin Org",
+    "visualEffectMode" : 2,
     "separator" : {
-      "color" : "#737994FF",
+      "color" : "#9CA0B0FF",
       "thickness" : 0
     },
     "scrollbar" : {
-      "color" : "#737994FF",
+      "color" : "#9CA0B0FF",
       "thickness" : 2
     },
-    "name" : "Catppuccin Modern - Frappe"
+    "name" : "Catppuccin Modern - Latte"
   }
 }
