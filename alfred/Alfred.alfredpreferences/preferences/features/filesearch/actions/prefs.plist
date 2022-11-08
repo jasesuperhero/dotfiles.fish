@@ -20,9 +20,9 @@
 		<key>key</key>
 		<integer>-1</integer>
 		<key>mod</key>
-		<integer>1048576</integer>
+		<integer>-1</integer>
 		<key>string</key>
-		<string>double tap</string>
+		<string></string>
 	</dict>
 </dict>
 </plist>
