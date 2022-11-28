@@ -1,107 +1,107 @@
-set -g @plugin 'tmux-plugins/tpm'
-set -g @plugin 'tmux-plugins/tmux-sensible'
-set -g @plugin 'tmux-plugins/tmux-yank'
-set -g @plugin 'tmux-plugins/tmux-resurrect'
-set -g @plugin 'tmux-plugins/tmux-continuum'
-set -g @plugin 'tmux-plugins/tmux-battery'
-set -g @plugin 'tmux-plugins/tmux-cpu'
-set -g @plugin 'tmux-plugins/tmux-net-speed'
+# NOTE: you can use vars with $<var> and ${<var>} as long as the str is double quoted: ""
+# WARNING: hex colors can't contain capital letters
 
-run -b '~/.tmux/plugins/tpm/tpm'
-
-set -g default-terminal "xterm-256color"
-set -ga terminal-overrides ",*256col*:Tc"
-setenv -g COLORTERM truecolor
-set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'  # undercurl support
-set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'  # underscore colours - needs tmux-3.0
-
-set -s escape-time 0
-setw -g mouse on
-
-# fix SSH agent after reconnecting
-# see also ssh/rc
-# https://blog.testdouble.com/posts/2016-11-18-reconciling-tmux-and-ssh-agent-forwarding/
-set -g update-environment "DISPLAY SSH_ASKPASS SSH_AGENT_PID SSH_CONNECTION WINDOWID XAUTHORITY"
-setenv -g SSH_AUTH_SOCK $HOME/.ssh/ssh_auth_sock
-
-# Start windows and panes index at 1, not 0.
-set -g base-index 1
-setw -g pane-base-index 1
-
-# Auto restore tmux
-set -g @continuum-restore 'on'
-
-# Ensure window index numbers get reordered on delete.
-set-option -g renumber-windows on
-
-# set terminal title
-set-option -g set-titles on
-set-option -g set-titles-string "#S / #W"
-
-# auto rename tmux window to current cwd
-set-option -g status-interval 1
-set-option -g automatic-rename on
-set-option -g automatic-rename-format '#{b:pane_current_path}'
-
-# vim-mode copy/paste
-bind-key -T copy-mode-vi v send-keys -X begin-selection
-bind-key -T copy-mode-vi y send-keys -X copy-selection
-bind-key -T copy-mode-vi r send-keys -X rectangle-toggle
-
-# open windows et al in the same folder
-bind u split-window -p 20 -c "#{pane_current_path}"
-bind i split-window -p 20 -h -c "#{pane_current_path}"
-bind c new-window -c "#{pane_current_path}"
-
-# vim-like pane switching
-bind o if-shell 'test $(tmux list-panes | wc -l) -gt 1' 'last-pane' 'last-window'
-bind s switch-client -p
-bind S switch-client -n
-bind -r k select-pane -U
-bind -r j select-pane -D
-bind -r h select-pane -L
-bind -r l select-pane -R
-set-option -g repeat-time 0
-bind r source-file ~/.tmux.conf
-
-bind-key -r p display-popup -E "tmux-sessionizer"
-bind-key -r g run-shell "tmux neww tmux-sessionizer default"
-
-thm_bg="#000000"
+# --> Catppuccin
+thm_bg="#1e1e2e"
 thm_fg="#cdd6f4"
-thm_cyan="#89dceb"
-thm_black="#181825"
-thm_gray="#45475a"
-thm_magenta="#cba6f7"
+thm_gray="#bac2de"
+thm_cyan="#9399b2"
+thm_magenta="#9399b2"
 thm_pink="#f5c2e7"
 thm_red="#f38ba8"
 thm_green="#a6e3a1"
-thm_yellow="#f9e2af"
 thm_blue="#89b4fa"
 thm_orange="#fab387"
-thm_black4="#585b70"
+thm_black="#181825"
+thm_black4="#11111b"
 
-set -g @net_speed_interfaces "eth0 eth1"
+# ----------------------------=== Theme ===--------------------------
 
+# ----- Prefix -----
+
+unbind-key C-b
+set-option -g prefix C-x
+bind-key C-x send-prefix
+
+
+# ----- Panes -----
+
+# Key bindings for switching panes
+bind -n M-h select-pane -L # left
+bind -n M-l select-pane -R # right
+bind -n M-k select-pane -U # up
+bind -n M-j select-pane -D # down
+
+# Key bindings for creating panes
+bind-key 1 split-window -h # horizontal
+bind-key 2 split-window -v # verticle
+
+# status
+set -g status-interval 1
+set -g escape-time 10
+set -g focus-events on
 set -g status "on"
-set -g status-bg "${thm_bg}"
+set -g status-bg "${thm_black}"
 set -g status-justify "left"
 set -g status-left-length "100"
 set -g status-right-length "100"
 
-set -g message-style fg="${thm_fg}",bg="${thm_gray}",align="centre"
-set -g message-command-style fg="${thm_blue}",bg="${thm_gray}",align="centre"
-set -g pane-border-style fg="${thm_gray}"
+# messages
+set -g message-style fg="${thm_cyan}",bg="${thm_black}",align="centre"
+set -g message-command-style fg="${thm_cyan}",bg="${thm_black}",align="centre"
+
+# panes
+set -g pane-border-style fg="${thm_black}"
 set -g pane-active-border-style fg="${thm_blue}"
+
+# windows
 setw -g window-status-activity-style fg="${thm_fg}",bg="${thm_bg}",none
 setw -g window-status-separator ""
 setw -g window-status-style fg="${thm_fg}",bg="${thm_bg}",none
+
+# statusline
 set -g status-left ""
-set -g status-right "#{cpu_bg_color} #{net_speed} │ CPU: #{cpu_icon} #{cpu_percentage} │ #{battery_status_bg} #{battery_icon} #{battery_percentage} #{battery_remain} │ #[fg=$thm_black4,bg=$thm_magenta] %d/%m │ %H:%M "
+set -g status-right "#[fg=$thm_pink,bg=$thm_black,nobold,nounderscore,noitalics] #[fg=$thm_bg,bg=$thm_pink,nobold,nounderscore,noitalics]  #[fg=$thm_fg,bg=$thm_black] #W #{?client_prefix,#[fg=$thm_red],#[fg=$thm_green]}#[bg=$thm_black] #{?client_prefix,#[bg=$thm_red],#[bg=$thm_green]}#[fg=$thm_bg]  #[fg=$thm_fg,bg=$thm_black] #S #[fg=$thm_blue,bg=$thm_black,nobold,nounderscore,noitalics] #[fg=$thm_bg,bg=$thm_blue,nobold,nounderscore,noitalics]  #[fg=$thm_fg,bg=$thm_black] %Y-%m-%d %H:%M "
 
-setw -g window-status-format "#[fg=$thm_bg,bg=$thm_blue] #I #(icons #{pane_current_command}) #[fg=$thm_fg,bg=$thm_gray] #{b:pane_current_path} "
-setw -g window-status-current-format "#[fg=$thm_bg,bg=$thm_green] #I #(icons #{pane_current_command}) #[fg=$thm_fg,bg=$thm_bg] #{b:pane_current_path} "
+# current_dir
+setw -g window-status-format "#[fg=$thm_bg,bg=$thm_blue] #I #[fg=$thm_gray,bg=$thm_black] #{b:pane_current_path} "
+setw -g window-status-current-format "#[fg=$thm_bg,bg=$thm_orange] #I #[fg=$thm_fg,bold,bg=$thm_bg] #{b:pane_current_path} "
 
+# modes
 setw -g clock-mode-colour "${thm_blue}"
-
 setw -g mode-style "fg=${thm_pink} bg=${thm_black4} bold"
+
+# -----------------------------------------------------------------------------
+# terminal colors
+set  -g default-terminal "screen-256color"
+set -ag terminal-overrides ",alacritty:RGB,xterm-256color:RGB"
+
+# Built-in plugins of p-z-l/magicTmux
+# (recommended for better experience)
+set -g @plugin 'tmux-plugins/tmux-battery'
+set -g @plugin 'tmux-plugins/tmux-cpu'
+set -g @plugin 'tmux-plugins/tmux-prefix-highlight'
+
+
+# tmux-prefix_highlight configs
+set -g @prefix_highlight_fg 'magenta' # default is 'colour231'
+set -g @prefix_highlight_bg 'black' # default is 'colour04'
+
+# Display online status on your status bar:
+set -g @plugin 'tmux-plugins/tmux-online-status'
+
+# Restoring windows when starting tmux:
+set -g @plugin 'tmux-plugins/tmux-resurrect'
+set -g @plugin 'tmux-plugins/tmux-continuum'
+
+# A plugin that enhances tmux search:
+set -g @plugin 'tmux-plugins/tmux-copycat'
+
+# Tmux plugin for copying to system clipboard. Works on OSX, Linux and Cygwin:
+set -g @plugin 'tmux-plugins/tmux-yank'
+
+# Tmux plugin to monitor upload and download speed of one or all interfaces:
+set -g @plugin 'tmux-plugins/tmux-net-speed'
+
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+run '~/.tmux/plugins/tpm/tpm'
