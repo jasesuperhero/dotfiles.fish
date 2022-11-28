@@ -45,7 +45,8 @@ local config = {
                         number = true, -- sets vim.opt.number
                         spell = false, -- sets vim.opt.spell
                         signcolumn = "auto", -- sets vim.opt.signcolumn to auto
-                        wrap = false -- sets vim.opt.wrap
+                        wrap = false, -- sets vim.opt.wrap
+                        laststatus = 2 -- disable gloabal status bar
                 },
                 g = {
                         mapleader = " ", -- sets vim.g.mapleader
@@ -137,7 +138,11 @@ local config = {
         lsp = {
                 -- enable servers that you already have installed without mason
                 servers = {
-                        -- "pyright"
+                        "pyright",
+                        "sumneko_lua",
+                        "ruby_ls",
+                        "bashls",
+                        "clangd"
                 },
                 formatting = {
                         -- control auto formatting on save

@@ -97,6 +97,10 @@ function install_dotfiles
 
     link_file $DOTFILES_ROOT/02-fish/config.fish $HOME/.config/fish/config.fish backup
     or abort fish
+    link_file $DOTFILES_ROOT/nvim/AstroNvim $HOME/.config/nvim backup
+    or abort nvim
+    link_file $DOTFILES_ROOT/nvim/user $HOME/.config/nvim/lua/user backup
+    or abort nvim_user_config
     link_file $DOTFILES_ROOT/bat/config $HOME/.config/bat backup
     or abort bat
     link_file $DOTFILES_ROOT/htop/htoprc $HOME/.config/htop/htoprc backup
