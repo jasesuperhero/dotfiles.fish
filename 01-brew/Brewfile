@@ -41,6 +41,7 @@ brew "mc"
 brew "mitmproxy"
 brew "lazygit"
 brew "lazydocker"
+brew "bensadeh/despell/despell"
 
 cask "alfred"
 cask "bartender"
