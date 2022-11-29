@@ -67,12 +67,22 @@ setw -g window-status-separator ""
 setw -g window-status-style fg="${thm_fg}",bg="${thm_bg}",none
 
 # statusline
-set -g status-left ""
-set -g status-right "#[fg=$thm_pink,bg=$thm_black,nobold,nounderscore,noitalics] #[fg=$thm_bg,bg=$thm_pink,nobold,nounderscore,noitalics]  #[fg=$thm_fg,bg=$thm_black] #W #{?client_prefix,#[fg=$thm_red],#[fg=$thm_green]}#[bg=$thm_black] #{?client_prefix,#[bg=$thm_red],#[bg=$thm_green]}#[fg=$thm_bg]  #[fg=$thm_fg,bg=$thm_black] #S #[fg=$thm_blue,bg=$thm_black,nobold,nounderscore,noitalics] #[fg=$thm_bg,bg=$thm_blue,nobold,nounderscore,noitalics]  #[fg=$thm_fg,bg=$thm_black] %Y-%m-%d %H:%M "
+
+# sessions
+set -g status-left "#{?client_prefix,#[bg=$thm_red],#[bg=$thm_gray]}#[fg=$thm_bg]  #[fg=$thm_fg,bg=$thm_black] #S " 
+
+# process
+set -g status-right "#[fg=$thm_bg,bg=$thm_gray] #(despell #W) #[fg=$thm_fg,bg=$thm_bg] #W " 
+# battery
+set -ag status-right "#{battery_color_charge_bg}  #[fg=$thm_fg,bg=$thm_bg] #{battery_percentage} "
+# cpu
+set -ag status-right "#{cpu_bg_color}#[bold] CPU #[default]#[fg=$thm_fg,bg=$thm_bg] #{cpu_percentage} "
+# ram
+set -ag status-right "#{ram_bg_color}#[bold] RAM #[default]#[fg=$thm_fg,bg=$thm_bg] #{ram_percentage} "
 
 # current_dir
-setw -g window-status-format "#[fg=$thm_bg,bg=$thm_blue] #I #[fg=$thm_gray,bg=$thm_black] #{b:pane_current_path} "
-setw -g window-status-current-format "#[fg=$thm_bg,bg=$thm_orange] #I #[fg=$thm_fg,bold,bg=$thm_bg] #{b:pane_current_path} "
+setw -g window-status-format " #[fg=$thm_bg,bg=$thm_blue] #I:#W #[fg=$thm_gray,bg=$thm_bg] #{b:pane_current_path} "
+setw -g window-status-current-format " #[fg=$thm_bg,bg=$thm_orange,bold] #I #[fg=$thm_fg,bold,bg=$thm_bg,nobold] #{b:pane_current_path} "
 
 # modes
 setw -g clock-mode-colour "${thm_blue}"
@@ -86,7 +96,17 @@ set -ag terminal-overrides ",alacritty:RGB,xterm-256color:RGB"
 # Built-in plugins of p-z-l/magicTmux
 # (recommended for better experience)
 set -g @plugin 'tmux-plugins/tmux-battery'
+
 set -g @plugin 'tmux-plugins/tmux-cpu'
+
+set -g @cpu_low_bg_color "#[fg=$thm_bg,bg=$thm_green,nobold,nounderscore,noitalics]" # background color when cpu is low
+set -g @cpu_medium_bg_color "#[fg=$thm_bg,bg=$thm_orange,nobold,nounderscore,noitalics]" # background color when cpu is medium
+set -g @cpu_high_bg_color "#[fg=$thm_bg,bg=$thm_red,nobold,nounderscore,noitalics]" # background color when cpu is high
+
+set -g @ram_low_bg_color "#[fg=$thm_bg,bg=$thm_green,nobold,nounderscore,noitalics]" # background color when cpu is low
+set -g @ram_medium_bg_color "#[fg=$thm_bg,bg=$thm_orange,nobold,nounderscore,noitalics]" # background color when cpu is medium
+set -g @ram_high_bg_color "#[fg=$thm_bg,bg=$thm_red,nobold,nounderscore,noitalics]" # background color when cpu is high
+
 set -g @plugin 'tmux-plugins/tmux-prefix-highlight'
 
 
