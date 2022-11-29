@@ -29,15 +29,27 @@ bind r source-file ~/.tmux.conf
 
 # ----- Panes -----
 
+# Mouse on
+set -g mouse on
+
 # Key bindings for switching panes
 bind -n M-h select-pane -L # left
 bind -n M-l select-pane -R # right
 bind -n M-k select-pane -U # up
 bind -n M-j select-pane -D # down
 
+unbind %
+unbind '"'
+
 # Key bindings for creating panes
-bind-key 1 split-window -h # horizontal
-bind-key 2 split-window -v # verticle
+bind-key 1 split-window -h -c "#{pane_current_path}" # horizontal
+bind-key 2 split-window -v -c "#{pane_current_path}" # verticle
+bind c new-window -c "#{pane_current_path}"
+
+# window navigation
+bind w new-window
+bind C-w next-window
+bind ^space last-window
 
 # status
 set -g status-interval 1
@@ -74,7 +86,7 @@ set -g status-left "#{?client_prefix,#[bg=$thm_red],#[bg=$thm_gray]}#[fg=$thm_bg
 # process
 set -g status-right "#[fg=$thm_bg,bg=$thm_gray] #(despell #W) #[fg=$thm_fg,bg=$thm_bg] #W " 
 # battery
-set -ag status-right "#{battery_color_charge_bg}  #[fg=$thm_fg,bg=$thm_bg] #{battery_percentage} "
+set -ag status-right "#{battery_color_charge_bg} #{battery_icon} #[fg=$thm_fg,bg=$thm_bg] #{battery_percentage} "
 # cpu
 set -ag status-right "#{cpu_bg_color}#[bold] CPU #[default]#[fg=$thm_fg,bg=$thm_bg] #{cpu_percentage} "
 # ram
@@ -96,6 +108,29 @@ set -ag terminal-overrides ",alacritty:RGB,xterm-256color:RGB"
 # Built-in plugins of p-z-l/magicTmux
 # (recommended for better experience)
 set -g @plugin 'tmux-plugins/tmux-battery'
+
+set -g @batt_color_charge_primary_tier8 '#a6e3a1'
+set -g @batt_color_charge_primary_tier7 '#b1d6a2'
+set -g @batt_color_charge_primary_tier6 '#bccaa3'
+set -g @batt_color_charge_primary_tier5 '#c7bda4'
+set -g @batt_color_charge_primary_tier4 '#d2b1a5'
+set -g @batt_color_charge_primary_tier3 '#dda4a6'
+set -g @batt_color_charge_primary_tier2 '#e898a7'
+set -g @batt_color_charge_primary_tier1 '#f38ba8'
+
+set -g @batt_icon_charge_tier8 ''
+set -g @batt_icon_charge_tier7 ''
+set -g @batt_icon_charge_tier6 ''
+set -g @batt_icon_charge_tier5 ''
+set -g @batt_icon_charge_tier4 ''
+set -g @batt_icon_charge_tier3 ''
+set -g @batt_icon_charge_tier2 ''
+set -g @batt_icon_charge_tier1 ''
+set -g @batt_icon_status_attached ''
+set -g @batt_icon_status_charged ''
+set -g @batt_icon_status_charging 'ﮣ'
+set -g @batt_icon_status_discharging 'ﮤ'
+set -g @batt_icon_status_unknown ''
 
 set -g @plugin 'tmux-plugins/tmux-cpu'
 
