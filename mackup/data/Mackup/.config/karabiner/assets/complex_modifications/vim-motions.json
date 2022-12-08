@@ -36,12 +36,7 @@
 						"key_code": "return_or_enter",
 						"modifiers": {
 							"mandatory": ["left_control"],
-							"optional": [
-								"command",
-								"option",
-								"control",
-								"caps_lock"
-							]
+							"optional": ["command", "control", "caps_lock"]
 						}
 					},
 					"to": [

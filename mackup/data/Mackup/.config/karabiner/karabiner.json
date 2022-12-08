@@ -55,7 +55,6 @@
                                         ],
                                         "optional": [
                                             "command",
-                                            "option",
                                             "control",
                                             "caps_lock"
                                         ]
