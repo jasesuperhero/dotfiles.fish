@@ -1,0 +1,56 @@
+{
+	"title": "Vim motion",
+	"rules": [
+		{
+			"description": "Caps Lock -> Left Control",
+			"manipulators": [
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "caps_lock",
+						"modifiers": {
+							"optional": ["any"]
+						}
+					},
+					"to": [
+						{
+							"key_code": "left_control",
+							"lazy": true
+						}
+					],
+					"to_if_alone": [
+						{
+							"key_code": "escape"
+						}
+					]
+				}
+			]
+		},
+
+		{
+			"description": "Ctrl + Enter -> Caps",
+			"manipulators": [
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "return_or_enter",
+						"modifiers": {
+							"mandatory": ["left_control"],
+							"optional": [
+								"command",
+								"option",
+								"control",
+								"caps_lock"
+							]
+						}
+					},
+					"to": [
+						{
+							"key_code": "caps_lock"
+						}
+					]
+				}
+			]
+		}
+	]
+}
