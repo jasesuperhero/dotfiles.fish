@@ -17,12 +17,6 @@ thm_black4="#11111b"
 
 # ----------------------------=== Theme ===--------------------------
 
-# ----- Prefix -----
-
-unbind-key C-b
-set-option -g prefix C-x
-bind-key C-x send-prefix
-
 # ----- Hot reload ----
 
 bind r source-file ~/.tmux.conf
@@ -32,11 +26,19 @@ bind r source-file ~/.tmux.conf
 # Mouse on
 set -g mouse on
 
-# Key bindings for switching panes
-bind -n M-h select-pane -L # left
-bind -n M-l select-pane -R # right
-bind -n M-k select-pane -U # up
-bind -n M-j select-pane -D # down
+# Smart pane switching with awareness of Vim splits.
+# See: https://github.com/christoomey/vim-tmux-navigator
+is_vim="ps -o state= -o comm= -t '#{pane_tty}' \
+    | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
+bind-key -n 'C-h' if-shell "$is_vim" 'send-keys C-h'  'select-pane -L'
+bind-key -n 'C-j' if-shell "$is_vim" 'send-keys C-j'  'select-pane -D'
+bind-key -n 'C-k' if-shell "$is_vim" 'send-keys C-k'  'select-pane -U'
+bind-key -n 'C-l' if-shell "$is_vim" 'send-keys C-l'  'select-pane -R'
+tmux_version='$(tmux -V | sed -En "s/^tmux ([0-9]+(.[0-9]+)?).*/\1/p")'
+if-shell -b '[ "$(echo "$tmux_version < 3.0" | bc)" = 1 ]' \
+    "bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\'  'select-pane -l'"
+if-shell -b '[ "$(echo "$tmux_version >= 3.0" | bc)" = 1 ]' \
+    "bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\\\'  'select-pane -l'"
 
 unbind %
 unbind '"'
@@ -47,7 +49,6 @@ bind-key 2 split-window -v -c "#{pane_current_path}" # verticle
 bind c new-window -c "#{pane_current_path}"
 
 # window navigation
-bind w new-window
 bind C-w next-window
 bind ^space last-window
 
@@ -164,6 +165,9 @@ set -g @plugin 'tmux-plugins/tmux-yank'
 
 # Tmux plugin to monitor upload and download speed of one or all interfaces:
 set -g @plugin 'tmux-plugins/tmux-net-speed'
+
+# Tmux plugin to open URLs in fast way
+set -g @plugin 'tmux-plugins/tmux-open'
 
 # Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
 run '~/.tmux/plugins/tpm/tpm'
