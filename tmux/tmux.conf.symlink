@@ -44,8 +44,8 @@ unbind %
 unbind '"'
 
 # Key bindings for creating panes
-bind-key 1 split-window -h -c "#{pane_current_path}" # horizontal
-bind-key 2 split-window -v -c "#{pane_current_path}" # verticle
+bind-key h split-window -h -c "#{pane_current_path}" # horizontal
+bind-key v split-window -v -c "#{pane_current_path}" # verticle
 bind c new-window -c "#{pane_current_path}"
 
 # window navigation
