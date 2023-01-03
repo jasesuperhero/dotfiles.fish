@@ -62,11 +62,6 @@ local config = {
 
         -- Default theme configuration
         default_theme = {
-                -- Modify the color palette for the default theme
-                colors = {
-                        fg = "#abb2bf",
-                        bg = "#1e222a",
-                },
                 highlights = function(hl) -- or a function that returns a new table of colors to set
                         local C = require("default_theme.colors")
 
@@ -83,28 +78,6 @@ local config = {
 
                         return hl
                 end,
-                -- enable or disable highlighting for extra plugins
-                plugins = {
-                        aerial = true,
-                        beacon = false,
-                        bufferline = true,
-                        cmp = true,
-                        dashboard = true,
-                        highlighturl = true,
-                        hop = false,
-                        indent_blankline = true,
-                        lightspeed = false,
-                        ["neo-tree"] = true,
-                        notify = true,
-                        ["nvim-tree"] = false,
-                        ["nvim-web-devicons"] = true,
-                        rainbow = true,
-                        symbols_outline = false,
-                        telescope = true,
-                        treesitter = true,
-                        vimwiki = false,
-                        ["which-key"] = true,
-                },
         },
 
         -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
@@ -177,35 +150,6 @@ local config = {
                                 config = function()
                                         require("catppuccin").setup({
                                                 flavour = "frappe",
-                                                transparent_background = true,
-                                                integrations = {
-                                                        cmp = true,
-                                                        dap = {
-                                                                enabled = true,
-                                                                enable_ui = true,
-                                                        },
-                                                        fidget = true,
-                                                        gitsigns = true,
-                                                        indent_blankline = {
-                                                                enabled = true,
-                                                                colored_indent_levels = true,
-                                                        },
-                                                        lsp_trouble = true,
-                                                        markdown = true,
-                                                        mason = true,
-                                                        native_lsp = {
-                                                                enabled = true,
-                                                        },
-                                                        neogit = true,
-                                                        neotree = true,
-                                                        notify = true,
-                                                        nvimtree = true,
-                                                        symbols_outline = true,
-                                                        telescope = true,
-                                                        treesitter = true,
-                                                        treesitter_context = true,
-                                                        which_key = true,
-                                                },
                                         })
                                 end,
                         },
@@ -248,17 +192,6 @@ local config = {
                         -- add more custom sources
                         ["hrsh7th/cmp-cmdline"] = { after = "nvim-cmp" },
                 },
-                ["null-ls"] = function(config) -- overrides `require("null-ls").setup(config)`
-                        -- Check supported formatters and linters
-                        -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
-                        -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
-                        config.sources = {
-                                -- Set a formatter
-                                -- null_ls.builtins.formatting.stylua,
-                                -- null_ls.builtins.formatting.prettier,
-                        }
-                        return config -- return final config table
-                end,
                 treesitter = { -- overrides `require("treesitter").setup(...)`
                         ensure_installed = {
                                 "bash",
@@ -290,6 +223,9 @@ local config = {
                                 "shfmt",
                                 "clang-format",
                         },
+                },
+                ["notify"] = {
+                        background_colour = "#000000",
                 },
         },
 
