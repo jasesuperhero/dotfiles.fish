@@ -26,6 +26,11 @@ bind r source-file ~/.tmux.conf
 # Mouse on
 set -g mouse on
 
+# Base remap
+unbind-key C-b
+set-option -g prefix C-x
+bind-key C-x send-prefix
+
 # Smart pane switching with awareness of Vim splits.
 # See: https://github.com/christoomey/vim-tmux-navigator
 is_vim="ps -o state= -o comm= -t '#{pane_tty}' \
