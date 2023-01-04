@@ -149,7 +149,34 @@ local config = {
                                 as = "catppuccin",
                                 config = function()
                                         require("catppuccin").setup({
-                                                flavour = "frappe",
+                                                flavour = "mocha", -- latte, frappe, macchiato, mocha
+                                                background = { -- :h background
+                                                        light = "latte",
+                                                        dark = "mocha",
+                                                },
+                                                transparent_background = false,
+                                                term_colors = false,
+                                                dim_inactive = {
+                                                        enabled = false,
+                                                        shade = "dark",
+                                                        percentage = 0.15,
+                                                },
+                                                no_italic = false, -- Force no italic
+                                                no_bold = false, -- Force no bold
+                                                styles = {
+                                                        comments = { "italic" },
+                                                        conditionals = { "italic" },
+                                                        loops = {},
+                                                        functions = {},
+                                                        keywords = {},
+                                                        strings = {},
+                                                        variables = {},
+                                                        numbers = {},
+                                                        booleans = {},
+                                                        properties = {},
+                                                        types = {},
+                                                        operators = {},
+                                                },
                                         })
                                 end,
                         },
@@ -191,6 +218,18 @@ local config = {
                         ["hrsh7th/nvim-cmp"] = { keys = { ":", "/", "?" } },
                         -- add more custom sources
                         ["hrsh7th/cmp-cmdline"] = { after = "nvim-cmp" },
+                        -- add lsp signature help for method arguments
+                        {
+                                "hrsh7th/cmp-nvim-lsp-signature-help",
+                                after = "nvim-cmp",
+                                config = function()
+                                        astronvim.add_user_cmp_source("nvim_lsp_signature_help")
+                                end,
+                        },
+                        -- add material icons instead of default dev icons
+                        ["DaikyXendo/nvim-material-icon"] = { as = "nvim-material-icon" },
+                        -- standart dev icons
+                        ["nvim-tree/nvim-web-devicons"] = { after = "nvim-material-icon" },
                 },
                 treesitter = { -- overrides `require("treesitter").setup(...)`
                         ensure_installed = {
@@ -251,6 +290,7 @@ local config = {
         cmp = {
                 source_priority = {
                         nvim_lsp = 1000,
+                        nvim_lsp_signature_help = 800,
                         luasnip = 750,
                         buffer = 500,
                         path = 250,
@@ -310,8 +350,8 @@ local config = {
                                 },
                         }
 
-                        local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-                        cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+                        -- local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+                        -- cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
                         -- return config
                         return config
