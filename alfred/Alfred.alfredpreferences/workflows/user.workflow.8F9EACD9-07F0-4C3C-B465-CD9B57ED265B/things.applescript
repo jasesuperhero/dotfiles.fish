@@ -51,13 +51,14 @@ end run
 
 
 on showLists(wf)
-    tell application "Things3"
+    tell application id "com.culturedcode.ThingsMac"
         repeat with n from 1 to count of lists
             set listName to name of item n of lists
             set listId to id of item n of lists
             set icons to {"inbox", "today", "anytime", "upcoming", "someday", null, "logbook", "trash"}
 
-            if n < 9 and n ≠ 6 then
+            if n < 9 and n is not 6 then
+            -- if n < 9 then
                 set icon to "icons/" & item n of icons & ".png"
                 add_item of wf with valid given title:listName, subtitle:"", arg:listId, icon:icon
 
@@ -73,7 +74,7 @@ end showLists
 
 
 on showToDos(wf, listId)
-    tell application "Things3"
+    tell application id "com.culturedcode.ThingsMac"
         if wf's is_empty(to dos of list id listId)
             set subtitle to "Empty list"
         else
@@ -128,7 +129,7 @@ end showToDos
 
 
 on showListInThings(listId)
-    tell application "Things3"
+    tell application id "com.culturedcode.ThingsMac"
         activate
         show list id listId
     end tell
@@ -136,7 +137,7 @@ end showListInThings
 
 
 on showToDoInThings(argv)
-    tell application "Things3"
+    tell application id "com.culturedcode.ThingsMac"
             activate
             show to do id (item 2 of argv as text)
     end tell
@@ -144,7 +145,7 @@ end showToDoInThings
 
 
 on showToDosInProject(wf, projectId)
-    tell application "Things3"
+    tell application id "com.culturedcode.ThingsMac"
         if wf's is_empty(to dos of project id projectId)
             set subtitle to "Empty project"
         else
@@ -193,7 +194,7 @@ end showToDosInProject
 
 
 on showTagsInList(wf, listId)
-    tell application "Things3"
+    tell application id "com.culturedcode.ThingsMac"
         add_item of wf with valid given title:"Back to Lists", subtitle:"", arg:"back", icon:"icons/back.png"
 
         set listName to text 3 thru -11 of listId
@@ -217,7 +218,7 @@ end showTagInList
 
 
 on showToDosInTag(wf, tagId)
-    tell application "Things3"
+    tell application id "com.culturedcode.ThingsMac"
         add_item of wf with valid given title:"Back to Lists", subtitle:"", arg:"back", icon:"icons/back.png"
 
         repeat with toDo in (to dos of tag id tagId)
@@ -260,12 +261,12 @@ end showToDosInTag
 
 
 on addToDo()
-    tell application "Things3" to show quick entry panel
+    tell application id "com.culturedcode.ThingsMac" to show quick entry panel
 end addToDo
 
 
 on markAsCompleted(argv)
-    tell application "Things3"
+    tell application id "com.culturedcode.ThingsMac"
         set toDo to to do id (item 2 of argv as text)
         set status of toDo to completed
         delay 1.3
@@ -274,7 +275,7 @@ end markAsCompleted
 
 
 on markAsCanceled(argv)
-    tell application "Things3"
+    tell application id "com.culturedcode.ThingsMac"
         set toDo to to do id (item 2 of argv as text)
         set status of toDo to canceled
         delay 1.3
@@ -283,7 +284,7 @@ end markAsCanceled
 
 
 on deleteToDo(argv)
-    tell application "Things3"
+    tell application id "com.culturedcode.ThingsMac"
         set toDo to to do id (item 2 of argv as text)
         move toDo to list id "TMTrashListSource"
     end tell
@@ -291,5 +292,5 @@ end deleteToDo
 
 
 on emptyTrash()
-    tell application "Things3" to empty trash
+    tell application id "com.culturedcode.ThingsMac" to empty trash
 end emptyTrash
