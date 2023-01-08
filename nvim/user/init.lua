@@ -63,7 +63,7 @@ local config = {
         -- Default theme configuration
         default_theme = {
                 highlights = function(hl) -- or a function that returns a new table of colors to set
-                        local C = require("default_theme.colors")
+                        local C = require "default_theme.colors"
 
                         hl.Normal = {
                                 fg = C.fg,
@@ -148,7 +148,7 @@ local config = {
                                 "catppuccin/nvim",
                                 as = "catppuccin",
                                 config = function()
-                                        require("catppuccin").setup({
+                                        require("catppuccin").setup {
                                                 flavour = "mocha", -- latte, frappe, macchiato, mocha
                                                 background = { -- :h background
                                                         light = "latte",
@@ -161,8 +161,6 @@ local config = {
                                                         shade = "dark",
                                                         percentage = 0.15,
                                                 },
-                                                no_italic = false, -- Force no italic
-                                                no_bold = false, -- Force no bold
                                                 styles = {
                                                         comments = { "italic" },
                                                         conditionals = { "italic" },
@@ -177,13 +175,13 @@ local config = {
                                                         types = {},
                                                         operators = {},
                                                 },
-                                        })
+                                        }
                                 end,
                         },
                         {
                                 "klen/nvim-test",
                                 config = function()
-                                        require("nvim-test").setup({
+                                        require("nvim-test").setup {
                                                 run = true, -- run tests (using for debug)
                                                 commands_create = true, -- create commands (TestFile, TestLast, ...)
                                                 filename_modifier = ":.", -- modify filenames before tests run(:h filename-modifiers)
@@ -210,7 +208,7 @@ local config = {
                                                         typescript = "nvim-test.runners.jest",
                                                         typescriptreact = "nvim-test.runners.jest",
                                                 },
-                                        })
+                                        }
                                 end,
                         },
                         -- Add lazy loading for command line
@@ -223,7 +221,7 @@ local config = {
                                 "hrsh7th/cmp-nvim-lsp-signature-help",
                                 after = "nvim-cmp",
                                 config = function()
-                                        astronvim.add_user_cmp_source("nvim_lsp_signature_help")
+                                        astronvim.add_user_cmp_source "nvim_lsp_signature_help"
                                 end,
                         },
                         -- add material icons instead of default dev icons
@@ -297,13 +295,13 @@ local config = {
                 },
                 setup = function()
                         -- load cmp to access it's internal functions
-                        local cmp = require("cmp")
+                        local cmp = require "cmp"
                         local user_source = astronvim.get_user_cmp_source
 
                         -- store a local variable with a source list to share between filetypes
                         local prose_sources = {
-                                user_source("luasnip"),
-                                user_source("buffer"),
+                                user_source "luasnip",
+                                user_source "buffer",
                         }
 
                         -- configure mappings for cmdline
@@ -316,19 +314,19 @@ local config = {
                                         end
                                 end
                         end
-                        local mappings = cmp.mapping.preset.cmdline({
-                                ["<C-j>"] = { c = fallback_func("select_next_item") },
-                                ["<C-k>"] = { c = fallback_func("select_prev_item") },
-                        })
+                        local mappings = cmp.mapping.preset.cmdline {
+                                ["<C-j>"] = { c = fallback_func "select_next_item" },
+                                ["<C-k>"] = { c = fallback_func "select_prev_item" },
+                        }
                         local config = {
                                 -- configure cmp.setup.filetype(filetype, options)
                                 filetype = {
                                         -- first key is the filetype that you are setting up
                                         lua = { -- for lua only load lsp sources and buffer sources as a fallback
                                                 sources = cmp.config.sources({
-                                                        user_source("nvim_lsp"),
+                                                        user_source "nvim_lsp",
                                                 }, {
-                                                        user_source("buffer"),
+                                                        user_source "buffer",
                                                 }),
                                         },
                                         -- markdown and latex share the same sources
