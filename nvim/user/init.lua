@@ -228,6 +228,7 @@ local config = {
                         ["DaikyXendo/nvim-material-icon"] = { as = "nvim-material-icon" },
                         -- standart dev icons
                         ["nvim-tree/nvim-web-devicons"] = { after = "nvim-material-icon" },
+                        ["akinsho/git-conflict.nvim"] = { as = "git-conflict" },
                 },
                 treesitter = { -- overrides `require("treesitter").setup(...)`
                         ensure_installed = {
