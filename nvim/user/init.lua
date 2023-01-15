@@ -139,6 +139,34 @@ local config = {
                                                         types = {},
                                                         operators = {},
                                                 },
+                                                integrations = {
+                                                        cmp = true,
+                                                        dap = {
+                                                                enabled = true,
+                                                                enable_ui = true,
+                                                        },
+                                                        fidget = true,
+                                                        gitsigns = true,
+                                                        indent_blankline = {
+                                                                enabled = true,
+                                                                colored_indent_levels = true,
+                                                        },
+                                                        markdown = true,
+                                                        mason = true,
+                                                        native_lsp = {
+                                                                enabled = true,
+                                                        },
+                                                        neogit = true,
+                                                        neotree = true,
+                                                        notify = true,
+                                                        nvimtree = true,
+                                                        symbols_outline = true,
+                                                        telescope = true,
+                                                        treesitter = true,
+                                                        treesitter_context = true,
+                                                        which_key = true,
+                                                        bufferline = true,
+                                                },
                                         }
                                 end,
                         },
@@ -237,9 +265,6 @@ local config = {
                                 "shfmt",
                                 "clang-format",
                         },
-                },
-                ["notify"] = {
-                        background_colour = "#000000",
                 },
         },
 
