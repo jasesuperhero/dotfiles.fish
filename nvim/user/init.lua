@@ -8,7 +8,7 @@ local config = {
         -- Configure AstroNvim updates
         updater = {
                 remote = "origin", -- remote to use
-                channel = "nightly", -- "stable" or "nightly"
+                channel = "stable", -- "stable" or "nightly"
                 version = "latest", -- "latest", tag name, or regex search like "v1.*" to only do updates before v2 (STABLE ONLY)
                 branch = "main", -- branch name (NIGHTLY ONLY)
                 commit = nil, -- commit hash (NIGHTLY ONLY)
@@ -97,47 +97,11 @@ local config = {
                         -- control auto formatting on save
                         format_on_save = {
                                 enabled = true, -- enable or disable format on save globally
+                                ignore_filetypes = { -- disable format on save for specified filetypes
+                                        "yaml",
+                                },
                         },
                         timeout_ms = 1000, -- default format timeout
-                },
-                -- easily add or disable built in mappings added during LSP attaching
-                mappings = {
-                        n = {
-                                -- ["<leader>lf"] = false -- disable formatting keymap
-                        },
-                },
-        },
-
-        -- Mapping data with "desc" stored directly by vim.keymap.set().
-        --
-        -- Please use this mappings table to set keyboard mapping since this is the
-        -- lower level configuration and more robust one. (which-key will
-        -- automatically pick-up stored data by this setting.)
-        mappings = {
-                -- first key is the mode
-                n = {
-                        -- second key is the lefthand side of the map
-                        -- mappings seen under group name "Buffer"
-                        ["<leader>bb"] = {
-                                "<cmd>tabnew<cr>",
-                                desc = "New tab",
-                        },
-                        ["<leader>bc"] = {
-                                "<cmd>BufferLinePickClose<cr>",
-                                desc = "Pick to close",
-                        },
-                        ["<leader>bj"] = {
-                                "<cmd>BufferLinePick<cr>",
-                                desc = "Pick to jump",
-                        },
-                        ["<leader>bt"] = {
-                                "<cmd>BufferLineSortByTabs<cr>",
-                                desc = "Sort by tabs",
-                        },
-                },
-                t = {
-                        -- setting a mapping to false will disable it
-                        -- ["<esc>"] = false,
                 },
         },
 
@@ -228,7 +192,19 @@ local config = {
                         ["DaikyXendo/nvim-material-icon"] = { as = "nvim-material-icon" },
                         -- standart dev icons
                         ["nvim-tree/nvim-web-devicons"] = { after = "nvim-material-icon" },
-                        ["akinsho/git-conflict.nvim"] = { as = "git-conflict" },
+                        {
+                                "akinsho/git-conflict.nvim",
+                                config = function()
+                                        require("git-conflict").setup()
+                                end,
+                        },
+                        ["ziontee113/syntax-tree-surfer"] = { as = "syntax-tree-surfer" },
+                        {
+                                "iamcco/markdown-preview.nvim",
+                                run = function()
+                                        vim.fn["mkdp#util#install"]()
+                                end,
+                        },
                 },
                 treesitter = { -- overrides `require("treesitter").setup(...)`
                         ensure_installed = {

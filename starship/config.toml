@@ -1,10 +1,22 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Inserts a blank line between shell prompts
+add_newline = true
+
+# Replace the '❯' symbol in the prompt with '➜'
+[character] # The name of the module we are configuring is 'character'
+success_symbol = '[λ](bold green)' # The 'success_symbol' segment is being set to '➜' with the color 'bold green'
+
 [aws]
-disabled = true
+style = 'bold blue'
+symbol = '🅰 '
 
 [cmake]
 disabled = true
 
 [cmd_duration]
+style = "yellow dimmed"
 format = "[$duration]($style) "
 min_time = 500
 
@@ -33,9 +45,6 @@ disabled = true
 [elm]
 disabled = true
 
-[env_var]
-disabled = false
-
 [erlang]
 disabled = true
 
@@ -46,7 +55,13 @@ disabled = true
 symbol = " "
 
 [git_status]
-format = "[$ahead_behind$untracked$modified]($style) "
+format = "[$ahead_behind$untracked$modified]($style)"
+
+[git_metrics]
+disabled = true
+added_style = 'bold green'
+deleted_style = "bold red"
+format = '[ $added]($added_style) [ $deleted]($deleted_style) '
 
 [golang]
 disabled = true
@@ -55,7 +70,9 @@ disabled = true
 disabled = true
 
 [java]
-disabled = true
+style = "bold red"
+symbol = " "
+disabled = false
 
 [jobs]
 disabled = true
@@ -64,7 +81,9 @@ disabled = true
 disabled = true
 
 [kotlin]
-disabled = true
+style = "bold blue"
+symbol = " "
+disabled = false
 
 [kubernetes]
 disabled = true
@@ -79,6 +98,8 @@ disabled = true
 disabled = true
 
 [nodejs]
+style = 'bold green'
+symbol = " "
 disabled = false
 
 [ocaml]
@@ -100,9 +121,13 @@ disabled = true
 disabled = true
 
 [python]
+style = 'bold blue'
+symbol = " "
 disabled = false
 
 [ruby]
+style = 'bold red'
+symbol = " "
 disabled = false
 
 [rust]
@@ -118,6 +143,8 @@ disabled = true
 disabled = true
 
 [swift]
+style = 'bold yellow'
+symbol = " "
 disabled = false
 
 [terraform]

@@ -71,6 +71,7 @@ contributors = shortlog --summary --numbered
 
 # Short alias for commit command
 ci = commit
+	root = rev-parse --show-toplevel
 
 [apply]
 
@@ -190,7 +191,7 @@ cmd = "code --wait "
 recurse = true
 
 [filter "lfs"]
-process = git-lfs filter-process
-required = true
-clean = git-lfs clean -- %f
-smudge = git-lfs smudge -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f

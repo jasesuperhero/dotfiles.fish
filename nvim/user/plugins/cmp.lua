@@ -5,11 +5,11 @@ local lspkind = require "lspkind"
 return {
   experimental = {
     native_menu = false,
-    ghost_text = true,
+    ghost_text = false,
   },
   window = {
     completion = {
-      winhighlight = "Normal:NormalFloat,NormalFloat:Pmenu,Pmenu:NormalFloat",
+      winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
       col_offset = -3,
       side_padding = 0,
     },
