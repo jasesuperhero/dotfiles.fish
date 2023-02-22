@@ -2,6 +2,5 @@
 
 if command -qs gh
     gh config set git_protocol ssh
-    gh auth login
-    gh extension install dlvhdr/gh-dash
+    gh extension install dlvhdr/gh-dash || true
 end
