@@ -33,4 +33,3 @@
 
     abort_merge: Some(( code: Char('M'), modifiers: ( bits: 1,),)),
 )
-

@@ -5,5 +5,3 @@
 
 
 # Provide links to any relevant tickets, URLs or other resources
-
-

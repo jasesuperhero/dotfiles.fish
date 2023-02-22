@@ -5,15 +5,15 @@
 
 # Handle action
 if [ "$1" != "" ]; then
-  if [ "$1" == "Null" ]; then
-    exit
-  fi
+	if [ "$1" == "Null" ]; then
+		exit
+	fi
 
-  # Extract password for AP, which is needed by networksetup
-  PASS=$(security 2>&1 >/dev/null find-generic-password -ga "$1" \
-    | awk '/ / {print $2}' | tr -d '"')
-  networksetup -setairportnetwork "$INTERFACE" "$1" "$PASS"
-  exit
+	# Extract password for AP, which is needed by networksetup
+	PASS=$(security 2>&1 >/dev/null find-generic-password -ga "$1" |
+		awk '/ / {print $2}' | tr -d '"')
+	networksetup -setairportnetwork "$INTERFACE" "$1" "$PASS"
+	exit
 fi
 
 INFO=$($AIRPORT --getinfo)
@@ -24,16 +24,16 @@ ACTIVE_BSSID=$(getBSSID "$INFO")
 SORTED=$($AIRPORT --scan | awk 'NR>1' | sort)
 
 if [ "$SORTED" == "" ]; then
-  # Handle no wifi access points found
-  addResult "" "Null" "No access points found" "" "$ICON_WIFI_ERROR"
+	# Handle no wifi access points found
+	addResult "" "Null" "No access points found" "" "$ICON_WIFI_ERROR"
 else
-  # Parse sorted scan lines
-  while read -r LINE; do
-    OUTPUT=$(getAPDetails "$LINE" "$ACTIVE_BSSID" "$SAVED_APS")
-    IFS='~' read -r -a ARRAY <<< "$OUTPUT"
+	# Parse sorted scan lines
+	while read -r LINE; do
+		OUTPUT=$(getAPDetails "$LINE" "$ACTIVE_BSSID" "$SAVED_APS")
+		IFS='~' read -r -a ARRAY <<<"$OUTPUT"
 
-    addResult "" "${ARRAY[0]}" "${ARRAY[0]}" "RSSI ${ARRAY[2]} dBm, channel ${ARRAY[3]}" "${ARRAY[5]}"
-  done <<< "$SORTED"
+		addResult "" "${ARRAY[0]}" "${ARRAY[0]}" "RSSI ${ARRAY[2]} dBm, channel ${ARRAY[3]}" "${ARRAY[5]}"
+	done <<<"$SORTED"
 fi
 
 getXMLResults

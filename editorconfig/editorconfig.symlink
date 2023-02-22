@@ -13,4 +13,3 @@ trim_trailing_whitespace = true
 [*.{rb,yaml,yml}]
 indent_style = space
 indent_size = 2
-

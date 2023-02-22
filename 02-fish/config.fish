@@ -11,4 +11,3 @@ end
 source "$(brew --prefix asdf)"/libexec/asdf.fish
 
 fish_config theme choose "Catppuccin Mocha"
-

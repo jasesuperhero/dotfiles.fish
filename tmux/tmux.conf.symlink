@@ -95,10 +95,10 @@ setw -g window-status-style fg="${thm_fg}",bg="${thm_bg}",none
 # statusline
 
 # sessions
-set -g status-left "#{?client_prefix,#[bg=$thm_red],#[bg=$thm_gray]}#[fg=$thm_bg]  #[fg=$thm_fg,bg=$thm_black] #S " 
+set -g status-left "#{?client_prefix,#[bg=$thm_red],#[bg=$thm_gray]}#[fg=$thm_bg]  #[fg=$thm_fg,bg=$thm_black] #S "
 
 # process
-set -g status-right "#[fg=$thm_bg,bg=$thm_gray] #(despell #W) #[fg=$thm_fg,bg=$thm_bg] #W " 
+set -g status-right "#[fg=$thm_bg,bg=$thm_gray] #(despell #W) #[fg=$thm_fg,bg=$thm_bg] #W "
 # battery
 set -ag status-right "#{battery_color_charge_bg} #{battery_icon} #[fg=$thm_fg,bg=$thm_bg] #{battery_percentage} "
 # cpu
