@@ -57,9 +57,18 @@ return {
     width = 50,
     mappings = {
       ["<space>"] = false, -- disable space until we figure out which-key disabling
-      o = "open",
-      H = "prev_source",
-      L = "next_source",
+      ["o"] = "open",
+      ["<bs>"] = "navigate_up",
+      ["."] = "set_root",
+      ["H"] = "toggle_hidden",
+      ["/"] = "fuzzy_finder",
+      ["D"] = "fuzzy_finder_directory",
+      ["#"] = "fuzzy_sorter", -- fuzzy sorting using the fzy algorithm
+      -- ["D"] = "fuzzy_sorter_directory",
+      ["f"] = "filter_on_submit",
+      ["<c-s>"] = "clear_filter",
+      ["[g"] = "prev_git_modified",
+      ["]g"] = "next_git_modified",
     },
   },
   filesystem = {
