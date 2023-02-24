@@ -4,6 +4,13 @@ return {
     light = "latte",
     dark = "mocha",
   },
+  custom_highlights = function(colors)
+    return {
+      NeoTreeNormal = { fg = colors.text, bg = colors.none },
+      NeoTreeDirectoryName = { fg = colors.surface2 },
+      NeoTreeDirectoryIcon = { fg = colors.peach },
+    }
+  end,
   transparent_background = false,
   term_colors = false,
   dim_inactive = {

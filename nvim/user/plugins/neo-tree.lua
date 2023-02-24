@@ -11,6 +11,8 @@ return {
   },
   close_if_last_window = true,
   enable_diagnostics = false,
+  enable_git_status = true,
+  git_status_async = true,
   source_selector = {
     winbar = true,
     content_layout = "center",
