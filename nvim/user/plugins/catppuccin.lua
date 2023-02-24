@@ -7,8 +7,9 @@ return {
   custom_highlights = function(colors)
     return {
       NeoTreeNormal = { fg = colors.text, bg = colors.none },
-      NeoTreeDirectoryName = { fg = colors.surface2 },
+      NeoTreeDirectoryName = { fg = colors.text },
       NeoTreeDirectoryIcon = { fg = colors.peach },
+      NeoTreeFileName = { fg = colors.text },
     }
   end,
   transparent_background = false,
