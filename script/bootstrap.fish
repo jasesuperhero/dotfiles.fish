@@ -154,8 +154,4 @@ chsh -s (which fish)
 and success set (fish --version) as the default shell
 or abort 'set fish as default shell'
 
-pre-commit install
-and success 'pre-commit hooks installed/updated!'
-and exit 0
-
 success 'dotfiles installed/updated!'
