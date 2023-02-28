@@ -59,7 +59,7 @@ bind-key h split-window -h -c "#{pane_current_path}" # horizontal
 bind-key v split-window -v -c "#{pane_current_path}" # verticle
 bind c new-window -c "#{pane_current_path}"
 
-bind-key -n 'C-k' send-keys -R \; send-keys C-l \; clear-history
+bind-key k send-keys -R \; send-keys C-l \; clear-history
 
 # window navigation
 bind C-w next-window
