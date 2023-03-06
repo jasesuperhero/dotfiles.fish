@@ -43,6 +43,7 @@ brew 'virtualenv'
 brew 'viu'
 brew 'webp'
 brew 'wget'
+brew 'zellij'
 
 cask 'alfred'
 cask 'bartender'
