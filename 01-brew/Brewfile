@@ -1,84 +1,79 @@
-brew "aria2"
-brew "asdf"
-brew "bat"
-brew "bensadeh/despell/despell"
-brew "cantino/mcfly/mcfly"
-brew "carthage"
-brew "clang-format"
-brew "cmake"
-brew "coreutils"
-brew "dog"
-brew "dust"
-brew "exa"
-brew "fd"
-brew "fish"
-brew "fzf"
-brew "gcc"
-brew "gd"
-brew "gdk-pixbuf"
-brew "gh"
-brew "gh"
-brew "git"
-brew "git-delta"
-brew "git-lfs"
-brew "gnutls"
-brew "httpie"
-brew "kubectx"
-brew "lazydocker"
-brew "lazygit"
-brew "m-cli"
-brew "mackup"
-brew "mas"
-brew "mint"
-brew "mitmproxy"
-brew "mitmproxy"
-brew "neovim"
-brew "pango"
-brew "pre-commit"
-brew "ripgrep"
-brew "shellcheck"
-brew "shfmt"
-brew "sox"
-brew "starship"
-brew "tldr"
-brew "tmux"
-brew "virtualenv"
-brew "viu"
-brew "webp"
-brew "wget"
-cask "alfred"
-cask "bartender"
-cask "docker"
-cask "firefox"
-cask "font-jetbrains-mono-nerd-font"
-cask "fork"
-cask "iterm2"
-cask "kap"
-cask "karabiner-elements"
-cask "kitty"
-cask "notion"
-cask "obsidian"
-cask "postman"
-cask "rescuetime"
-cask "telegram-desktop"
-cask "visual-studio-code"
-cask "vlc"
+brew 'aria2'
+brew 'asdf'
+brew 'bat'
+brew 'bensadeh/despell/despell'
+brew 'carthage'
+brew 'clang-format'
+brew 'cmake'
+brew 'coreutils'
+brew 'dog'
+brew 'dust'
+brew 'exa'
+brew 'fd'
+brew 'fish'
+brew 'fzf'
+brew 'gcc'
+brew 'gd'
+brew 'gdk-pixbuf'
+brew 'gh'
+brew 'git'
+brew 'git-delta'
+brew 'git-lfs'
+brew 'gnutls'
+brew 'httpie'
+brew 'kubectx'
+brew 'lazydocker'
+brew 'lazygit'
+brew 'm-cli'
+brew 'mackup'
+brew 'mas'
+brew 'mint'
+brew 'mitmproxy'
+brew 'neovim'
+brew 'pango'
+brew 'pre-commit'
+brew 'ripgrep'
+brew 'shellcheck'
+brew 'shfmt'
+brew 'sox'
+brew 'starship'
+brew 'tldr'
+brew 'tmux'
+brew 'virtualenv'
+brew 'viu'
+brew 'webp'
+brew 'wget'
 
-mas "Adblock Plus", id: 1432731683
-mas "Magnet", id: 441258766
-mas "Next Meeting", id: 1017470484
-mas "Noizio", id: 928871589
-mas "OhMyStar", id: 1218642292
-mas "Reeder", id: 1529448980
-mas "Spark", id: 1176895641
-mas "Things", id: 904280696
-mas "Trello", id: 1278508951
-mas "Twitter", id: 1482454543
+cask 'alfred'
+cask 'bartender'
+cask 'docker'
+cask 'firefox'
+cask 'font-jetbrains-mono-nerd-font'
+cask 'fork'
+cask 'kap'
+cask 'karabiner-elements'
+cask 'kitty'
+cask 'notion'
+cask 'obsidian'
+cask 'postman'
+cask 'rescuetime'
+cask 'telegram-desktop'
+cask 'visual-studio-code'
+cask 'iina'
 
-tap "adoptopenjdk/openjdk"
-tap "cantino/mcfly"
-tap "homebrew/bundle"
-tap "homebrew/cask-fonts"
-tap "homebrew/cask-versions"
-tap "homebrew/cask"
-tap "homebrew/core"
+mas 'Adblock Plus', id: 1_432_731_683
+mas 'Magnet', id: 441_258_766
+mas 'Next Meeting', id: 1_017_470_484
+mas 'Noizio', id: 928_871_589
+mas 'OhMyStar', id: 1_218_642_292
+mas 'Reeder', id: 1_529_448_980
+mas 'Spark', id: 1_176_895_641
+mas 'Things', id: 904_280_696
+
+tap 'adoptopenjdk/openjdk'
+tap 'cantino/mcfly'
+tap 'homebrew/bundle'
+tap 'homebrew/cask-fonts'
+tap 'homebrew/cask-versions'
+tap 'homebrew/cask'
+tap 'homebrew/core'
