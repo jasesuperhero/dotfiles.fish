@@ -111,6 +111,8 @@ function install_dotfiles
     or abort kitty
     link_file $DOTFILES_ROOT/btop/config $HOME/.config/btop backup
     or abort btop
+    link_file $DOTFILES_ROOT/zellij/config $HOME/.config/zellij backup
+    or abort zellij
 end
 
 curl -sL git.io/fisher | source && fisher install jorgebucaran/fisher
