@@ -1,3 +1,3 @@
 #!/usr/bin/env fish
 
-bat cache --build
+abbr -a d docker
