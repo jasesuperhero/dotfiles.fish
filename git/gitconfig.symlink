@@ -105,7 +105,6 @@ untrackedCache = true
 editor = nvim
 
 [delta]
-syntax-theme = Catppuccin-mocha
 line-numbers = true
 decorations = true
 

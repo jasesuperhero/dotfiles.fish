@@ -1,5 +1,5 @@
 #!/usr/bin/env fish
-#
+
 # bootstrap installs things.
 
 set DOTFILES_ROOT (pwd -P)
@@ -111,6 +111,12 @@ function install_dotfiles
     or abort kitty
     link_file $DOTFILES_ROOT/btop/config $HOME/.config/btop backup
     or abort btop
+    link_file $DOTFILES_ROOT/lazygit/config $HOME/.config/lazygit backup
+    or abort lazygit
+    link_file $DOTFILES_ROOT/gitui/config $HOME/.config/gitui backup
+    or abort gitui
+    link_file $DOTFILES_ROOT/k9s/config $HOME/.config/k9s backup
+    or abort k9s
     link_file $DOTFILES_ROOT/zellij/config $HOME/.config/zellij backup
     or abort zellij
 end
