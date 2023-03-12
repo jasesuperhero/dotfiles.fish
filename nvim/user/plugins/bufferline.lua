@@ -2,7 +2,9 @@ require "bufferline"
 local fn = vim.fn
 local groups = require "bufferline.groups"
 local fmt = string.format
+
 local mocha = require("catppuccin.palettes").get_palette "mocha"
+local latte = require("catppuccin.palettes").get_palette "latte"
 
 return {
   options = {
@@ -79,28 +81,61 @@ return {
       reveal = { "close" },
     },
   },
-  highlights = {
-    fill = {
-      bg = mocha.base,
-    },
-    offset_separator = {
-      bg = mocha.base,
-    },
-    buffer_visible = {
-      bold = true,
-    },
-    buffer_selected = {
-      bold = true,
-    },
-    separator = {
-      bg = mocha.base,
-      fg = mocha.base,
-    },
-    indicator_selected = {
-      fg = mocha.sapphire,
-    },
-    background = {
-      bg = mocha.base,
+  highlights = require("catppuccin.groups.integrations.bufferline").get {
+    styles = { "italic", "bold" },
+    custom = {
+      mocha = {
+        fill = {
+          bg = mocha.base,
+        },
+        offset_separator = {
+          bg = mocha.base,
+        },
+        buffer_visible = {
+          bold = true,
+          fg = mocha.surface1,
+          bg = "NONE",
+        },
+        buffer_selected = {
+          bold = true,
+        },
+        separator = {
+          bg = mocha.base,
+          fg = mocha.base,
+        },
+        indicator_selected = {
+          fg = mocha.sapphire,
+        },
+        background = {
+          bg = mocha.surface2,
+        },
+      },
+      latte = {
+        fill = {
+          bg = latte.base,
+        },
+        offset_separator = {
+          bg = latte.base,
+        },
+        buffer_visible = {
+          bold = true,
+          fg = latte.surface1,
+          bg = "NONE",
+        },
+        buffer_selected = {
+          bold = true,
+        },
+        separator = {
+          bg = latte.base,
+          fg = latte.base,
+        },
+        indicator_selected = {
+          fg = latte.sapphire,
+        },
+        background = {
+          bg = latte.surface2,
+        },
+      },
     },
   },
 }
