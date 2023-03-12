@@ -19,11 +19,11 @@ return {
         "diagnostics",
       },
       close_if_last_window = true,
-      enable_diagnostics = false,
+      enable_diagnostics = true,
       enable_git_status = true,
       git_status_async = true,
       source_selector = {
-        winbar = true, -- toggle to show selector on winbar
+        winbar = false, -- toggle to show selector on winbar
         statusline = true, -- toggle to show selector on statusline
         content_layout = "center",
         tab_labels = {
