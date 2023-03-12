@@ -9,4 +9,4 @@ switch $C_THEME
     exit 1
 end
 
-alias --save gitui="gitui --theme \"$DOTFILES/gitui/$GITUI_THEME\""
+alias --save gitui="gitui --theme \"$DOTFILES/gitui/$GITUI_THEME\"" &> /dev/null

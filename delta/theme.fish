@@ -9,4 +9,4 @@ switch $C_THEME
     exit 1
 end
 
-alias --save delta="delta --syntax-theme \"$DELTA_THEME\""
+alias --save delta="delta --syntax-theme \"$DELTA_THEME\"" &> /dev/null
