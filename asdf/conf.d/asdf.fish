@@ -1,3 +1,5 @@
 #!/usr/bin/env fish
 
-source "$(brew --prefix asdf)"/libexec/asdf.fish
+if command -qa brew
+  source "$(brew --prefix asdf)"/libexec/asdf.fish
+end
