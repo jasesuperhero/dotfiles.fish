@@ -1,15 +1,15 @@
 themes {
-    catppuccin-mocha {
-        fg 205 214 244
-        bg 88 91 112
-        black 24 24 37
-        red 243 139 168
-        green 166 227 161
-        yellow 249 226 175
-        blue 137 180 250
-        magenta 245 194 231
-        cyan 137 220 235
-        white 205 214 244
-        orange 250 179 135
-    }
+  catppuccin-mocha {
+    bg "#585b70" // Surface2
+    fg "#cdd6f4"
+    red "#f38ba8"
+    green "#a6e3a1"
+    blue "#89b4fa"
+    yellow "#f9e2af"
+    magenta "#f5c2e7" // Pink
+    orange "#fab387" // Peach
+    cyan "#89dceb" // Sky
+    black "#181825" // Mantle
+    white "#cdd6f4"
+  }
 }
