@@ -1,4 +1,5 @@
 brew 'aria2'
+brew 'chafa'
 brew 'asdf'
 brew 'bat'
 brew 'bensadeh/despell/despell'

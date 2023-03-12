@@ -43,6 +43,12 @@ return {
           },
         },
       },
+      window = {
+        width = 50,
+        mappings = {
+          ["f"] = "filter_on_submit",
+        },
+      },
     },
   },
 }
