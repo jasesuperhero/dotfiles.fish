@@ -6,10 +6,11 @@ return {
     -- overrides `require("mason-lspconfig").setup(...)`
     opts = {
       ensure_installed = {
-        "solargraph",
-        "pyright",
         "bashls",
         "clangd",
+        "lua_ls",
+        "pyright",
+        "solargraph",
       },
     },
   },
@@ -19,11 +20,11 @@ return {
     -- overrides `require("mason-null-ls").setup(...)`
     opts = {
       ensure_installed = {
+        "clang-format",
         "prettier",
-        "stylua",
         "shellcheck",
         "shfmt",
-        "clang-format",
+        "stylua",
       },
     },
   },

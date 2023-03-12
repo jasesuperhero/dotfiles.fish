@@ -23,13 +23,24 @@ return {
       enable_git_status = true,
       git_status_async = true,
       source_selector = {
-        -- winbar = true,
+        winbar = true, -- toggle to show selector on winbar
+        statusline = true, -- toggle to show selector on statusline
         content_layout = "center",
         tab_labels = {
           filesystem = get_icon "FolderClosed",
           buffers = get_icon "DefaultFile",
           git_status = get_icon "Git",
           diagnostics = get_icon "Diagnostic",
+        },
+      },
+      filesystem = {
+        filtered_items = {
+          visible = false,
+          hide_dotfiles = false,
+          hide_gitignored = true,
+          never_show = {
+            ".DS_Store",
+          },
         },
       },
     },
