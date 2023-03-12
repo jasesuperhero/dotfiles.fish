@@ -162,4 +162,8 @@ chsh -s (which fish)
 and success set (fish --version) as the default shell
 or abort 'set fish as default shell'
 
+set -q C_THEME
+and success update_theme $C_THEME
+or success update_theme dark
+
 success 'dotfiles installed/updated!'

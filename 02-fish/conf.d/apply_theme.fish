@@ -3,8 +3,8 @@
 function apply_theme --on-variable C_THEME -d "Apply light/dark theme to the terminal"
     for theme_installer in $DOTFILES/*/theme.fish
         $theme_installer
-        and success $theme_installer
-        or abort $theme_installer
+        # and success $theme_installer
+        # or abort $theme_installer
     end
 end
 
