@@ -2,9 +2,12 @@
 
 switch $C_THEME
   case dark
-    kitty +kitten themes --reload-in all "Catppuccin-Mocha"
+    set KITTY_THEME "$DOTFILES/kitty/config/themes/Catppuccin-Mocha.conf"
   case light
-    kitty +kitten themes --reload-in all "Catppuccin-Latte"
+    set KITTY_THEME "$DOTFILES/kitty/config/themes/Catppuccin-Latte.conf"
   case "*"
     exit 1
 end
+
+cp -rf $KITTY_THEME $DOTFILES/kitty/config/current-theme.conf
+kill -SIGUSR1 $(pgrep kitty)
