@@ -1,1 +1,2 @@
-logs
+*.plist
+dark_mode_listener.fish
