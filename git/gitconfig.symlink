@@ -1,5 +1,4 @@
 [alias]
-
 # View abbreviated SHA, description, and history graph of the latest 20 commits
 l = log --pretty=oneline -n 20 --graph --abbrev-commit
 
@@ -71,10 +70,9 @@ contributors = shortlog --summary --numbered
 
 # Short alias for commit command
 ci = commit
-	root = rev-parse --show-toplevel
+root = rev-parse --show-toplevel
 
 [apply]
-
 # Detect whitespace errors when applying a patch
 whitespace = fix
 
@@ -105,41 +103,35 @@ untrackedCache = true
 editor = nvim
 
 [delta]
-line-numbers = true
-decorations = true
+	line-numbers = true
+	decorations = true
+	navigate = true    # use n and N to move between diff sections
+	light = true # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+
+[advice]
+	addEmptyPathspec = false
 
 [color]
-# Use colors in Git commands that are capable of colored output when
-# outputting to the terminal. (This is the default setting in Git ≥ 1.8.4.)
-ui = auto
-
-[color "branch"]
-current = yellow reverse
-local = yellow
-remote = green
-
-[color "diff"]
-meta = yellow bold
-frag = magenta bold # line info
-old = red           # deletions
-new = green         # additions
-
-[color "status"]
-added = yellow
-changed = green
-untracked = cyan
+	diff = auto
+	status = auto
+	branch = auto
+	ui = true
 
 [diff]
 # Detect copies as well as renames
 renames = copies
+tool = nvimdiff
+
+[difftool "nvimdiff"]
+  cmd = nvim -d "$LOCAL" "$REMOTE"
 
 [diff "bin"]
 # Use `hexdump` to diff binary files
 textconv = hexdump -v -C
 
 [help]
-# Automatically correct and execute mistyped commands
-autocorrect = 1
+	# Automatically correct and execute mistyped commands
+	autocorrect = 1
 
 [user]
 	name = Daniel Kalintsev
@@ -158,15 +150,15 @@ diffFilter = delta --color-only
 tool = neovim
 
 [merge]
-tool = vscode
-# Include summaries of merged commits in newly created merge commit messages
-log = true
+  tool = nvimmerge
+	log = true
+[mergetool "nvimmerge"]
+  cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 
 [push]
-# https://git-scm.com/docs/git-config#git-config-pushdefault
-default = current
-# Make `git push` push relevant annotated tags when pushing branches out.
-followTags = true
+	default = current # https://git-scm.com/docs/git-config#git-config-pushdefault
+	followTags = true # Make `git push` push relevant annotated tags when pushing branches out.
+	autoSetupRemote = true
 
 [rebase]
 autoStash = true
@@ -174,6 +166,7 @@ autoStash = true
 [pull]
 rebase = true
 autostash = true
+ff = only
 
 [branch]
 autosetuprebase = always
@@ -185,12 +178,17 @@ submoduleSummary = true
 showUntrackedFiles = all
 
 [mergetool "vscode"]
-cmd = "code --wait "
+	cmd = "code --wait "
+
 [submodule]
-recurse = true
+	recurse = true
+	fetchJobs = 4
 
 [filter "lfs"]
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
 	clean = git-lfs clean -- %f
+
+[rerere]
+	enabled = true
