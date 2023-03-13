@@ -4,7 +4,7 @@ path = .dotfiles/mackup/data
 
 [applications_to_sync]
 iTerm2
-Xcode
+Xcode-Theme
 Bartender
 fork
 karabiner-elements

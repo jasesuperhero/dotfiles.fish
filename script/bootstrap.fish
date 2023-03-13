@@ -119,6 +119,8 @@ function install_dotfiles
     or abort k9s
     link_file $DOTFILES_ROOT/zellij/config $HOME/.config/zellij backup
     or abort zellij
+    link_file $DOTFILES_ROOT/mackup/config $HOME/.mackup backup
+    or abort mackup
 end
 
 curl -sL git.io/fisher | source && fisher install jorgebucaran/fisher
