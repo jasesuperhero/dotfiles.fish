@@ -78,6 +78,7 @@ whitespace = fix
 
 [core]
 pager = delta
+pager = delta --features "$(test \"$C_THEME\" = \"dark\" && echo dark-mode || echo light-mode)"
 
 # Use custom `.gitignore` and `.gitattributes`
 excludesfile = ~/.gitignore
@@ -106,7 +107,14 @@ editor = nvim
 	line-numbers = true
 	decorations = true
 	navigate = true    # use n and N to move between diff sections
-	light = true # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+
+[delta "light-mode"]
+  light = true
+  syntax-theme = Catppuccin-latte
+
+[delta "dark-mode"]
+  light = false
+  syntax-theme = Catppuccin-mocha
 
 [advice]
 	addEmptyPathspec = false
@@ -144,7 +152,7 @@ managed = true
 helper = osxkeychain
 
 [interactive]
-diffFilter = delta --color-only
+    diffFilter = delta --color-only --features "$(test \"$C_THEME\" = \"dark\" && echo dark-mode || echo light-mode)"
 
 [diff]
 tool = neovim
