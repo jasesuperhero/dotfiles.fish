@@ -40,6 +40,7 @@ return {
           hide_gitignored = true,
           never_show = {
             ".DS_Store",
+            ".git",
           },
         },
         mappings = {
@@ -47,7 +48,7 @@ return {
         },
       },
       window = {
-        width = 50,
+        width = 30,
       },
     },
   },
