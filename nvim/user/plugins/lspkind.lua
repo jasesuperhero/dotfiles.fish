@@ -2,36 +2,21 @@ return {
   "onsails/lspkind.nvim",
   opts = {
     enabled = vim.g.icons_enabled,
-    config = function(_, opts)
-      opts.preset = "codicons"
-      opts.symbol_map = {
-        Text = " ",
-        Method = " ",
-        Function = " ",
-        Constructor = " ",
-        Field = " ",
-        Variable = " ",
-        Class = " ",
-        Interface = " ",
-        Module = " ",
-        Property = " ",
-        Unit = " ",
-        Value = " ",
-        Enum = " ",
-        Keyword = " ",
-        Snippet = " ",
-        Color = " ",
-        File = " ",
-        Reference = " ",
-        Folder = " ",
-        EnumMember = " ",
-        Constant = " ",
-        Struct = " ",
-        Event = " ",
-        Operator = " ",
-        TypeParameter = " ",
+    opts = function()
+      return {
+        preset = "codicons",
+        symbol_map = {
+          Array = "",
+          Boolean = "",
+          Key = "",
+          Namespace = "",
+          Null = "",
+          Number = "",
+          Object = "",
+          Package = "",
+          String = "",
+        },
       }
-      return opts
     end,
   },
 }

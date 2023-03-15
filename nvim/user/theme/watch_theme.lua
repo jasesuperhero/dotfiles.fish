@@ -15,7 +15,7 @@ function theme_checker.watch_file(fname)
   )
 end
 
-function theme_checker.on_change(_, fname, _)
+function theme_checker.on_change(_, _, _)
   vim.api.nvim_command("source " .. theme_checker.colorFile)
 end
 
