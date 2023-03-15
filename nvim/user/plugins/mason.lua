@@ -9,6 +9,7 @@ return {
         "bashls",
         "clangd",
         "lua_ls",
+        "pylsp",
         "pyright",
         "solargraph",
       },
@@ -20,7 +21,9 @@ return {
     -- overrides `require("mason-null-ls").setup(...)`
     opts = {
       ensure_installed = {
+        "black",
         "clang-format",
+        "isort",
         "prettier",
         "shellcheck",
         "shfmt",
@@ -30,9 +33,11 @@ return {
   },
   {
     "jay-babu/mason-nvim-dap.nvim",
-    -- overrides `require("mason-nvim-dap").setup(...)`
     opts = {
-      ensure_installed = { "python" },
+      ensure_installed = {
+        "python",
+        "bash",
+      },
     },
   },
 }
