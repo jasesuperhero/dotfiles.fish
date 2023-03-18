@@ -36,9 +36,7 @@ return {
         local rhs = def
         local mode = { "n" }
         if type(def) == "table" then
-          if def.mode then
-            mode = def.mode
-          end
+          if def.mode then mode = def.mode end
           rhs = def[1]
           def[1] = nil
           def.mode = nil

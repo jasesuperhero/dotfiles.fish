@@ -6,6 +6,7 @@ return function()
     extension = {
       fish = "fish",
       stencil = "swift",
+      kdl = "kdl",
     },
     filename = {
       ["Brewfile"] = "ruby",

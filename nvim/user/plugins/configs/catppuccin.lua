@@ -83,9 +83,7 @@ return {
     light = "latte",
     dark = "mocha",
   },
-  custom_highlights = function(colors)
-    return table_merge(cmp_h(colors), neotree_h(colors))
-  end,
+  custom_highlights = function(colors) return table_merge(cmp_h(colors), neotree_h(colors)) end,
   transparent_background = false,
   term_colors = true,
   dim_inactive = {
@@ -95,16 +93,16 @@ return {
   },
   styles = {
     comments = { "italic" },
-    conditionals = { "italic" },
+    conditionals = { "italic", "bold" },
     loops = { "italic", "bold" },
-    functions = { "italic", "bold" },
+    functions = { "bold" },
     keywords = { "bold" },
     strings = { "underline" },
-    variables = {},
+    variables = { "italic" },
     numbers = {},
     booleans = {},
-    properties = { "bold" },
-    types = { "bold" },
+    properties = {},
+    types = {},
     operators = { "bold" },
   },
   integrations = {
@@ -130,6 +128,7 @@ return {
     telescope = true,
     treesitter = true,
     treesitter_context = true,
+    ts_rainbow2 = true,
     which_key = true,
     bufferline = true,
   },
