@@ -1,17 +1,17 @@
 repos:
-    - repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: v4.4.0
-      hooks:
-        - id: check-yaml
-        - id: end-of-file-fixer
-        - id: trailing-whitespace
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
 
-    - repo: https://github.com/JohnnyMorganz/StyLua
-      rev: v0.16.1
-      hooks:
-        - id: stylua
+  - repo: https://github.com/JohnnyMorganz/StyLua
+    rev: v0.16.1
+    hooks:
+      - id: stylua
 
-    - repo: https://github.com/scop/pre-commit-shfmt
-      rev: v3.6.0-1
-      hooks:
-        - id: shfmt
+  - repo: https://github.com/scop/pre-commit-shfmt
+    rev: v3.6.0-1
+    hooks:
+      - id: shfmt
