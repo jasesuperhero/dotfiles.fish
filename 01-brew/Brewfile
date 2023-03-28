@@ -54,6 +54,7 @@ cask 'docker'
 cask 'firefox'
 cask 'font-jetbrains-mono-nerd-font'
 cask 'fork'
+cask 'iina'
 cask 'kap'
 cask 'karabiner-elements'
 cask 'kitty'
@@ -61,9 +62,9 @@ cask 'notion'
 cask 'obsidian'
 cask 'postman'
 cask 'rescuetime'
+cask 'stats'
 cask 'telegram-desktop'
 cask 'visual-studio-code'
-cask 'iina'
 
 mas 'Adblock Plus', id: 1_432_731_683
 mas 'Magnet', id: 441_258_766

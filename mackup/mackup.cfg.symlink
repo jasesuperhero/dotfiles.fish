@@ -3,8 +3,9 @@ engine = file_system
 path = .dotfiles/mackup/data
 
 [applications_to_sync]
-iTerm2
-Xcode-Theme
 Bartender
+Stats
+Xcode-Theme
 fork
+iTerm2
 karabiner-elements
