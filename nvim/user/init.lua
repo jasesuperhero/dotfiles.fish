@@ -32,7 +32,32 @@ return {
       timeout_ms = 1000, -- default format timeout
     },
     -- enable servers that you already have installed without mason
-    servers = {},
+    servers = {
+      "pyright",
+    },
+    config = {
+      lua_ls = {
+        settings = {
+          Lua = {
+            hint = {
+              enable = true,
+            },
+          },
+        },
+      },
+      pyright = {
+        settings = {
+          python = {
+            analysis = {
+              typeCheckingMode = "off",
+              autoSearchPaths = true,
+              useLibraryCodeForTypes = true,
+              diagnosticMode = "workspace",
+            },
+          },
+        },
+      },
+    },
   },
   -- Configure require("lazy").setup() options
   lazy = {

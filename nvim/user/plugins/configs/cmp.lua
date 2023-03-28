@@ -1,4 +1,3 @@
-local lspkind = require "lspkind"
 -- opts parameter is the default options table
 -- the function is lazy loaded so cmp is able to be required
 local cmp = require "cmp"
@@ -25,10 +24,9 @@ local formatting_style = {
       mode = "symbol_text",
       maxwidth = 50,
       ellipsis_char = "...",
-      preset = "codicons",
     }(entry, vim_item)
     local strings = vim.split(kind.kind, "%s", { trimempty = true })
-    kind.kind = " " .. (strings[1] or "") .. "  "
+    kind.kind = " " .. (strings[1] or "") .. " "
     kind.menu = "    (" .. (strings[2] or "") .. ")"
 
     return kind
@@ -82,9 +80,7 @@ local options = {
       select = false,
     },
     ["<Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif require("luasnip").expand_or_jumpable() then
+      if require("luasnip").expand_or_jumpable() then
         vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true), "")
       else
         fallback()

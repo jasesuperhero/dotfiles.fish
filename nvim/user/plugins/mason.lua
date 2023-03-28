@@ -1,24 +1,19 @@
 -- customize mason plugins
 return {
-  -- use mason-lspconfig to configure LSP installations
   {
     "williamboman/mason-lspconfig.nvim",
-    -- overrides `require("mason-lspconfig").setup(...)`
     opts = {
       ensure_installed = {
         "bashls",
         "clangd",
         "lua_ls",
-        "pylsp",
         "pyright",
         "solargraph",
       },
     },
   },
-  -- use mason-null-ls to configure Formatters/Linter installation for null-ls sources
   {
     "jay-babu/mason-null-ls.nvim",
-    -- overrides `require("mason-null-ls").setup(...)`
     opts = {
       ensure_installed = {
         "black",
@@ -39,5 +34,37 @@ return {
         "bash",
       },
     },
+    config = function(_, opts)
+      local mason_nvim_dap = require "mason-nvim-dap"
+      mason_nvim_dap.setup(opts) -- run setup
+
+      mason_nvim_dap.setup_handlers {
+        lua = function(_)
+          local dap = require "dap"
+
+          dap.configurations.lua = {
+            {
+              type = "nlua",
+              request = "attach",
+              name = "Attach to running Neovim instance",
+              host = function()
+                local value = vim.fn.input "Host [127.0.0.1]: "
+                if value ~= "" then return value end
+                return "127.0.0.1"
+              end,
+              port = function()
+                local val = tonumber(vim.fn.input("Port: ", "8086"))
+                assert(val, "Please provide a port number")
+                return val
+              end,
+            },
+          }
+
+          dap.adapters.nlua = function(callback, config)
+            callback { type = "server", host = config.host, port = config.port }
+          end
+        end,
+      }
+    end,
   },
 }

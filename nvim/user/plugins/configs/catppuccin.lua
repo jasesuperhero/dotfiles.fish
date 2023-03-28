@@ -130,6 +130,7 @@ return {
     treesitter_context = true,
     ts_rainbow2 = true,
     which_key = true,
-    bufferline = true,
+    neotest = true,
+    overseer = true,
   },
 }

@@ -6,7 +6,7 @@ return {
   requires = "kevinhwang91/promise-async",
   config = function()
     require("ufo").setup {
-      provider_selector = function(bufnr, filetype) return { "treesitter", "indent" } end,
+      provider_selector = function(_, _) return { "lsp", "indent" } end,
     }
 
     vim.keymap.set("n", "zR", require("ufo").openAllFolds)
