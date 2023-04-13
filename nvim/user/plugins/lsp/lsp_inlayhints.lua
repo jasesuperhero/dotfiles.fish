@@ -5,8 +5,8 @@ return {
     inlay_hints = {
       highlight = "Comment",
       labels_separator = " ⏐ ",
-      parameter_hints = { prefix = "" },
-      type_hints = { prefix = "=> ", remove_colon_start = true },
+      parameter_hints = { prefix = " " },
+      type_hints = { prefix = " => ", remove_colon_start = true },
     },
     enabled_at_startup = true,
   },

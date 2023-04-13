@@ -6,7 +6,7 @@ return {
   {
     "hrsh7th/nvim-cmp",
     keys = { ":", "/", "?" },
-    opts = require "user.plugins.configs.cmp",
+    opts = require "user.plugins.editor.configs.cmp",
     dependencies = {
       {
         "hrsh7th/cmp-cmdline",
