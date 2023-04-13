@@ -31,6 +31,7 @@ return {
   require "user.plugins.editor.hlargs",
   require "user.plugins.editor.indent-blankline",
   require "user.plugins.editor.mini-indentscope",
+  require "user.plugins.editor.modicator",
   require "user.plugins.editor.neodim",
   require "user.plugins.editor.nvim-treesitter-context",
   require "user.plugins.editor.nvim-treesitter-textobjects",
