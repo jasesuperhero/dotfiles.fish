@@ -31,7 +31,6 @@ return {
   require "user.plugins.editor.hlargs",
   require "user.plugins.editor.indent-blankline",
   require "user.plugins.editor.mini-indentscope",
-  require "user.plugins.editor.modicator",
   require "user.plugins.editor.neodim",
   require "user.plugins.editor.nvim-treesitter-context",
   require "user.plugins.editor.nvim-treesitter-textobjects",
@@ -46,6 +45,7 @@ return {
   require "user.plugins.ui.neo_tree",
   require "user.plugins.ui.notify",
   require "user.plugins.ui.telescope",
+  require "user.plugins.ui.heirline",
 
   -- disabled
   require "user.plugins._disabled.alpha",

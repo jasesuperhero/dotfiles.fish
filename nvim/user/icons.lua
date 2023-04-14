@@ -18,6 +18,9 @@ return {
   Ellipsis = "…",
   FileModified = "",
   FileReadOnly = "",
+  FoldClosed = "",
+  FoldOpened = "",
+  FoldSeparator = "…",
   FolderClosed = "",
   FolderEmpty = "",
   FolderOpen = "",
@@ -42,7 +45,5 @@ return {
   Selected = "❯",
   Spellcheck = "暈",
   TabClose = "",
-  FoldClosed = "",
-  FoldOpened = "",
-  FoldSeparator = "…",
+  VimIcon = "",
 }
