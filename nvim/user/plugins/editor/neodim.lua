@@ -1,6 +1,6 @@
 return {
   "zbirenbaum/neodim",
-  event = "User AstroFile",
+  event = "LspAttach",
   config = function()
     require("neodim").setup {
       alpha = 0.75,

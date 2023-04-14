@@ -3,4 +3,5 @@ return {
   dependencies = "nvim-treesitter/nvim-treesitter",
   ft = "markdown",
   opts = {},
+  config = function() require("headlines").setup() end,
 }

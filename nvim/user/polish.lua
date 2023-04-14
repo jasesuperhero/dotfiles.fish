@@ -30,5 +30,6 @@ return function()
     },
   }
 
+  require "user.theme.watch_theme"
   require "user.autocmds"
 end

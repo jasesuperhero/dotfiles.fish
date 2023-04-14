@@ -19,6 +19,7 @@ return {
       tab = "│→",
       trail = "·",
     },
+    foldcolumn = "1",
     showbreak = "↪ ",
     showtabline = 1,
     number = true, -- sets vim.opt.number
