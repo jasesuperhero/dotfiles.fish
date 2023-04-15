@@ -4,6 +4,7 @@ return {
   ArrowLeft = "",
   ArrowRight = "",
   BufferClose = "",
+  DapIcon = "",
   DapBreakpoint = "",
   DapBreakpointCondition = "",
   DapBreakpointRejected = "",

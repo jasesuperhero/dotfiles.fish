@@ -3,6 +3,7 @@ return {
   opts = function(_, opts)
     local status = require "astronvim.utils.status"
     local palette = require("catppuccin.palettes").get_palette()
+    local get_icon = require("astronvim.utils").get_icon
 
     opts.statusline = {
       -- statusline
@@ -24,8 +25,9 @@ return {
       status.component.file_info { filetype = {}, filename = false, file_modified = false },
       status.component.git_diff(),
       status.component.diagnostics(),
+      status.component.fill(),
       status.component.builder {
-        { provider = function() return " " .. require("dap").status() end },
+        { provider = function() return get_icon "DapIcon" + " " .. require("dap").status() end },
         condition = function()
           local session = require("dap").session()
           return session ~= nil
@@ -52,9 +54,16 @@ return {
           file_icon = { hl = status.hl.file_icon "winbar", padding = { left = 0 } },
           file_modified = false,
           file_read_only = false,
-          hl = status.hl.get_attributes("winbarnc", true),
+          hl = status.hl.get_attributes("winbarnc", false),
           surround = false,
           update = "BufEnter",
+        },
+        status.component.fill(),
+        status.component.git_diff {
+          surround = { separator = "none", color = { main = "bg", right = "bg", left = "bg" } },
+        },
+        status.component.diagnostics {
+          surround = { separator = "none", color = { main = "bg", right = "bg", left = "bg" } },
         },
       },
       { -- active winbar
