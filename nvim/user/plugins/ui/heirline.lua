@@ -20,14 +20,29 @@ return {
             color = function() return { main = status.hl.mode_bg(), right = "blank_bg" } end,
           },
         },
-      }, -- add the mode text
+      },
+      status.component.builder {
+        {
+          provider = function()
+            local key = require("grapple").key()
+            return "  [" .. key .. "]"
+          end,
+        },
+        condition = require("grapple").exists,
+        hl = { fg = palette.maroon },
+        surround = {
+          separator = "left",
+        },
+      },
       status.component.git_branch(),
       status.component.file_info { filetype = {}, filename = false, file_modified = false },
       status.component.git_diff(),
       status.component.diagnostics(),
       status.component.fill(),
       status.component.builder {
-        { provider = function() return get_icon "DapIcon" + " " .. require("dap").status() end },
+        {
+          provider = function() return get_icon "DapIcon" + " " .. require("dap").status() end,
+        },
         condition = function()
           local session = require("dap").session()
           return session ~= nil
