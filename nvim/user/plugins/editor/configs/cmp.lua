@@ -109,6 +109,14 @@ local options = {
     { name = "nvim_lua" },
     { name = "path" },
   },
+  performance = {
+    debounce = 300,
+    throttle = 120,
+    fetching_timeout = 100,
+  },
+  experimental = {
+    ghost_text = true,
+  },
 }
 
 if cmp_style ~= "atom" and cmp_style ~= "atom_colored" then options.window.completion.border = border "CmpBorder" end
