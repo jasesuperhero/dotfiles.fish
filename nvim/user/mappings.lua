@@ -12,6 +12,17 @@ local mappings = {
     ["<Down>"] = { function() require("smart-splits").resize_down(2) end, desc = "Resize split down" },
     ["<Left>"] = { function() require("smart-splits").resize_left(2) end, desc = "Resize split left" },
     ["<Right>"] = { function() require("smart-splits").resize_right(2) end, desc = "Resize split right" },
+    -- Spectre replace words
+    ["<leader>s"] = { desc = "󱁤 Find and replace" },
+    ["<leader>ss"] = { function() require("spectre").open() end, desc = "Spectre" },
+    ["<leader>sf"] = { function() require("spectre").open_file_search() end, desc = "Spectre (current file)" },
+    ["<leader>sw"] = {
+      function() require("spectre").open_visual { select_word = true } end,
+      desc = "Spectre (current word)",
+    },
+    -- Grapple
+    ["mt"] = { ":GrappleToggle<cr>", desc = "Tags current buffer" },
+    ["mp"] = { ":GrapplePopup tags<cr>", desc = "Grapple tag popup menu" },
     -- Movement
     ["<Tab>"] = {
       function()
@@ -26,6 +37,9 @@ local mappings = {
       end,
       desc = "Switch Buffers",
     },
+  },
+  v = {
+    ["<leader>s"] = { function() require("spectre").open_visual() end, desc = "Spectre" },
   },
 }
 
