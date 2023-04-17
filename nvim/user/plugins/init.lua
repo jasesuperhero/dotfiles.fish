@@ -1,10 +1,12 @@
 return {
   -- lsp
+  require "user.plugins.lsp.cmp-nvim-lsp-signature-help",
   require "user.plugins.lsp.lsp_inlayhints",
   require "user.plugins.lsp.lsp_kind",
   require "user.plugins.lsp.lsp_lines",
   require "user.plugins.lsp.lsp_signature",
   require "user.plugins.lsp.mason",
+  require "user.plugins.lsp.neodev",
   require "user.plugins.lsp.neogen",
 
   -- formatters
@@ -32,6 +34,7 @@ return {
   require "user.plugins.editor.indent-blankline",
   require "user.plugins.editor.mini-indentscope",
   require "user.plugins.editor.neodim",
+  require "user.plugins.editor.nvim-spectre",
   require "user.plugins.editor.nvim-treesitter-context",
   require "user.plugins.editor.nvim-treesitter-textobjects",
   require "user.plugins.editor.nvim-ts-rainbow2",
@@ -39,13 +42,15 @@ return {
   require "user.plugins.editor.todo-comments",
   require "user.plugins.editor.trouble",
   require "user.plugins.editor.vim-matchup",
+  require "user.plugins.editor.eyeliner",
 
   -- ui
   require "user.plugins.ui.catppuccin",
+  require "user.plugins.ui.grapple",
+  require "user.plugins.ui.heirline",
   require "user.plugins.ui.neo_tree",
   require "user.plugins.ui.notify",
   require "user.plugins.ui.telescope",
-  require "user.plugins.ui.heirline",
 
   -- disabled
   require "user.plugins._disabled.alpha",
