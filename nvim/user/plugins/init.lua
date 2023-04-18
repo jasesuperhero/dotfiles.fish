@@ -17,6 +17,7 @@ return {
   require "user.plugins.dap.dap",
   require "user.plugins.dap.dap_ui",
   require "user.plugins.dap.mason",
+  require "user.plugins.dap.nvim-dap-virtual-text",
 
   -- tests
   require "user.plugins.tests.neotest",
