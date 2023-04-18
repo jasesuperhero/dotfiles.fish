@@ -27,6 +27,7 @@ return {
   -- vcs
   require "user.plugins.vcs.diffview",
   require "user.plugins.vcs.git_conflict",
+  require "user.plugins.vcs.octo",
 
   -- editor
   require "user.plugins.editor.cmp",

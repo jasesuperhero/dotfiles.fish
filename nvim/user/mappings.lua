@@ -91,6 +91,13 @@ local mappings = {
     ["<leader>af"] = { function() require("neogen").generate { type = "func" } end, desc = "Function" },
     ["<leader>at"] = { function() require("neogen").generate { type = "type" } end, desc = "Type" },
     ["<leader>aF"] = { function() require("neogen").generate { type = "file" } end, desc = "File" },
+    -- octo plugin mappings
+    ["<leader>G"] = { name = " GitHub" },
+    ["<leader>Gi"] = { "<cmd>Octo issue list<cr>", desc = "Open Issues" },
+    ["<leader>GI"] = { "<cmd>Octo issue search<cr>", desc = "Search Issues" },
+    ["<leader>Gp"] = { "<cmd>Octo pr list<cr>", desc = "Open PRs" },
+    ["<leader>GP"] = { "<cmd>Octo pr search<cr>", desc = "Search PRs" },
+    ["<leader>Gr"] = { "<cmd>Octo repo list<cr>", desc = "Open Repository" },
     -- Movement
     ["<Tab>"] = {
       function()
