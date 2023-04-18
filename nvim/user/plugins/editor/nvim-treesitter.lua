@@ -12,6 +12,7 @@ return {
         "lua",
         "python",
         "ruby",
+        "swift",
       },
     },
   },
