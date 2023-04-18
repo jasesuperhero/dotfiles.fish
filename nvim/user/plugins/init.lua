@@ -8,6 +8,7 @@ return {
   require "user.plugins.lsp.mason",
   require "user.plugins.lsp.neodev",
   require "user.plugins.lsp.neogen",
+  require "user.plugins.lsp.fidget",
 
   -- formatters
   require "user.plugins.formatters.mason",

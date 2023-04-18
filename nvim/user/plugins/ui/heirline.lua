@@ -35,9 +35,10 @@ return {
         },
       },
       status.component.git_branch(),
-      status.component.file_info { filetype = {}, filename = false, file_modified = false },
-      status.component.git_diff(),
-      status.component.diagnostics(),
+      status.component.file_info {
+        filename = { fallback = "Empty" },
+        file_modified = false,
+      },
       status.component.fill(),
       status.component.builder {
         {
@@ -52,7 +53,7 @@ return {
       status.component.fill(),
       status.component.cmd_info(),
       status.component.fill(),
-      status.component.lsp(),
+      status.component.lsp { lsp_progress = false },
       status.component.treesitter(),
       status.component.nav(),
     }
@@ -83,6 +84,13 @@ return {
       },
       { -- active winbar
         status.component.breadcrumbs { hl = status.hl.get_attributes("winbar", true) },
+        status.component.fill(),
+        status.component.git_diff {
+          surround = { separator = "none", color = { main = "bg", right = "bg", left = "bg" } },
+        },
+        status.component.diagnostics {
+          surround = { separator = "none", color = { main = "bg", right = "bg", left = "bg" } },
+        },
       },
     }
 
