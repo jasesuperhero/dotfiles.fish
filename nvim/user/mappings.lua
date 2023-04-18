@@ -98,6 +98,9 @@ local mappings = {
     ["<leader>Gp"] = { "<cmd>Octo pr list<cr>", desc = "Open PRs" },
     ["<leader>GP"] = { "<cmd>Octo pr search<cr>", desc = "Search PRs" },
     ["<leader>Gr"] = { "<cmd>Octo repo list<cr>", desc = "Open Repository" },
+    -- telescope plugin mappings
+    ["<leader>fe"] = { "<cmd>Telescope file_browser<cr>", desc = "File explorer" },
+    ["<leader>fT"] = { "<cmd>TodoTelescope<cr>", desc = "Find TODOs" },
     -- Movement
     ["<Tab>"] = {
       function()

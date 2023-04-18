@@ -2,6 +2,7 @@ return {
   "folke/todo-comments.nvim",
   dependencies = { "nvim-treesitter/nvim-treesitter" },
   event = "User AstroFile",
+  cmd = { "TodoTrouble", "TodoTelescope", "TodoLocList", "TodoQuickFix" },
   config = function()
     require("todo-comments").setup {
       signs = true, -- show icons in the signs column
