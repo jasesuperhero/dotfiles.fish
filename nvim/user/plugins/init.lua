@@ -43,6 +43,7 @@ return {
   require "user.plugins.editor.trouble",
   require "user.plugins.editor.vim-matchup",
   require "user.plugins.editor.eyeliner",
+  require "user.plugins.editor.vim-visual-multi",
 
   -- ui
   require "user.plugins.ui.catppuccin",
