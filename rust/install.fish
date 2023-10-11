@@ -8,5 +8,6 @@ asdf global rust $RUST_VERSION
 
 cargo install --locked cargo-update
 cargo install --locked stylua
+cargo install --locked cargo-nextest
 
 set -Ua fish_user_paths $HOME/.cargo/bin
