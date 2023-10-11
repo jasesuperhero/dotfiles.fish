@@ -22,14 +22,14 @@ return {
     enable_git_status = true,
     git_status_async = true,
     source_selector = {
-      winbar = false, -- toggle to show selector on winbar
-      statusline = true, -- toggle to show selector on statusline
+      statusline = false, -- toggle to show selector on statusline
+      winbar = false,
       content_layout = "center",
-      tab_labels = {
-        filesystem = get_icon "FolderClosed",
-        buffers = get_icon "DefaultFile",
-        git_status = get_icon "Git",
-        diagnostics = get_icon "Diagnostic",
+      sources = {
+        { source = "filesystem", display_name = get_icon("FolderClosed", 1, true) .. "F" },
+        { source = "buffers", display_name = get_icon("DefaultFile", 1, true) .. "B" },
+        { source = "git_status", display_name = get_icon("Git", 1, true) .. "G" },
+        { source = "diagnostics", display_name = get_icon("Diagnostic", 1, true) .. "D" },
       },
     },
     filesystem = {
