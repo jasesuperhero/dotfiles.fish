@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 
-set RUST_VERSION "1.67.1"
+set RUST_VERSION "latest"
 
 asdf plugin-add rust https://github.com/asdf-community/asdf-rust.git
 asdf install rust $RUST_VERSION

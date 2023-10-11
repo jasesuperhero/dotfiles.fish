@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 
-set LUA_VERSION "5.4.3"
+set LUA_VERSION "latest"
 
 asdf plugin add lua
 asdf install lua $LUA_VERSION
