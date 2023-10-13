@@ -22,15 +22,9 @@ return {
     enable_git_status = true,
     git_status_async = true,
     source_selector = {
+      winbar = false, -- toggle to show selector on winbar
       statusline = false, -- toggle to show selector on statusline
-      winbar = false,
       content_layout = "center",
-      sources = {
-        { source = "filesystem", display_name = get_icon("FolderClosed", 1, true) .. "F" },
-        { source = "buffers", display_name = get_icon("DefaultFile", 1, true) .. "B" },
-        { source = "git_status", display_name = get_icon("Git", 1, true) .. "G" },
-        { source = "diagnostics", display_name = get_icon("Diagnostic", 1, true) .. "D" },
-      },
     },
     filesystem = {
       filtered_items = {
@@ -47,6 +41,7 @@ return {
       },
     },
     window = {
+      position = "right",
       width = 40,
     },
   },
