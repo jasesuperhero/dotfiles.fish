@@ -203,6 +203,11 @@ default_shell "fish"
 //   - false
 //
 // pane_frames true
+ui {
+    pane_frames {
+        hide_session_name true
+    }
+}
 
 // Choose the theme that is specified in the themes section.
 // Default: default
@@ -210,7 +215,7 @@ theme "catppuccin-latte"
 
 // The name of the default layout to load on startup
 // Default: "default"
-default_layout "compact"
+default_layout "default_start"
 
 // Choose the mode that zellij uses when starting up.
 // Default: normal
