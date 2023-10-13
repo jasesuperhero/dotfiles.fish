@@ -10,18 +10,18 @@
 #
 # Run ./set-defaults.sh and you'll be good to go.
 if [ "$(uname -s)" != "Darwin" ]; then
-	exit 0
+    exit 0
 fi
 
 set +e
 
 disable_agent() {
-	mv "$1" "$1_DISABLED" >/dev/null 2>&1 ||
-		sudo mv "$1" "$1_DISABLED" >/dev/null 2>&1
+    mv "$1" "$1_DISABLED" >/dev/null 2>&1 ||
+        sudo mv "$1" "$1_DISABLED" >/dev/null 2>&1
 }
 
 unload_agent() {
-	launchctl unload -w "$1" >/dev/null 2>&1
+    launchctl unload -w "$1" >/dev/null 2>&1
 }
 
 sudo -v
@@ -102,7 +102,7 @@ sudo pmset -a standbydelay 86400
 
 echo "  › Removing duplicates in the 'Open With' menu"
 /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister \
-	-kill -r -domain local -domain system -domain user
+    -kill -r -domain local -domain system -domain user
 
 #############################
 
@@ -285,8 +285,8 @@ sudo pmset -a sms 0
 echo ""
 echo "› Restart related apps"
 for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "cfprefsd" \
-	"Dock" "Finder" "Mail" "Messages" "Safari" "SystemUIServer" \
-	"Terminal" "Transmission" "Photos"; do
-	killall "$app" >/dev/null 2>&1
+    "Dock" "Finder" "Mail" "Messages" "Safari" "SystemUIServer" \
+    "Terminal" "Transmission" "Photos"; do
+    killall "$app" >/dev/null 2>&1
 done
 set -e
