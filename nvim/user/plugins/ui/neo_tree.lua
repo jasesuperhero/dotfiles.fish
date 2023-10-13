@@ -2,31 +2,25 @@ local get_icon = require("astronvim.utils").get_icon
 
 return {
   "nvim-neo-tree/neo-tree.nvim",
-  dependencies = {
-    {
-      "mrbjarksen/neo-tree-diagnostics.nvim",
-      dependencies = {
-        "neo-tree.nvim",
-      },
-    },
-  },
   opts = {
     sources = {
       "filesystem",
-      "buffers",
-      "git_status",
-      "diagnostics",
     },
     close_if_last_window = true,
     enable_diagnostics = true,
     enable_git_status = true,
     git_status_async = true,
     source_selector = {
-      winbar = false, -- toggle to show selector on winbar
-      statusline = false, -- toggle to show selector on statusline
+      winbar = false,
       content_layout = "center",
+      sources = {
+        { source = "filesystem", display_name = get_icon("FolderClosed", 1, true) .. "File" },
+      },
     },
     filesystem = {
+      follow_current_file = { enabled = true },
+      hijack_netrw_behavior = "open_current",
+      use_libuv_file_watcher = true,
       filtered_items = {
         visible = false,
         hide_dotfiles = false,
