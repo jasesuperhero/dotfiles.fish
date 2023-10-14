@@ -1,9 +1,13 @@
 return {
   "lukas-reineke/indent-blankline.nvim",
+  main = "ibl",
   config = function()
-    require("indent_blankline").setup {
-      show_end_of_line = true,
-      space_char_blankline = " ",
+    require("ibl").setup {
+      indent = { char = " " },
+      whitespace = {
+        remove_blankline_trail = false,
+      },
+      scope = { enabled = false },
     }
   end,
 }
