@@ -27,7 +27,15 @@ return function()
       norg = "norg",
     },
     filename = {
-      ["Brewfile"] = "ruby",
+      ["launch.json"] = "jsonc",
+      Podfile = "ruby",
+      Brewfile = "ruby",
+    },
+    pattern = {
+      [".*%.conf"] = "conf",
+      [".*%.theme"] = "conf",
+      [".*%.gradle"] = "groovy",
+      ["^.env%..*"] = "bash",
     },
   }
 
