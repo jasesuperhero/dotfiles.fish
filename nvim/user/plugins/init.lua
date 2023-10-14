@@ -10,6 +10,9 @@ return {
   require "user.plugins.lsp.neogen",
   require "user.plugins.lsp.fidget",
 
+  require "user.plugins.notes.neorg",
+  require "user.plugins.notes.headlines",
+
   -- formatters
   require "user.plugins.formatters.mason",
 

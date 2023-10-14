@@ -13,6 +13,7 @@ return {
         "python",
         "ruby",
         "swift",
+        "norg",
       },
     },
   },

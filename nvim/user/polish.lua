@@ -24,6 +24,7 @@ return function()
       qmd = "markdown",
       yml = yaml_ft,
       yaml = yaml_ft,
+      norg = "norg",
     },
     filename = {
       ["Brewfile"] = "ruby",

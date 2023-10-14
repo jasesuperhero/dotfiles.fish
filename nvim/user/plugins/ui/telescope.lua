@@ -4,6 +4,7 @@ return {
     "nvim-telescope/telescope-media-files.nvim",
     "nvim-telescope/telescope-hop.nvim",
     "nvim-telescope/telescope-file-browser.nvim",
+    "nvim-neorg/neorg-telescope",
   },
   opts = function(_, opts)
     local telescope = require "telescope"
