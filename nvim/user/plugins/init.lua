@@ -9,6 +9,7 @@ return {
   require "user.plugins.lsp.neodev",
   require "user.plugins.lsp.neogen",
   require "user.plugins.lsp.fidget",
+  require "user.plugins.lsp.typescript-tools",
 
   require "user.plugins.notes.neorg",
   require "user.plugins.notes.headlines",
@@ -50,6 +51,7 @@ return {
   require "user.plugins.editor.vim-matchup",
   require "user.plugins.editor.eyeliner",
   require "user.plugins.editor.vim-visual-multi",
+  require "user.plugins.editor.surround",
 
   -- ui
   require "user.plugins.ui.catppuccin",
