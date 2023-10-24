@@ -11,13 +11,13 @@ local mappings = {
     ["<leader>tp"] = false,
     ["<leader>tu"] = false,
     ["<leader>tv"] = false,
-    -- lsp
-    ["<leader>uD"] = { function() require("lsp_lines").toggle() end, desc = "Toggle LSP lines" },
+
     -- resize with arrows
     ["<Up>"] = { function() require("smart-splits").resize_up(2) end, desc = "Resize split up" },
     ["<Down>"] = { function() require("smart-splits").resize_down(2) end, desc = "Resize split down" },
     ["<Left>"] = { function() require("smart-splits").resize_left(2) end, desc = "Resize split left" },
     ["<Right>"] = { function() require("smart-splits").resize_right(2) end, desc = "Resize split right" },
+
     -- Spectre replace words
     ["<leader>s"] = { desc = "󱁤 Find and replace" },
     ["<leader>ss"] = { function() require("spectre").open() end, desc = "Spectre" },
@@ -26,9 +26,11 @@ local mappings = {
       function() require("spectre").open_visual { select_word = true } end,
       desc = "Spectre (current word)",
     },
+
     -- Grapple
     ["mt"] = { ":GrappleToggle<cr>", desc = "Tags current buffer" },
     ["mp"] = { ":GrapplePopup tags<cr>", desc = "Grapple tag popup menu" },
+
     -- Overseer code runner
     ["<leader>r"] = { desc = "󰢷 Code Runner" },
     ["<leader>rR"] = { "<cmd>OverseerRunCmd<cr>", desc = "Run Command" },
@@ -84,6 +86,7 @@ local mappings = {
       "<cmd>lua require('neotest').summary.toggle()<cr>",
       desc = "Test Summary",
     },
+
     -- neogen
     ["<leader>a"] = { desc = "󰏫 Annotate" },
     ["<leader>a<cr>"] = { function() require("neogen").generate() end, desc = "Current" },
@@ -91,6 +94,7 @@ local mappings = {
     ["<leader>af"] = { function() require("neogen").generate { type = "func" } end, desc = "Function" },
     ["<leader>at"] = { function() require("neogen").generate { type = "type" } end, desc = "Type" },
     ["<leader>aF"] = { function() require("neogen").generate { type = "file" } end, desc = "File" },
+
     -- octo plugin mappings
     ["<leader>G"] = { name = " GitHub" },
     ["<leader>Gi"] = { "<cmd>Octo issue list<cr>", desc = "Open Issues" },
@@ -98,9 +102,11 @@ local mappings = {
     ["<leader>Gp"] = { "<cmd>Octo pr list<cr>", desc = "Open PRs" },
     ["<leader>GP"] = { "<cmd>Octo pr search<cr>", desc = "Search PRs" },
     ["<leader>Gr"] = { "<cmd>Octo repo list<cr>", desc = "Open Repository" },
+
     -- telescope plugin mappings
     ["<leader>fe"] = { "<cmd>Telescope file_browser<cr>", desc = "File explorer" },
     ["<leader>fT"] = { "<cmd>TodoTelescope<cr>", desc = "Find TODOs" },
+
     -- Movement
     ["<Tab>"] = {
       function()

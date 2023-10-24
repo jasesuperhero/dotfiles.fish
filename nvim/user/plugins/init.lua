@@ -3,7 +3,7 @@ return {
   require "user.plugins.lsp.cmp-nvim-lsp-signature-help",
   require "user.plugins.lsp.lsp_inlayhints",
   require "user.plugins.lsp.lsp_kind",
-  require "user.plugins.lsp.lsp_lines",
+  require "user.plugins.lsp.diagflow",
   require "user.plugins.lsp.lsp_signature",
   require "user.plugins.lsp.mason",
   require "user.plugins.lsp.neodev",
