@@ -36,6 +36,8 @@ return {
 
   -- editor
   require "user.plugins.editor.cmp",
+  require "user.plugins.editor.eyeliner",
+  require "user.plugins.editor.flash",
   require "user.plugins.editor.headlines",
   require "user.plugins.editor.hlargs",
   require "user.plugins.editor.indent-blankline",
@@ -45,13 +47,12 @@ return {
   require "user.plugins.editor.nvim-treesitter-context",
   require "user.plugins.editor.nvim-treesitter-textobjects",
   require "user.plugins.editor.nvim-ts-rainbow2",
+  require "user.plugins.editor.surround",
   require "user.plugins.editor.syntax-tree-surfer",
   require "user.plugins.editor.todo-comments",
   require "user.plugins.editor.trouble",
   require "user.plugins.editor.vim-matchup",
-  require "user.plugins.editor.eyeliner",
   require "user.plugins.editor.vim-visual-multi",
-  require "user.plugins.editor.surround",
 
   -- ui
   require "user.plugins.ui.catppuccin",
