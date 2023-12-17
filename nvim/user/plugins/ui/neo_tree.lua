@@ -35,7 +35,7 @@ return {
       },
     },
     window = {
-      position = "right",
+      position = "float",
       width = 40,
     },
   },
