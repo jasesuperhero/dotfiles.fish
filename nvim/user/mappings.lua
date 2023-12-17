@@ -106,6 +106,11 @@ local mappings = {
     -- telescope plugin mappings
     ["<leader>fe"] = { "<cmd>Telescope file_browser<cr>", desc = "File explorer" },
     ["<leader>fT"] = { "<cmd>TodoTelescope<cr>", desc = "Find TODOs" },
+    ["<leader>fu"] = { "<cmd>Telescope undo<cr>", desc = "Find UNDOs" },
+    ["<leader>fsc>"] = {
+      "<cmd>Telescope commands<CR>",
+      desc = "Activates Telescope commands",
+    },
 
     -- Movement
     ["<Tab>"] = {

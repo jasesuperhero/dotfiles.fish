@@ -1,10 +1,13 @@
+local border = require "user.util.border"
+
 return {
   "nvim-telescope/telescope.nvim",
   dependencies = { -- add a new dependency to telescope that is our new plugin
-    "nvim-telescope/telescope-media-files.nvim",
-    "nvim-telescope/telescope-hop.nvim",
-    "nvim-telescope/telescope-file-browser.nvim",
+    "debugloop/telescope-undo.nvim",
     "nvim-neorg/neorg-telescope",
+    "nvim-telescope/telescope-file-browser.nvim",
+    "nvim-telescope/telescope-hop.nvim",
+    "nvim-telescope/telescope-media-files.nvim",
   },
   opts = function(_, opts)
     local telescope = require "telescope"
@@ -15,6 +18,8 @@ return {
     return require("astronvim.utils").extend_tbl(opts, {
       defaults = {
         selection_caret = "  ",
+        winblend = vim.o.winblend,
+        borderchars = border.telescope[vim.g.border],
         layout_config = {
           width = 0.90,
           height = 0.85,
@@ -79,6 +84,7 @@ return {
     require "plugins.configs.telescope"(...)
     local telescope = require "telescope"
     telescope.load_extension "file_browser"
+    telescope.load_extension "undo"
     telescope.load_extension "media_files"
   end,
 }
