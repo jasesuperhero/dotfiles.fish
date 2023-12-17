@@ -8,26 +8,18 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- autohide diagnostics in insert and visual mode
 vim.api.nvim_create_augroup("DiagnosticMode", { clear = true })
 vim.api.nvim_create_autocmd("ModeChanged", {
-  pattern = { "i", "v" },
+  pattern = { "i", "v", "n" },
   group = "DiagnosticMode",
-  callback = function()
-    if vim.lsp.buf.server_ready() then
-      vim.diagnostic.config { virtual_lines = false }
-      vim.diagnostic.hide()
-    end
-  end,
-})
-
-vim.api.nvim_create_autocmd("ModeChanged", {
-  pattern = "n",
-  group = "DiagnosticMode",
-  callback = function()
-    if vim.lsp.buf.server_ready() then
-      vim.diagnostic.config { virtual_lines = true }
+  callback = function(args)
+    local bufnr = args.buf
+    local is_attached = vim.lsp.buf_is_attached(bufnr, 1)
+    local mode = vim.fn.mode()
+    if is_attached and mode == "n" then
       vim.diagnostic.show()
+    else
+      vim.diagnostic.hide()
     end
   end,
 })

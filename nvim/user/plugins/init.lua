@@ -61,6 +61,7 @@ return {
   require "user.plugins.ui.neo_tree",
   require "user.plugins.ui.notify",
   require "user.plugins.ui.telescope",
+  require "user.plugins.ui.which-key",
 
   -- disabled
   require "user.plugins._disabled.alpha",

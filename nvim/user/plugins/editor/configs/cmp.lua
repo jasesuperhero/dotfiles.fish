@@ -1,6 +1,7 @@
 -- opts parameter is the default options table
 -- the function is lazy loaded so cmp is able to be required
 local cmp = require "cmp"
+local border = require "user.util.border"
 
 local cmp_ui = {
   icons = true,
@@ -33,26 +34,13 @@ local formatting_style = {
   end,
 }
 
-local function border(hl_name)
-  return {
-    { "╭", hl_name },
-    { "─", hl_name },
-    { "╮", hl_name },
-    { "│", hl_name },
-    { "╯", hl_name },
-    { "─", hl_name },
-    { "╰", hl_name },
-    { "│", hl_name },
-  }
-end
-
 local options = {
   completion = {
     completeopt = "menu,menuone",
   },
   window = {
     completion = {
-      border = border "FloatBorder",
+      border = border.default[vim.g.border],
       side_padding = (cmp_style ~= "atom" and cmp_style ~= "atom_colored") and 1 or 0,
       winhighlight = "Normal:Normal,CursorLine:Visual,Search:None",
       scrolloff = 0,
@@ -60,7 +48,7 @@ local options = {
       scrollbar = false,
     },
     documentation = {
-      border = border "FloatBorder",
+      border = border.default[vim.g.border],
       winhighlight = "Normal:Normal",
     },
   },
