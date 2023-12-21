@@ -1,3 +1,10 @@
+tap 'adoptopenjdk/openjdk'
+tap 'derailed/k9s'
+tap 'homebrew/bundle'
+tap 'homebrew/cask-fonts'
+tap 'homebrew/cask-versions'
+tap 'jasesuperhero/homebrew-neovim-nightly'
+
 brew 'aria2'
 brew 'asdf'
 brew 'bash'
@@ -32,7 +39,7 @@ brew 'mackup'
 brew 'mas'
 brew 'mint'
 brew 'mitmproxy'
-brew 'neovim'
+# brew 'neovim'
 brew 'pango'
 brew 'pre-commit'
 brew 'ripgrep'
@@ -65,8 +72,8 @@ cask 'rescuetime'
 cask 'stats'
 cask 'telegram-desktop'
 cask 'visual-studio-code'
+cask 'jasesuperhero/neovim-nightly/neovim-nightly'
 
-mas 'Adblock Plus', id: 1_432_731_683
 mas 'Magnet', id: 441_258_766
 mas 'Next Meeting', id: 1_017_470_484
 mas 'Noizio', id: 928_871_589
@@ -74,11 +81,3 @@ mas 'OhMyStar', id: 1_218_642_292
 mas 'Reeder', id: 1_529_448_980
 mas 'Spark', id: 1_176_895_641
 mas 'Things', id: 904_280_696
-
-tap 'adoptopenjdk/openjdk'
-tap 'derailed/k9s'
-tap 'homebrew/bundle'
-tap 'homebrew/cask'
-tap 'homebrew/cask-fonts'
-tap 'homebrew/cask-versions'
-tap 'homebrew/core'

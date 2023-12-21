@@ -1,5 +1,6 @@
-eslint_d
+cspell
 eslint
+eslint_d
 fixjson
 jsonlint
 neovim
