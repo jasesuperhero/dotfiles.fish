@@ -7,6 +7,7 @@ return {
   "dgagn/diagflow.nvim",
   lazy = true,
   event = "LspAttach",
+  dependencies = { "neovim/nvim-lspconfig" },
   opts = {
     enable = true,
     max_width = 60, -- The maximum width of the diagnostic messages
@@ -17,28 +18,17 @@ return {
       info = "DiagnosticFloatingInfo",
       hint = "DiagnosticFloatingHint",
     },
-    format = function(diag)
-      local levels = {
-        [1] = "error",
-        [2] = "warn",
-        [3] = "info",
-        [4] = "hint",
-      }
-
-      local icon = User.icons.diagnostics[levels[diag.severity]]
-
-      return string.format("%s%s%s", " ", icon, diag.message or "")
-    end,
+    format = function(diag) return diag.message end,
     gap_size = 1,
     scope = "cursor", -- 'cursor', 'line' this changes the scope, so instead of showing errors under the cursor, it shows errors on the entire line.
-    padding_top = 0,
+    padding_top = 1,
     padding_right = 0,
-    text_align = "right", -- 'left', 'right'
+    text_align = "left", -- 'left', 'right'
     placement = "top", -- 'top', 'inline'
     inline_padding_left = 0, -- the padding left when the placement is inline
     update_event = { "DiagnosticChanged", "BufReadPost" }, -- the event that updates the diagnostics cache
     toggle_event = {}, -- if InsertEnter, can toggle the diagnostics on inserts
-    show_sign = false, -- set to true if you want to render the diagnostic sign before the diagnostic message
+    show_sign = true, -- set to true if you want to render the diagnostic sign before the diagnostic message
     show_borders = false,
     render_event = { "DiagnosticChanged", "CursorMoved" },
   },
