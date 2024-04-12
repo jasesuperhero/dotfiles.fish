@@ -42,7 +42,7 @@ return {
       -- Be aware that you also will need to properly configure your LSP server to
       -- provide the inlay hints.
       inlay_hints = {
-        enabled = false,
+        enabled = true,
       },
       -- Enable this to enable the builtin LSP code lenses on Neovim >= 0.10.0
       -- Be aware that you also will need to properly configure your LSP server to
@@ -109,12 +109,17 @@ return {
       end
 
       -- diagnostics signs
-      if vim.fn.has "nvim-0.10.0" == 0 then
-        for severity, icon in pairs(opts.diagnostics.signs.text) do
-          local name = vim.diagnostic.severity[severity]:lower():gsub("^%l", string.upper)
-          name = "DiagnosticSign" .. name
-          vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
-        end
+      for severity, icon in pairs(opts.diagnostics.signs.text) do
+        local name = vim.diagnostic.severity[severity]:lower():gsub("^%l", string.upper)
+        name = "DiagnosticSign" .. name
+        vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
+      end
+
+      -- inlay hints
+      if opts.inlay_hints.enabled then
+        User.lsp.on_attach(function(client, buffer)
+          if client.supports_method "textDocument/inlayHint" then User.toggle.inlay_hints(buffer, true) end
+        end)
       end
 
       -- code lens
