@@ -1,7 +1,6 @@
 #!/usr/bin/env fish
 
-set LUA_VERSION "latest"
+set LUA_VERSION latest
 
-asdf plugin add lua
-asdf install lua $LUA_VERSION
-asdf global lua $LUA_VERSION
+mise install --yes lua@$LUA_VERSION
+mise use --global lua@$LUA_VERSION

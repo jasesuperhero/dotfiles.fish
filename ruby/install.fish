@@ -1,7 +1,6 @@
 #!/usr/bin/env fish
 
-asdf plugin add ruby
-asdf install ruby latest
-asdf global ruby latest
+mise install --yes ruby@latest
+mise use --global ruby@latest
 
 fish "$DOTFILES/ruby/gems/install.fish"

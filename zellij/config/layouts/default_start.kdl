@@ -7,17 +7,6 @@ layout {
         }
     }
 
-    tab name="dotfiles" split_direction="vertical" cwd="~/.dotfiles" {
-        pane split_direction="vertical" {
-            pane command="nvim" focus=true {
-                args "."
-            }
-            pane split_direction="horizontal" {
-                pane command="gitui" size="30%"
-            }
-        }
-    }
-
     tab name="work" focus=true {
         pane
     }

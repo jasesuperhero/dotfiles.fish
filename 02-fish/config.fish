@@ -1,6 +1,4 @@
 #!/usr/bin/env fish
 
-if command -qa brew and status is-interactive
-  set ZELLIJ_AUTO_ATTACH true
-  eval (zellij setup --generate-auto-start fish | string collect)
-end
+export MODULAR_HOME="$HOME/.modular"
+export PATH="$MODULAR_HOME/pkg/packages.modular.com_mojo/bin:$PATH"

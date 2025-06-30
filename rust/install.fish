@@ -1,13 +1,12 @@
 #!/usr/bin/env fish
 
-set RUST_VERSION "latest"
+set RUST_VERSION latest
 
-asdf plugin-add rust https://github.com/asdf-community/asdf-rust.git
-asdf install rust $RUST_VERSION
-asdf global rust $RUST_VERSION
+mise install --yes rust@$RUST_VERSION
+mise use --global rust@$RUST_VERSION
 
-cargo install --locked cargo-update
-cargo install --locked stylua
-cargo install --locked cargo-nextest
+cargo install cargo-update
+cargo install stylua
+cargo install cargo-nextest
 
 set -Ua fish_user_paths $HOME/.cargo/bin
