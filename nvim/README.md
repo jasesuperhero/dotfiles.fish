@@ -68,6 +68,104 @@ To browse all keymaps:
 
 NvChad's built-in keymaps are defined in `~/.local/share/nvim/lazy/NvChad/lua/nvchad/mappings.lua`. Custom keymaps added on top live in `lua/mappings.lua`.
 
+### Navigation
+
+| Key | Mode | Description |
+|-----|------|-------------|
+| `s` | n/x/o | Flash jump (type chars to jump anywhere) |
+| `S` | n/x/o | Flash Treesitter (jump to syntax node) |
+| `r` | o | Flash remote (operate on distant text object) |
+| `R` | o/x | Flash Treesitter search |
+| `j` / `k` | n/x | Move by display line on wrapped lines |
+| `]]` / `[[` | n | Next / prev reference (vim-illuminate) |
+| `]f` / `[f` | n | Next / prev function start |
+| `]F` / `[F` | n | Next / prev function end |
+| `]c` / `[c` | n | Next / prev class start |
+
+### Buffers
+
+| Key | Mode | Description |
+|-----|------|-------------|
+| `<S-h>` / `<S-l>` | n | Prev / next buffer |
+| `[b` / `]b` | n | Prev / next buffer |
+| `<leader>bb` | n | Switch to other buffer |
+| `<leader>x` | n | Close buffer (NvChad) |
+
+### Search
+
+| Key | Mode | Description |
+|-----|------|-------------|
+| `n` / `N` | n/x/o | Next / prev result (always forward/backward) |
+| `<leader>ur` | n | Clear search highlight + redraw |
+| `<leader>sr` | n | Replace in files (Spectre) |
+| `<leader>fw` | n | Live grep (Telescope) |
+| `<leader>ff` | n | Find files (Telescope) |
+
+### LSP & Diagnostics
+
+| Key | Mode | Description |
+|-----|------|-------------|
+| `<leader>cd` | n | Line diagnostics (float) |
+| `]d` / `[d` | n | Next / prev diagnostic |
+| `]e` / `[e` | n | Next / prev error |
+| `]w` / `[w` | n | Next / prev warning |
+| `<leader>fm` | n | Format file (NvChad) |
+| `<leader>ds` | n | Diagnostics to loclist (NvChad) |
+| `<leader>cs` | n | Symbol outline (Aerial) |
+
+### Diagnostics list (Trouble)
+
+| Key | Description |
+|-----|-------------|
+| `<leader>xx` | Document diagnostics |
+| `<leader>xX` | Workspace diagnostics |
+| `<leader>xL` | Location list |
+| `<leader>xQ` | Quickfix list |
+| `[q` / `]q` | Prev / next Trouble item or quickfix entry |
+
+### Windows & Splits
+
+| Key | Description |
+|-----|-------------|
+| `<leader>ww` | Other window |
+| `<leader>wd` | Delete window |
+| `<leader>w-` | Split below |
+| `<leader>w\|` | Split right |
+| `<leader>-` | Split below |
+| `<leader>\|` | Split right |
+| `<Up/Down/Left/Right>` | Resize split (smart-splits) |
+| `<C-h/j/k/l>` | Move between splits (NvChad) |
+
+### Folds
+
+| Key | Description |
+|-----|-------------|
+| `zR` | Open all folds |
+| `zM` | Close all folds |
+| `za` | Toggle fold under cursor |
+
+### Session
+
+| Key | Description |
+|-----|-------------|
+| `<leader>qs` | Restore session for cwd |
+| `<leader>ql` | Restore last session |
+| `<leader>qd` | Disable session saving |
+
+### Misc
+
+| Key | Mode | Description |
+|-----|------|-------------|
+| `<leader>w` | n | Save file |
+| `<C-s>` | n | Save file (NvChad) |
+| `<leader>/` | n/v | Toggle comment (NvChad) |
+| `<leader>un` | n | Dismiss notifications |
+| `<leader>cp` | n | Markdown preview toggle |
+| `<leader>th` | n | Switch NvChad theme |
+| `;` | n | Enter command mode |
+| `jk` | i | Exit insert mode |
+| `<esc><esc>` | t | Exit terminal mode |
+
 ## Language support
 
 | Language   | LSP                        | Formatter   | Linter       |
