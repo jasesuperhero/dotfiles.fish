@@ -1,4 +1,35 @@
 return {
+  -- ─── which-key groups ─────────────────────────────────────────────────────
+
+  {
+    "folke/which-key.nvim",
+    opts = {
+      spec = {
+        -- leader prefix groups
+        { "<leader>b", group = "buffers", icon = { icon = "󰈔", color = "cyan" } },
+        { "<leader>c", group = "code", icon = { icon = "", color = "orange" } },
+        { "<leader>d", group = "diagnostics", icon = { icon = "", color = "red" } },
+        { "<leader>f", group = "find/file", icon = { icon = "", color = "yellow" } },
+        { "<leader>g", group = "git", icon = { icon = "", color = "green" } },
+        { "<leader>m", group = "marks", icon = { icon = "", color = "cyan" } },
+        { "<leader>p", group = "pick", icon = { icon = "", color = "purple" } },
+        { "<leader>q", group = "quit/session", icon = { icon = "", color = "red" } },
+        { "<leader>r", group = "rename", icon = { icon = "󰑕", color = "orange" } },
+        { "<leader>s", group = "search", icon = { icon = "", color = "yellow" } },
+        { "<leader>t", group = "theme", icon = { icon = "󰏘", color = "purple" } },
+        { "<leader>u", group = "ui", icon = { icon = "󰙵", color = "cyan" } },
+        { "<leader>w", group = "windows", icon = { icon = "", color = "blue" } },
+        { "<leader>x", group = "diagnostics/quickfix", icon = { icon = "", color = "red" } },
+        -- motion prefix groups
+        { "g", group = "goto", icon = { icon = "", color = "blue" } },
+        { "gs", group = "surround", icon = { icon = "󰅲", color = "orange" } },
+        { "z", group = "fold", icon = { icon = "", color = "yellow" } },
+        { "]", group = "next", icon = { icon = "", color = "green" } },
+        { "[", group = "prev", icon = { icon = "", color = "green" } },
+      },
+    },
+  },
+
   -- ─── Language / formatting / linting ──────────────────────────────────────
 
   {
