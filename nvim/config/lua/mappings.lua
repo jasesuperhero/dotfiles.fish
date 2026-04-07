@@ -2,6 +2,10 @@ require "nvchad.mappings"
 
 local map = vim.keymap.set
 
+-- ─── NvChad nvim-tree overrides (replaced by neo-tree) ────────────────────
+map("n", "<C-n>", "<cmd>Neotree toggle<cr>", { desc = "Toggle NeoTree" })
+map("n", "<leader>e", "<cmd>Neotree focus<cr>", { desc = "Focus NeoTree" })
+
 -- ─── Existing ─────────────────────────────────────────────────────────────
 map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")

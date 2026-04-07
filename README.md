@@ -1,3 +1,4 @@
+
 <p align="center">
   <img alt="header image" src="https://raw.githubusercontent.com/caarlos0/dotfiles.fish/master/docs/header.svg" height="350" />
   <h2 align="center">Daniels' dotfiles</h2>
@@ -5,6 +6,18 @@
 </p>
 
 ---
+
+<!--toc:start-->
+- [Installation](#installation)
+  - [Dependencies](#dependencies)
+  - [Install](#install)
+    - [Update](#update)
+- [Revert](#revert)
+- [Recommended Software](#recommended-software)
+- [macOS defaults](#macos-defaults)
+- [Themes and fonts being used](#themes-and-fonts-being-used)
+- [Screenshots](#screenshots)
+<!--toc:end-->
 
 Forked from my [ZSH dotfiles](https://github.com/caarlos0/dotfiles), those are
 my Fish Shell config files, together with editor, macOS configs and other

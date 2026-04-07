@@ -7,6 +7,7 @@ local function apply_nvchad_theme()
   local theme = vim.o.background == "dark" and "catppuccin" or "catppuccin-latte"
   require("nvconfig").base46.theme = theme
   require("base46").load_all_highlights()
+  vim.api.nvim_exec_autocmds("ColorScheme", { modeline = false })
 end
 
 function theme_watcher.watch_file(fname)

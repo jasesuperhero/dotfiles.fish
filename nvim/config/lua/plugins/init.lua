@@ -1,4 +1,39 @@
 return {
+  -- ─── File explorer (neo-tree replaces NvChad's nvim-tree) ─────────────────
+
+  { "nvim-tree/nvim-tree.lua", enabled = false },
+
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    cmd = "Neotree",
+    dependencies = { "MunifTanjim/nui.nvim" },
+    init = function()
+      -- open neo-tree when nvim is called with a directory argument
+      if vim.fn.argc(-1) == 1 then
+        local stat = vim.uv.fs_stat(vim.fn.argv(0))
+        if stat and stat.type == "directory" then require "neo-tree" end
+      end
+    end,
+    deactivate = function() vim.cmd "Neotree close" end,
+    opts = require "configs.neotree",
+    keys = {
+      { "<C-n>", "<cmd>Neotree toggle<cr>", desc = "Toggle NeoTree" },
+      { "<leader>e", "<cmd>Neotree focus<cr>", desc = "Focus NeoTree" },
+      { "<leader>fe", "<cmd>Neotree toggle<cr>", desc = "Explorer (cwd)" },
+      {
+        "<leader>ge",
+        function() require("neo-tree.command").execute { source = "git_status", toggle = true } end,
+        desc = "Git Explorer",
+      },
+      {
+        "<leader>be",
+        function() require("neo-tree.command").execute { source = "buffers", toggle = true } end,
+        desc = "Buffer Explorer",
+      },
+    },
+  },
+
   -- ─── which-key groups ─────────────────────────────────────────────────────
 
   {

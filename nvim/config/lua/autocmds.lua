@@ -41,3 +41,18 @@ autocmd("FileType", {
   pattern = { "python", "rst", "c", "cpp" },
   callback = function() vim.opt_local.colorcolumn = "80" end,
 })
+
+-- NeoTree highlights (base46 doesn't manage these, so we set them manually)
+local function set_neotree_highlights()
+  local ok, base46 = pcall(require, "base46")
+  if not ok then return end
+  local c = base46.get_theme_tb "base_30"
+  vim.api.nvim_set_hl(0, "NeoTreeNormal", { fg = c.white, bg = "NONE" })
+  vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { fg = c.white, bg = "NONE" })
+  vim.api.nvim_set_hl(0, "NeoTreeDirectoryName", { fg = c.white })
+  vim.api.nvim_set_hl(0, "NeoTreeDirectoryIcon", { fg = c.orange })
+  vim.api.nvim_set_hl(0, "NeoTreeFileName", { fg = c.white })
+end
+
+autocmd("User", { pattern = "FilePost", once = true, callback = set_neotree_highlights })
+autocmd("ColorScheme", { callback = set_neotree_highlights })
