@@ -53,6 +53,21 @@ update_theme dark
 update_theme light
 ```
 
+## Keymaps
+
+NvChad bundles `which-key.nvim`. Press `<leader>` (Space) and pause — a popup lists every available keymap under that prefix.
+
+To browse all keymaps:
+
+```
+<leader>wK   — WhichKey: show all keymaps
+<leader>wk   — WhichKey: query lookup (type a prefix to filter)
+<leader>ch   — NvCheatsheet (NvChad built-in cheatsheet)
+:Telescope keymaps
+```
+
+NvChad's built-in keymaps are defined in `~/.local/share/nvim/lazy/NvChad/lua/nvchad/mappings.lua`. Custom keymaps added on top live in `lua/mappings.lua`.
+
 ## Language support
 
 | Language   | LSP                        | Formatter   | Linter       |
