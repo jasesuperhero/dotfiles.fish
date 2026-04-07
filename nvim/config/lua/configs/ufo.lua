@@ -32,5 +32,5 @@ return {
       winblend = 0,
     },
   },
-  provider_selector = function() return { "treesitter" } end,
+  provider_selector = function() return { "treesitter", "indent" } end,
 }
