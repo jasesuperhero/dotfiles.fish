@@ -1,4 +1,6 @@
 return {
+  -- ─── Language / formatting / linting ──────────────────────────────────────
+
   {
     "stevearc/conform.nvim",
     -- event = 'BufWritePre', -- uncomment for format on save
@@ -7,8 +9,57 @@ return {
 
   {
     "neovim/nvim-lspconfig",
+    dependencies = { "b0o/SchemaStore.nvim" },
     config = function() require "configs.lspconfig" end,
   },
+
+  {
+    "mfussenegger/nvim-lint",
+    event = { "BufWritePost", "BufReadPost", "InsertLeave" },
+    config = function()
+      local lint = require "lint"
+      lint.linters_by_ft = require "configs.lint"
+      vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
+        callback = function() lint.try_lint() end,
+      })
+    end,
+  },
+
+  {
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    event = "VeryLazy",
+    dependencies = { "williamboman/mason.nvim" },
+    opts = {
+      ensure_installed = {
+        -- LSP servers
+        "bash-language-server",
+        "css-lsp",
+        "html-lsp",
+        "json-lsp",
+        "lua-language-server",
+        "marksman",
+        "pyright",
+        "solargraph",
+        "typescript-language-server",
+        "yaml-language-server",
+        -- formatters
+        "prettierd",
+        "shfmt",
+        "black",
+        "rubocop",
+        "stylua",
+        -- linters
+        "shellcheck",
+        "markdownlint",
+        "pylint",
+        "eslint_d",
+      },
+      run_on_start = true,
+      start_delay = 3000,
+    },
+  },
+
+  -- ─── Treesitter ───────────────────────────────────────────────────────────
 
   {
     "nvim-treesitter/nvim-treesitter",
@@ -48,52 +99,392 @@ return {
         "typescript",
         "yaml",
       },
+      matchup = { enable = true },
     },
   },
 
   {
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
-    event = "VeryLazy",
-    dependencies = { "williamboman/mason.nvim" },
-    opts = {
-      ensure_installed = {
-        -- LSP servers
-        "bash-language-server",
-        "css-lsp",
-        "html-lsp",
-        "json-lsp",
-        "lua-language-server",
-        "marksman",
-        "pyright",
-        "solargraph",
-        "typescript-language-server",
-        "yaml-language-server",
-        -- formatters
-        "prettierd",
-        "shfmt",
-        "black",
-        "rubocop",
-        "stylua",
-        -- linters
-        "shellcheck",
-        "markdownlint",
-        "pylint",
-        "eslint_d",
-      },
-      run_on_start = true,
-      start_delay = 3000,
-    },
+    "nvim-treesitter/nvim-treesitter-context",
+    event = { "BufReadPre", "BufNewFile" },
+    opts = { mode = "cursor", max_lines = 3 },
   },
 
   {
-    "mfussenegger/nvim-lint",
-    event = { "BufWritePost", "BufReadPost", "InsertLeave" },
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
-      local lint = require "lint"
-      lint.linters_by_ft = require "configs.lint"
-      vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
-        callback = function() lint.try_lint() end,
+      ---@diagnostic disable-next-line: missing-fields
+      require("nvim-treesitter.configs").setup {
+        textobjects = {
+          move = {
+            enable = true,
+            goto_next_start = { ["]f"] = "@function.outer", ["]c"] = "@class.outer" },
+            goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer" },
+            goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer" },
+            goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer" },
+          },
+        },
+      }
+    end,
+  },
+
+  {
+    "windwp/nvim-ts-autotag",
+    event = { "BufReadPre", "BufNewFile" },
+    opts = {},
+  },
+
+  {
+    "kevinhwang91/nvim-ufo",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = { "kevinhwang91/promise-async" },
+    opts = function() return require "configs.ufo" end,
+    keys = {
+      { "zR", function() require("ufo").openAllFolds() end, desc = "Open all folds" },
+      { "zM", function() require("ufo").closeAllFolds() end, desc = "Close all folds" },
+    },
+  },
+
+  -- ─── Core UX ──────────────────────────────────────────────────────────────
+
+  {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    opts = {},
+    keys = {
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+      { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+    },
+  },
+
+  {
+    "folke/trouble.nvim",
+    cmd = { "Trouble" },
+    opts = {},
+    keys = {
+      { "<leader>xx", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Document Diagnostics" },
+      { "<leader>xX", "<cmd>Trouble diagnostics toggle<cr>", desc = "Workspace Diagnostics" },
+      { "<leader>xL", "<cmd>Trouble loclist toggle<cr>", desc = "Location List" },
+      { "<leader>xQ", "<cmd>Trouble quickfix toggle<cr>", desc = "Quickfix List" },
+      {
+        "[q",
+        function()
+          if require("trouble").is_open() then
+            require("trouble").prev { skip_groups = true, jump = true }
+          else
+            pcall(vim.cmd.cprev)
+          end
+        end,
+        desc = "Previous Trouble/Quickfix",
+      },
+      {
+        "]q",
+        function()
+          if require("trouble").is_open() then
+            require("trouble").next { skip_groups = true, jump = true }
+          else
+            pcall(vim.cmd.cnext)
+          end
+        end,
+        desc = "Next Trouble/Quickfix",
+      },
+    },
+  },
+
+  {
+    "folke/todo-comments.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    cmd = { "TodoTrouble", "TodoTelescope" },
+    opts = { signs = false },
+  },
+
+  {
+    "folke/persistence.nvim",
+    event = "BufReadPre",
+    opts = {},
+    keys = {
+      { "<leader>qs", function() require("persistence").load() end, desc = "Restore Session" },
+      { "<leader>ql", function() require("persistence").load { last = true } end, desc = "Restore Last Session" },
+      { "<leader>qd", function() require("persistence").stop() end, desc = "Don't Save Session" },
+    },
+  },
+
+  {
+    "nvim-pack/nvim-spectre",
+    cmd = "Spectre",
+    opts = { open_cmd = "noswapfile vnew" },
+    keys = {
+      { "<leader>sr", function() require("spectre").open() end, desc = "Replace in Files (Spectre)" },
+    },
+  },
+
+  {
+    "stevearc/aerial.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    opts = function() return require "configs.aerial" end,
+    keys = {
+      { "<leader>cs", "<cmd>AerialToggle<cr>", desc = "Aerial (Symbols)" },
+    },
+  },
+
+  {
+    "stevearc/dressing.nvim",
+    lazy = true,
+    init = function()
+      ---@diagnostic disable-next-line: duplicate-set-field
+      vim.ui.select = function(...)
+        require("lazy").load { plugins = { "dressing.nvim" } }
+        return vim.ui.select(...)
+      end
+      ---@diagnostic disable-next-line: duplicate-set-field
+      vim.ui.input = function(...)
+        require("lazy").load { plugins = { "dressing.nvim" } }
+        return vim.ui.input(...)
+      end
+    end,
+  },
+
+  {
+    "rcarriga/nvim-notify",
+    event = "VimEnter",
+    opts = {
+      render = "compact",
+      stages = "slide",
+      timeout = 3000,
+      max_height = function() return math.floor(vim.o.lines * 0.75) end,
+      max_width = function() return math.floor(vim.o.columns * 0.75) end,
+    },
+    config = function(_, opts)
+      local notify = require "notify"
+      notify.setup(opts)
+      vim.notify = notify
+    end,
+    keys = {
+      {
+        "<leader>un",
+        function() require("notify").dismiss { silent = true, pending = true } end,
+        desc = "Dismiss Notifications",
+      },
+    },
+  },
+
+  {
+    "mrjones2014/smart-splits.nvim",
+    lazy = true,
+    keys = {
+      { "<Up>", function() require("smart-splits").resize_up(2) end, desc = "Resize split up" },
+      { "<Down>", function() require("smart-splits").resize_down(2) end, desc = "Resize split down" },
+      { "<Left>", function() require("smart-splits").resize_left(2) end, desc = "Resize split left" },
+      { "<Right>", function() require("smart-splits").resize_right(2) end, desc = "Resize split right" },
+    },
+    opts = {
+      ignored_filetypes = { "nofile", "quickfix", "qf", "prompt" },
+      ignored_buftypes = { "nofile" },
+    },
+  },
+
+  -- ─── Editor enhancements ──────────────────────────────────────────────────
+
+  {
+    "kylechui/nvim-surround",
+    event = "VeryLazy",
+    opts = {},
+  },
+
+  {
+    "RRethy/vim-illuminate",
+    event = "VeryLazy",
+    opts = {
+      delay = 200,
+      large_file_cutoff = 2000,
+      large_file_overrides = { providers = { "lsp" } },
+    },
+    config = function(_, opts)
+      require("illuminate").configure(opts)
+      local function map(key, dir, buffer)
+        vim.keymap.set(
+          "n",
+          key,
+          function() require("illuminate")["goto_" .. dir .. "_reference"](false) end,
+          { desc = dir:sub(1, 1):upper() .. dir:sub(2) .. " Reference", buffer = buffer }
+        )
+      end
+      map("]]", "next")
+      map("[[", "prev")
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function()
+          local buffer = vim.api.nvim_get_current_buf()
+          map("]]", "next", buffer)
+          map("[[", "prev", buffer)
+        end,
       })
     end,
+  },
+
+  {
+    "andymass/vim-matchup",
+    event = { "BufReadPre", "BufNewFile" },
+    opts = {},
+  },
+
+  {
+    "HiPhish/rainbow-delimiters.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      local rd = require "rainbow-delimiters"
+      require("rainbow-delimiters.setup").setup {
+        strategy = {
+          [""] = rd.strategy["global"],
+          vim = rd.strategy["local"],
+        },
+        query = {
+          [""] = "rainbow-delimiters",
+          lua = "rainbow-blocks",
+        },
+        highlight = {
+          "RainbowDelimiterRed",
+          "RainbowDelimiterYellow",
+          "RainbowDelimiterBlue",
+          "RainbowDelimiterOrange",
+          "RainbowDelimiterGreen",
+          "RainbowDelimiterViolet",
+          "RainbowDelimiterCyan",
+        },
+      }
+    end,
+  },
+
+  {
+    "m-demare/hlargs.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    opts = {},
+  },
+
+  {
+    "echasnovski/mini.indentscope",
+    event = { "BufReadPre", "BufNewFile" },
+    opts = {
+      symbol = "▏",
+      options = { try_as_border = true },
+    },
+    init = function()
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "help", "alpha", "dashboard", "NvimTree", "Trouble", "lazy", "mason", "notify" },
+        callback = function() vim.b.miniindentscope_disable = true end,
+      })
+    end,
+  },
+
+  {
+    "luukvbaal/statuscol.nvim",
+    branch = "0.10",
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      local builtin = require "statuscol.builtin"
+      require("statuscol").setup {
+        relculright = true,
+        segments = {
+          { sign = { namespace = { "diagnostic" }, maxwidth = 2, auto = true }, click = "v:lua.ScSa" },
+          {
+            sign = { namespace = { "gitsigns" }, name = { ".*" }, maxwidth = 2, colwidth = 2, auto = true },
+            click = "v:lua.ScSa",
+          },
+          { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa" },
+          { text = { builtin.foldfunc, " " }, click = "v:lua.ScFa" },
+        },
+        ft_ignore = { "help", "vim", "alpha", "dashboard", "NvimTree", "Trouble", "lazy", "mason" },
+      }
+    end,
+  },
+
+  -- ─── LSP & completion extras ──────────────────────────────────────────────
+
+  {
+    "j-hui/fidget.nvim",
+    event = "LspAttach",
+    opts = {
+      progress = { display = { done_icon = "" } },
+      integration = { ["nvim-tree"] = { enable = true } },
+      notification = { window = { winblend = 0 } },
+    },
+  },
+
+  {
+    "dgagn/diagflow.nvim",
+    event = "LspAttach",
+    opts = {
+      enable = true,
+      max_width = 60,
+      max_height = 10,
+      severity_colors = {
+        error = "DiagnosticFloatingError",
+        warning = "DiagnosticFloatingWarn",
+        info = "DiagnosticFloatingInfo",
+        hint = "DiagnosticFloatingHint",
+      },
+      format = function(diag) return diag.message end,
+      gap_size = 1,
+      scope = "cursor",
+      padding_top = 1,
+      text_align = "left",
+      placement = "top",
+      show_sign = true,
+      show_borders = false,
+      render_event = { "DiagnosticChanged", "CursorMoved" },
+    },
+  },
+
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "onsails/lspkind.nvim",
+      "hrsh7th/cmp-nvim-lsp-signature-help",
+      "hrsh7th/cmp-cmdline",
+    },
+    opts = function(_, opts)
+      local lspkind = require "lspkind"
+      opts.formatting = {
+        format = lspkind.cmp_format {
+          mode = "symbol_text",
+          maxwidth = 50,
+          ellipsis_char = "...",
+        },
+      }
+      table.insert(opts.sources, { name = "nvim_lsp_signature_help" })
+      return opts
+    end,
+    config = function(_, opts)
+      local cmp = require "cmp"
+      cmp.setup(opts)
+      cmp.setup.cmdline({ "/", "?" }, {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = { { name = "buffer" } },
+      })
+      cmp.setup.cmdline(":", {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
+      })
+    end,
+  },
+
+  {
+    "b0o/SchemaStore.nvim",
+    lazy = true,
+    version = false,
+  },
+
+  -- ─── Language ─────────────────────────────────────────────────────────────
+
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    build = function() vim.fn["mkdp#util#install"]() end,
+    ft = { "markdown" },
+    keys = {
+      { "<leader>cp", "<cmd>MarkdownPreviewToggle<cr>", ft = "markdown", desc = "Markdown Preview" },
+    },
   },
 }
