@@ -77,6 +77,8 @@ NvChad's built-in keymaps are defined in `~/.local/share/nvim/lazy/NvChad/lua/nv
 | `r` | o | Flash remote (operate on distant text object) |
 | `R` | o/x | Flash Treesitter search |
 | `j` / `k` | n/x | Move by display line on wrapped lines |
+| `<C-space>` | n | Treesitter incremental selection (expand) |
+| `<bs>` | x | Treesitter incremental selection (shrink) |
 | `]]` / `[[` | n | Next / prev reference (vim-illuminate) |
 | `]f` / `[f` | n | Next / prev function start |
 | `]F` / `[F` | n | Next / prev function end |
@@ -89,28 +91,71 @@ NvChad's built-in keymaps are defined in `~/.local/share/nvim/lazy/NvChad/lua/nv
 | `<S-h>` / `<S-l>` | n | Prev / next buffer |
 | `[b` / `]b` | n | Prev / next buffer |
 | `<leader>bb` | n | Switch to other buffer |
+| `<leader>,` | n | Switch buffer (MRU sorted) |
 | `<leader>x` | n | Close buffer (NvChad) |
 
-### Search
+### Search & Find
 
 | Key | Mode | Description |
 |-----|------|-------------|
 | `n` / `N` | n/x/o | Next / prev result (always forward/backward) |
 | `<leader>ur` | n | Clear search highlight + redraw |
-| `<leader>sr` | n | Replace in files (Spectre) |
-| `<leader>fw` | n | Live grep (Telescope) |
-| `<leader>ff` | n | Find files (Telescope) |
+| `<leader><space>` | n | Find files |
+| `<leader>ff` | n | Find files (NvChad) |
+| `<leader>fF` | n | Find files (cwd) |
+| `<leader>fg` | n | Find git files |
+| `<leader>fr` | n | Recent files |
+| `<leader>fw` | n | Live grep (NvChad) |
+| `<leader>:` | n | Command history |
+
+### Search (Telescope `<leader>s*`)
+
+| Key | Description |
+|-----|-------------|
+| `<leader>sg` | Grep |
+| `<leader>sG` | Grep (cwd) |
+| `<leader>sw` | Grep word under cursor |
+| `<leader>sW` (v) | Grep selection |
+| `<leader>sd` | Document diagnostics |
+| `<leader>sD` | Workspace diagnostics |
+| `<leader>ss` | Goto symbol (document) |
+| `<leader>sS` | Goto symbol (workspace) |
+| `<leader>sk` | Key maps |
+| `<leader>sb` | Buffer fuzzy find |
+| `<leader>sc` / `<leader>:` | Command history |
+| `<leader>sC` | Commands |
+| `<leader>sh` | Help pages |
+| `<leader>sH` | Highlight groups |
+| `<leader>sM` | Man pages |
+| `<leader>sm` | Marks |
+| `<leader>so` | Options |
+| `<leader>sR` | Resume last search |
+| `<leader>sa` | Auto commands |
+| `<leader>s"` | Registers |
+| `<leader>sr` | Replace in files (Spectre) |
 
 ### LSP & Diagnostics
 
 | Key | Mode | Description |
 |-----|------|-------------|
+| `gd` | n | Goto definition (NvChad) |
+| `gD` | n | Goto declaration (NvChad) |
+| `gr` | n | References |
+| `gI` | n | Goto implementation |
+| `gy` | n | Goto type definition |
+| `K` | n | Hover docs |
+| `gK` | n | Signature help |
+| `<leader>ca` | n/v | Code action |
+| `<leader>cc` | n/v | Run codelens |
+| `<leader>cC` | n | Refresh codelens |
+| `<leader>cA` | n/v | Source action |
+| `<leader>cr` | n | Rename |
+| `<leader>cl` | n | LSP info |
 | `<leader>cd` | n | Line diagnostics (float) |
 | `]d` / `[d` | n | Next / prev diagnostic |
 | `]e` / `[e` | n | Next / prev error |
 | `]w` / `[w` | n | Next / prev warning |
 | `<leader>fm` | n | Format file (NvChad) |
-| `<leader>ds` | n | Diagnostics to loclist (NvChad) |
 | `<leader>cs` | n | Symbol outline (Aerial) |
 
 ### Diagnostics list (Trouble)
@@ -143,6 +188,9 @@ NvChad's built-in keymaps are defined in `~/.local/share/nvim/lazy/NvChad/lua/nv
 | `zR` | Open all folds |
 | `zM` | Close all folds |
 | `za` | Toggle fold under cursor |
+| `zk` | Go to previous start fold |
+| `zn` | Go to next closed fold |
+| `zp` | Go to previous closed fold |
 
 ### Session
 
@@ -152,6 +200,14 @@ NvChad's built-in keymaps are defined in `~/.local/share/nvim/lazy/NvChad/lua/nv
 | `<leader>ql` | Restore last session |
 | `<leader>qd` | Disable session saving |
 
+### UI Toggles
+
+| Key | Description |
+|-----|-------------|
+| `<leader>ut` | Toggle Treesitter context |
+| `<leader>un` | Dismiss notifications |
+| `<leader>uC` | Colorscheme picker with preview |
+
 ### Misc
 
 | Key | Mode | Description |
@@ -159,7 +215,6 @@ NvChad's built-in keymaps are defined in `~/.local/share/nvim/lazy/NvChad/lua/nv
 | `<leader>w` | n | Save file |
 | `<C-s>` | n | Save file (NvChad) |
 | `<leader>/` | n/v | Toggle comment (NvChad) |
-| `<leader>un` | n | Dismiss notifications |
 | `<leader>cp` | n | Markdown preview toggle |
 | `<leader>th` | n | Switch NvChad theme |
 | `;` | n | Enter command mode |
