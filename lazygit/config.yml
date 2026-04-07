@@ -15,8 +15,7 @@ services:
   "github-work": "github:github.com"
 git:
   paging:
-    colorArg: always
-    pager: delta --dark --paging=never --24-bit-color=never
+    useExternalDiffGitConfig: true
   merging:
     manualCommit: false
     args: ""

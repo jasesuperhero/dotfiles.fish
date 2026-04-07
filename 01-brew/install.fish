@@ -8,5 +8,4 @@ end
 
 brew bundle \
   --file "$DOTFILES/01-brew/Brewfile" \
-  --no-lock \
   --quiet

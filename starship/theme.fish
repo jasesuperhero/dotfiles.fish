@@ -2,9 +2,9 @@
 
 switch $C_THEME
   case dark
-    cp -rf "$DOTFILES/starship/starship_dark.toml" "$DOTFILES/starship/starship.toml"
+    sed -i '' -E "s/^palette = .*/palette = \"catppuccin_mocha\"/" $HOME/.config/starship.toml
   case light
-    cp -rf "$DOTFILES/starship/starship_light.toml" "$DOTFILES/starship/starship.toml"
+    sed -i '' -E "s/^palette = .*/palette = \"catppuccin_latte\"/" $HOME/.config/starship.toml
   case "*"
     exit 1
 end

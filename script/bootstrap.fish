@@ -28,13 +28,13 @@ function on_exit -p %self
 end
 
 function setup_gitconfig
-    if not test -f $HOME/.gitconfig.local
-        touch $HOME/.gitconfig.local
+    if not test -f $HOME/.gitconfig
+        touch $HOME/.gitconfig
     end
 
-    set managed (git config --file $HOME/.gitconfig.local --get dotfiles.managed)
+    set managed (git config --file $HOME/.gitconfig --get dotfiles.managed)
     # if there is no user.email, we'll assume it's a new machine/setup and ask it
-    if test -z (git config --file $HOME/.gitconfig.local --get user.email)
+    if test -z (git config --file $HOME/.gitconfig --get user.email)
         user 'What is your github author name?'
         read user_name
         user 'What is your github author email?'
@@ -45,17 +45,17 @@ function setup_gitconfig
         test -n $user_email
         or abort "please inform the git author email"
 
-        git config --file $HOME/.gitconfig.local user.name $user_name
-        and git config --file $HOME/.gitconfig.local user.email $user_email
+        git config --file $HOME/.gitconfig user.name $user_name
+        and git config --file $HOME/.gitconfig user.email $user_email
         or abort 'failed to setup git user name and email'
     else if test '$managed' = true
         # if user.email exists, let's check for dotfiles.managed config. If it is
         # not true, we'll backup the gitconfig file and set previous user.email and
         # user.name in the new one
-        set user_name (git config --file $HOME/.gitconfig.local --get user.name)
-        and set user_email (git config --file $HOME/.gitconfig.local --get user.email)
-        and git config --file $HOME/.gitconfig.local user.name $user_name
-        and git config --file $HOME/.gitconfig.local user.email $user_email
+        set user_name (git config --file $HOME/.gitconfig --get user.name)
+        and set user_email (git config --file $HOME/.gitconfig --get user.email)
+        and git config --file $HOME/.gitconfig user.name $user_name
+        and git config --file $HOME/.gitconfig user.email $user_email
         and success "moved ~/.gitconfig to ~/.gitconfig.backup"
         or abort 'failed to setup git user name and email'
     else
@@ -65,8 +65,8 @@ function setup_gitconfig
     # include the gitconfig.local file
     # finally make git knows this is a managed config already, preventing later
     # overrides by this script
-    git config --file ~/.gitconfig.local include.path ~/.gitconfig
-    and git config --file ~/.gitconfig.local dotfiles.managed true
+    git config --file $HOME/.gitconfig include.path "$DOTFILES/git/gitconfig"
+    and git config --file $HOME/.gitconfig dotfiles.managed true
     or abort 'failed to setup git'
 end
 
@@ -97,11 +97,7 @@ function install_dotfiles
 
     link_file $DOTFILES_ROOT/02-fish/config.fish $HOME/.config/fish/config.fish backup
     or abort fish
-    # link_file $DOTFILES_ROOT/nvim/AstroNvim $HOME/.config/nvim backup
-    # or abort astronvim
-    # link_file $DOTFILES_ROOT/nvim/user $HOME/.config/nvim/lua/user backup
-    # or abort nvim_user_config
-    link_file $DOTFILES_ROOT/nvim-v2 $HOME/.config/nvim backup
+    link_file $DOTFILES_ROOT/nvim/config $HOME/.config/nvim backup
     or abort nvim
     link_file $DOTFILES_ROOT/bat/config $HOME/.config/bat backup
     or abort bat
@@ -119,8 +115,9 @@ function install_dotfiles
     or abort gitui
     link_file $DOTFILES_ROOT/k9s/config $HOME/.config/k9s backup
     or abort k9s
-    link_file $DOTFILES_ROOT/zellij/config $HOME/.config/zellij backup
-    or abort zellij
+
+    link_file $DOTFILES_ROOT/wezterm/config $HOME/.config/wezterm backup
+    or abort wezterm
     link_file $DOTFILES_ROOT/mackup/config $HOME/.mackup backup
     or abort mackup
 end

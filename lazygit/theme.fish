@@ -9,4 +9,4 @@ switch $C_THEME
     exit 1
 end
 
-alias lazygit="lazygit --use-config-file=\"$DOTFILES/lazygit/config.yml,$DOTFILES/lazygit/themes/$LAZYGIT_THEME\""
+alias --save lazygit="lazygit --use-config-file=\"$DOTFILES/lazygit/config.yml,$DOTFILES/lazygit/themes/$LAZYGIT_THEME\"" >/dev/null 2>&1

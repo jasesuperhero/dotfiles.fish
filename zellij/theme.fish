@@ -1,10 +1,12 @@
 #!/usr/bin/env fish
 
+set ZELLIJ_CONFIG_FILE "$HOME/.config/zellij/config.kdl"
+
 switch $C_THEME
   case dark
-    set -Ux ZELLIJ_CONFIG_FILE $DOTFILES/zellij/config/config_dark.kdl
+    sed -i '' -E "s/^theme .*/theme \"catppuccin-mocha\"/" $ZELLIJ_CONFIG_FILE
   case light
-    set -Ux ZELLIJ_CONFIG_FILE $DOTFILES/zellij/config/config_light.kdl
+    sed -i '' -E "s/^theme .*/theme \"catppuccin-latte\"/" $ZELLIJ_CONFIG_FILE
   case "*"
     exit 1
 end
