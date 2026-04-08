@@ -22,6 +22,7 @@ function abort
 end
 
 function on_exit -p %self
+    tput rmcup 2>/dev/null
     kill $sudo_keepalive_pid 2>/dev/null
     if not contains $argv[3] 0
         echo [(set_color --bold red) FAIL (set_color normal)] "Couldn't setup dotfiles, please open an issue at https://github.com/caarlos0/dotfiles"
@@ -40,20 +41,20 @@ end
 function run_step
     set -l title $argv[1]
     set -l cmd $argv[2..]
-    if type -q gum
-        gum spin --spinner dot --title $title --show-error -- $cmd
-        set -l code $status
-        if test $code -eq 0
-            success $title
-        end
-        return $code
+    tput smcup
+    clear
+    step $title
+    $cmd
+    set -l code $status
+    if test $code -eq 0
+        tput rmcup
+        success $title
     else
-        info $title
-        $cmd
-        set -l code $status
-        test $code -eq 0
-        and success $title
-        return $code
+        echo ""
+        echo "Press any key to exit..."
+        read -n 1
+        tput rmcup
+        exit 1
     end
 end
 
@@ -165,20 +166,22 @@ fish -c "while true; sudo -n true; sleep 60; end" &
 set sudo_keepalive_pid $last_pid
 
 run_step "Installing fisher" fish -c "curl -sL git.io/fisher | source && fisher install jorgebucaran/fisher"
-or abort fisher
 
+tput smcup
+clear
 step Dotfiles
 install_dotfiles
-and success dotfiles
-or abort dotfiles
+tput rmcup
+success dotfiles
 
+tput smcup
+clear
 step "Git config"
 setup_gitconfig
-and success gitconfig
-or abort gitconfig
+tput rmcup
+success gitconfig
 
 run_step "Updating fisher plugins" fish -c "fisher update"
-or abort plugins
 
 mkdir -p ~/.config/fish/completions/
 and success completions
@@ -187,7 +190,6 @@ or abort completions
 for installer in */install.fish
     set component (basename (dirname $installer))
     run_step "Installing $component" fish $installer
-    or abort $installer
 end
 
 if ! grep (command -v fish) /etc/shells
