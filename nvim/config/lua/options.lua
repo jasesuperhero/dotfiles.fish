@@ -1,13 +1,16 @@
 require "nvchad.options"
 
+-- Fold column icons (must come after nvchad.options which resets fillchars)
+vim.opt.fillchars:append {
+  fold = " ",
+  foldopen = "",
+  foldsep = " ",
+  foldclose = "",
+  stl = " ",
+}
+
 local opt = vim.opt
 local o = vim.o
-
--- nvim-ufo requires foldlevel to be high so it can manage folds itself
-o.foldlevel = 99
-o.foldlevelstart = 99
-o.foldenable = true
-o.foldcolumn = "1"
 
 -- Line numbers
 o.relativenumber = true

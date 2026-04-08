@@ -3,6 +3,29 @@ return {
 
   { "nvim-tree/nvim-tree.lua", enabled = false },
 
+  -- ─── Gitsigns ─────────────────────────────────────────────────────────────
+
+  {
+    "lewis6991/gitsigns.nvim",
+    opts = {
+      signs = {
+        add = { text = "▎" },
+        change = { text = "▎" },
+        delete = { text = "▾" },
+        topdelete = { text = "▴" },
+        changedelete = { text = "▎" },
+        untracked = { text = "┆" },
+      },
+      signs_staged = {
+        add = { text = "▎" },
+        change = { text = "▎" },
+        delete = { text = "▾" },
+        topdelete = { text = "▴" },
+        changedelete = { text = "▎" },
+      },
+    },
+  },
+
   {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
@@ -254,8 +277,74 @@ return {
 
   {
     "kevinhwang91/nvim-ufo",
-    event = { "BufReadPre", "BufNewFile" },
-    dependencies = { "kevinhwang91/promise-async" },
+    event = "VimEnter",
+    init = function()
+      vim.o.foldcolumn = "auto"
+      vim.o.foldlevel = 99
+      vim.o.foldlevelstart = 99
+      vim.o.foldnestmax = 0
+      vim.o.foldenable = true
+      vim.o.foldmethod = "indent"
+    end,
+    dependencies = {
+      "kevinhwang91/promise-async",
+      {
+        "luukvbaal/statuscol.nvim",
+        branch = "0.10",
+        opts = function()
+          local builtin = require "statuscol.builtin"
+          return {
+            relculright = true,
+            bt_ignore = { "nofile", "prompt", "terminal", "packer" },
+            ft_ignore = {
+              "NvimTree",
+              "dashboard",
+              "nvcheatsheet",
+              "dapui_watches",
+              "dap-repl",
+              "dapui_console",
+              "dapui_stacks",
+              "dapui_breakpoints",
+              "dapui_scopes",
+              "help",
+              "vim",
+              "alpha",
+              "neo-tree",
+              "Trouble",
+              "noice",
+              "lazy",
+              "toggleterm",
+            },
+            segments = {
+              { text = { " " } },
+              {
+                text = { builtin.foldfunc },
+                click = "v:lua.ScFa",
+                maxwidth = 1,
+                colwidth = 1,
+                auto = false,
+              },
+              { text = { " " } },
+              {
+                sign = { name = { ".*" }, namespace = { ".*" }, maxwidth = 1, colwidth = 1 },
+                auto = true,
+                click = "v:lua.ScSa",
+              },
+              {
+                text = { " ", " ", builtin.lnumfunc, " " },
+                click = "v:lua.ScLa",
+                condition = { true, builtin.not_empty },
+              },
+              {
+                sign = { namespace = { "gitsign.*" }, maxwidth = 1, colwidth = 1, auto = false },
+                click = "v:lua.ScSa",
+              },
+              { text = { " " }, hl = "Normal", condition = { true, builtin.not_empty } },
+            },
+          }
+        end,
+      },
+    },
     opts = function() return require "configs.ufo" end,
     keys = {
       { "zR", function() require("ufo").openAllFolds() end, desc = "Open all folds" },
@@ -496,28 +585,6 @@ return {
         pattern = { "help", "alpha", "dashboard", "NvimTree", "Trouble", "lazy", "mason", "notify" },
         callback = function() vim.b.miniindentscope_disable = true end,
       })
-    end,
-  },
-
-  {
-    "luukvbaal/statuscol.nvim",
-    branch = "0.10",
-    event = { "BufReadPre", "BufNewFile" },
-    config = function()
-      local builtin = require "statuscol.builtin"
-      require("statuscol").setup {
-        relculright = true,
-        segments = {
-          { sign = { namespace = { "diagnostic" }, maxwidth = 2, auto = true }, click = "v:lua.ScSa" },
-          {
-            sign = { namespace = { "gitsigns" }, name = { ".*" }, maxwidth = 2, colwidth = 2, auto = true },
-            click = "v:lua.ScSa",
-          },
-          { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa" },
-          { text = { builtin.foldfunc, " " }, click = "v:lua.ScFa" },
-        },
-        ft_ignore = { "help", "vim", "alpha", "dashboard", "NvimTree", "Trouble", "lazy", "mason" },
-      }
     end,
   },
 
