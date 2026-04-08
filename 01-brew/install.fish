@@ -1,5 +1,9 @@
 #!/usr/bin/env fish
 
+if test (uname) != Darwin
+    exit
+end
+
 # Install homebrew if doesn't exist
 if not command -qa brew
     /bin/bash -c "(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"

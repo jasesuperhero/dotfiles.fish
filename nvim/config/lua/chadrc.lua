@@ -23,6 +23,7 @@ M.ui = {
     enabled = false,
   },
   statusline = {
+    theme = "minimal",
     separator_style = "round",
   },
   telescope = { style = "bordered" },

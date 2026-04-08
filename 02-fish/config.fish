@@ -7,4 +7,4 @@ export PATH="$HOME/.nest/bin:$PATH"
 thefuck --alias | source
 
 # uv
-fish_add_path "/Users/daniel/.local/bin"
+fish_add_path "$HOME/.local/bin"

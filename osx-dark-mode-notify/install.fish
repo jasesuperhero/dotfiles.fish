@@ -1,5 +1,9 @@
 #!/usr/bin/env fish
 
+if test (uname) != Darwin
+    exit
+end
+
 set LAUNCH_AGENT_ID "com.dkalintsev.dark-notify"
 set LAUNCH_AGENT_PLIST "$LAUNCH_AGENT_ID.plist"
 

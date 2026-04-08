@@ -153,9 +153,6 @@ textconv = hexdump -v -C
 [dotfiles]
 managed = true
 
-[credential]
-helper = osxkeychain
-
 [interactive]
     diffFilter = delta --color-only --features "$(test \"$C_THEME\" = \"dark\" && echo dark-mode || echo light-mode)"
 
