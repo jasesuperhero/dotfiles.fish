@@ -1,6 +1,6 @@
 # Daniel's dotfiles
 
-Config files for Fish, Neovim, Zellij, Kitty, Ghostty, and more — macOS only.
+Config files for Fish, Neovim, Zellij, Kitty, Ghostty, and more — macOS and Linux.
 
 ______________________________________________________________________
 
@@ -35,7 +35,7 @@ cd ~/.dotfiles
 
 The bootstrap script will:
 
-1. Install Homebrew (if missing) and run `brew bundle`
+1. **macOS:** Install Homebrew (if missing) and run `brew bundle` — **Linux:** install apt packages and download binaries from GitHub releases
 1. Symlink all config files to their expected locations
 1. Prompt for git `user.name` / `user.email` on a fresh machine
 1. Install [Fisher](https://github.com/jorgebucaran/fisher) and all plugins
@@ -69,7 +69,7 @@ Then manually restore as needed.
 
 ## Recommended software
 
-Everything below is in the `Brewfile` and installed automatically by bootstrap.
+Everything below is installed automatically by bootstrap — via `Brewfile` on macOS, or via apt + GitHub releases on Linux.
 
 | Tool                                                        | Description                                         |
 | ----------------------------------------------------------- | --------------------------------------------------- |
@@ -108,7 +108,7 @@ Log out and back in (or restart) for all changes to take effect.
 
 [Catppuccin](https://github.com/catppuccin/catppuccin) across all tools — **Mocha** in dark mode, **Latte** in light mode.
 
-Theme switches automatically with macOS system appearance via `osx-dark-mode-notify`. To switch manually:
+On macOS, the theme switches automatically with the system appearance via `osx-dark-mode-notify`. To switch manually:
 
 ```sh
 update_theme dark

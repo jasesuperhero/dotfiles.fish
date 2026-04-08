@@ -44,7 +44,7 @@ On the first launch, lazy.nvim will bootstrap itself and install all plugins. On
 
 ## Theme switching
 
-The theme follows the macOS system appearance automatically. It reads `~/.vimrc.color`, which is written by the Fish `theme.fish` script when `C_THEME` changes.
+On macOS, the theme follows the system appearance automatically. It reads `~/.vimrc.color`, which is written by the Fish `theme.fish` script when `C_THEME` changes.
 
 - **Dark** → Catppuccin Mocha
 - **Light** → Catppuccin Latte
@@ -253,10 +253,13 @@ config/
     ├── mappings.lua          # Custom keymaps
     ├── autocmds.lua          # Autocommands
     └── configs/
+        ├── aerial.lua        # Symbol outline config
         ├── conform.lua       # Formatter config
         ├── lazy.lua          # Lazy.nvim settings
         ├── lint.lua          # Linter config
         ├── lspconfig.lua     # LSP server list
+        ├── neotree.lua       # File explorer config
+        ├── ufo.lua           # Fold config
         └── watch_theme.lua   # File watcher for theme switching
     └── plugins/
         └── init.lua          # Plugin definitions
