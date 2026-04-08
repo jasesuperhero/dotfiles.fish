@@ -140,7 +140,7 @@ end
 if not command -qa lazygit
     set lazygit_version (string replace -r '^v' '' (_latest_gh_release jesseduffield/lazygit))
     set arch (string upper (_arch))
-    curl -fsSL "https://github.com/jesseduffield/lazygit/releases/download/v$lazygit_version/lazygit_${lazygit_version}_Linux_$arch.tar.gz" \
+    curl -fsSL "https://github.com/jesseduffield/lazygit/releases/download/v$lazygit_version/lazygit_"$lazygit_version"_Linux_$arch.tar.gz" \
         | tar xz -C ~/.local/bin/ lazygit
 end
 
@@ -149,7 +149,7 @@ end
 if not command -qa lazydocker
     set lazydocker_version (string replace -r '^v' '' (_latest_gh_release jesseduffield/lazydocker))
     set arch (string upper (_arch))
-    curl -fsSL "https://github.com/jesseduffield/lazydocker/releases/download/v$lazydocker_version/lazydocker_${lazydocker_version}_Linux_$arch.tar.gz" \
+    curl -fsSL "https://github.com/jesseduffield/lazydocker/releases/download/v$lazydocker_version/lazydocker_"$lazydocker_version"_Linux_$arch.tar.gz" \
         | tar xz -C ~/.local/bin/ lazydocker
 end
 
@@ -167,9 +167,9 @@ end
 if not command -qa kubectx
     set kubectx_version (_latest_gh_release ahmetb/kubectx)
     set arch (_arch)
-    curl -fsSL "https://github.com/ahmetb/kubectx/releases/download/$kubectx_version/kubectx_${kubectx_version}_linux_$arch.tar.gz" \
+    curl -fsSL "https://github.com/ahmetb/kubectx/releases/download/$kubectx_version/kubectx_"$kubectx_version"_linux_$arch.tar.gz" \
         | tar xz -C ~/.local/bin/ kubectx
-    curl -fsSL "https://github.com/ahmetb/kubectx/releases/download/$kubectx_version/kubens_${kubectx_version}_linux_$arch.tar.gz" \
+    curl -fsSL "https://github.com/ahmetb/kubectx/releases/download/$kubectx_version/kubens_"$kubectx_version"_linux_$arch.tar.gz" \
         | tar xz -C ~/.local/bin/ kubens
 end
 
@@ -187,7 +187,7 @@ end
 if not command -qa shfmt
     set shfmt_version (_latest_gh_release mvdan/sh)
     set arch (_arch)
-    curl -fsSL "https://github.com/mvdan/sh/releases/download/$shfmt_version/shfmt_${shfmt_version}_linux_$arch" \
+    curl -fsSL "https://github.com/mvdan/sh/releases/download/$shfmt_version/shfmt_"$shfmt_version"_linux_$arch" \
         -o ~/.local/bin/shfmt
     chmod +x ~/.local/bin/shfmt
 end

@@ -22,8 +22,38 @@ function abort
 end
 
 function on_exit -p %self
+    kill $sudo_keepalive_pid 2>/dev/null
     if not contains $argv[3] 0
         echo [(set_color --bold red) FAIL (set_color normal)] "Couldn't setup dotfiles, please open an issue at https://github.com/caarlos0/dotfiles"
+    end
+end
+
+function step
+    if type -q gum
+        gum style --foreground 212 --bold " ▸ $argv"
+        echo ""
+    else
+        info $argv
+    end
+end
+
+function run_step
+    set -l title $argv[1]
+    set -l cmd $argv[2..]
+    if type -q gum
+        gum spin --spinner dot --title $title --show-error -- $cmd
+        set -l code $status
+        if test $code -eq 0
+            success $title
+        end
+        return $code
+    else
+        info $title
+        $cmd
+        set -l code $status
+        test $code -eq 0
+        and success $title
+        return $code
     end
 end
 
@@ -124,20 +154,30 @@ function install_dotfiles
     or abort mackup
 end
 
-curl -sL git.io/fisher | source && fisher install jorgebucaran/fisher
-and success fisher
+# Bootstrap gum early for better output on re-runs (fresh installs get it via 01-brew)
+if type -q brew; and not type -q gum
+    brew install gum --quiet
+end
+
+# Cache sudo credentials upfront so cask installs and /etc/shells don't prompt mid-run
+sudo -v
+fish -c "while true; sudo -n true; sleep 60; end" &
+set sudo_keepalive_pid $last_pid
+
+run_step "Installing fisher" fish -c "curl -sL git.io/fisher | source && fisher install jorgebucaran/fisher"
 or abort fisher
 
+step Dotfiles
 install_dotfiles
 and success dotfiles
 or abort dotfiles
 
+step "Git config"
 setup_gitconfig
 and success gitconfig
 or abort gitconfig
 
-fisher update
-and success plugins
+run_step "Updating fisher plugins" fish -c "fisher update"
 or abort plugins
 
 mkdir -p ~/.config/fish/completions/
@@ -145,8 +185,8 @@ and success completions
 or abort completions
 
 for installer in */install.fish
-    $installer
-    and success $installer
+    set component (basename (dirname $installer))
+    run_step "Installing $component" fish $installer
     or abort $installer
 end
 
