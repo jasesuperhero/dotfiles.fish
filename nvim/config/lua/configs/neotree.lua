@@ -103,6 +103,9 @@ return {
   window = {
     position = "float",
     width = 40,
+    popup = {
+      border = { style = "rounded" },
+    },
     mappings = {
       ["<space>"] = false,
       ["[b"] = "prev_source",

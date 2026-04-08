@@ -1,153 +1,118 @@
+# Daniel's dotfiles
 
-<p align="center">
-  <img alt="header image" src="https://raw.githubusercontent.com/caarlos0/dotfiles.fish/master/docs/header.svg" height="350" />
-  <h2 align="center">Daniels' dotfiles</h2>
-  <p align="center">Config files for Fish, Java, Ruby, Go, Editors, Terminals and more.</p>
-</p>
+Config files for Fish, Neovim, Zellij, Kitty, Ghostty, and more — macOS only.
 
----
+______________________________________________________________________
 
 <!--toc:start-->
+
 - [Installation](#installation)
   - [Dependencies](#dependencies)
   - [Install](#install)
-    - [Update](#update)
+  - [Update](#update)
 - [Revert](#revert)
-- [Recommended Software](#recommended-software)
+- [Recommended software](#recommended-software)
 - [macOS defaults](#macos-defaults)
-- [Themes and fonts being used](#themes-and-fonts-being-used)
-- [Screenshots](#screenshots)
+- [Theme](#theme)
+
 <!--toc:end-->
-
-Forked from my [ZSH dotfiles](https://github.com/caarlos0/dotfiles), those are
-my Fish Shell config files, together with editor, macOS configs and other
-goodies.
-
-The main reasons for the fork are:
-
-- a lot of things I have out of the box on Fish needed plugins on zsh
-- Fish autocompletion is awesome
-- Fish syntax is easier to use
-- Fish is more modern.
-
-This is an attempt to make the same things I had on my ZSH dotfiles on Fish.
-For the user, it should look pretty much the same, although under the hood
-there are a lot of changes.
-
-Config files are still topical, and even though aliases are not a thing on Fish,
-files are named like that still (and hold both functions and abbreviations).
-
-The auto-update feature was removed, as it was hacky on ZSH and I didn't want to
-do it. Instead, now the bootstrap script is better and can be run multiple times
-without any issues, so, to update, `git pull` and run the `bootstrap.fish`
-script.
 
 ## Installation
 
 ### Dependencies
 
-First, make sure you have all those things installed:
-
-- `git`: to clone the repo
-- `curl`: to download some stuff
-- `tar`: to extract downloaded stuff
-- `fish`: the shell
-- `sudo`: some configs may need that
+- `git`
+- `curl`
+- `fish` — install via `brew install fish` or from [fishshell.com](https://fishshell.com)
 
 ### Install
 
-Then, run these steps:
-
-```console
-$ git clone https://github.com/caarlos0/dotfiles.fish.git ~/.dotfiles
-$ cd ~/.dotfiles
-$ ./script/bootstrap.fish
+```sh
+git clone https://github.com/jasesuperhero/dotfiles.fish.git ~/.dotfiles
+cd ~/.dotfiles
+./script/bootstrap.fish
 ```
 
-> All changed files will be backed up with a `.backup` suffix.
+The bootstrap script will:
 
-#### Update
+1. Install Homebrew (if missing) and run `brew bundle`
+1. Symlink all config files to their expected locations
+1. Prompt for git `user.name` / `user.email` on a fresh machine
+1. Install [Fisher](https://github.com/jorgebucaran/fisher) and all plugins
+1. Set Fish as the default shell
 
-To update, you just need to `git pull` and run the bootstrap script again:
+> Existing files are backed up with a `.backup` suffix before being replaced.
 
-```console
-$ cd ~/.dotfiles
-$ git pull origin master
-$ ./script/bootstrap.fish
+### Update
+
+```sh
+cd ~/.dotfiles
+git pull origin master
+./script/bootstrap.fish
 ```
 
 ## Revert
 
-Reverting is not totally automated, but it pretty much consists in removing
-the fish config and dotfiles folder, as well as moving back some config files.
+Remove the dotfiles and Fish config:
 
-**Remove the folders:**
-
-```console
-$ rm -rf ~/.dotfiles ~/.config/fish
+```sh
+rm -rf ~/.dotfiles ~/.config/fish
 ```
 
-**Some config files were changed, you can find them using `fd`:**
+Find any backed-up originals with:
 
-```console
-$ fd -e backup -e local -H -E Library -d 3 .
+```sh
+fd -e backup -H -E Library -d 3 .
 ```
 
-And then manually inspect/revert them.
+Then manually restore as needed.
 
-## Recommended Software
+## Recommended software
 
-For macOS, I recommend:
+Everything below is in the `Brewfile` and installed automatically by bootstrap.
 
-- iTerm: a better terminal emulator;
+| Tool                                                        | Description                                         |
+| ----------------------------------------------------------- | --------------------------------------------------- |
+| [`bat`](https://github.com/sharkdp/bat)                     | `cat` with syntax highlighting                      |
+| [`delta`](https://github.com/dandavison/delta)              | Better git diffs                                    |
+| [`dust`](https://github.com/bootandy/dust)                  | Intuitive `du` replacement                          |
+| [`eza`](https://github.com/eza-community/eza)               | Modern `ls` replacement                             |
+| [`fd`](https://github.com/sharkdp/fd)                       | Fast, user-friendly `find`                          |
+| [`fzf`](https://github.com/junegunn/fzf)                    | Fuzzy finder                                        |
+| [`gh`](https://github.com/cli/cli)                          | GitHub CLI                                          |
+| [`k9s`](https://k9scli.io)                                  | Kubernetes TUI                                      |
+| [`kubectx`](https://github.com/ahmetb/kubectx)              | Fast Kubernetes context/namespace switching         |
+| [`lazydocker`](https://github.com/jesseduffield/lazydocker) | Docker TUI                                          |
+| [`lazygit`](https://github.com/jesseduffield/lazygit)       | Git TUI                                             |
+| [`mise`](https://mise.jdx.dev)                              | Runtime version manager (Node, Python, Ruby, Go, …) |
+| [`neovim`](https://neovim.io)                               | Editor — see [nvim/README.md](nvim/README.md)       |
+| [`ripgrep`](https://github.com/BurntSushi/ripgrep)          | Fast `grep`                                         |
+| [`starship`](https://starship.rs)                           | Cross-shell prompt                                  |
+| [`zellij`](https://zellij.dev)                              | Terminal multiplexer                                |
 
-For both Linux and macOS:
+**Terminals:** [Kitty](https://sw.kovidgoyal.net/kitty) and [Ghostty](https://ghostty.org)
 
-- [`bat`](https://github.com/sharkdp/bat) a `cat` with wings;
-- [`delta`](https://github.com/dandavison/delta) for better git diffs;
-- [`dog`](https://dns.lookup.dog) the command-line DNS client;
-- [`exa`](https://the.exa.website) a modern replacement for `ls`;
-- [`fd`](https://github.com/sharkdp/fd) a simple, fast and user-friendly alternative to `find`;
-- [`fzf`](https://github.com/junegunn/fzf) for a fuzzy-finder, used in `,t` on vim, for example;
-- [`gh`](https://github.com/cli/cli) for more GitHub integration with the terminal;
-- [`grc`](https://github.com/garabik/grc) to colorize command's outputs;
-- [`starship.rs`](https://starship.rs) the shell we are using;
-- [`kubectx`](https://github.com/ahmetb/kubectx) for better Kubernetes context and namespace switch;
-- [`ripgrep`](https://github.com/BurntSushi/ripgrep) a faster `grep`;
+**macOS apps (via cask):** Alfred, Bartender, Docker, Fork, IINA, Kap, Karabiner-Elements, Obsidian, Postman, Stats, and more.
 
-To install them all with `brew`:
-
-```console
-$ brew install fish bat git-delta dog exa fd fzf gh grc kubectx ripgrep starship
-```
-
-On Ubuntu:
-
-```console
-sh -c "$(curl -fsSL https://starship.rs/install.sh)"
-sudo apt install fish grc fzf
-```
+**Mac App Store:** Magnet, Spark, Things, Next Meeting, Noizio.
 
 ## macOS defaults
 
-You use it by running:
-
-```console
+```sh
 ~/.dotfiles/macos/set-defaults.sh
 ```
 
-And logging out and in again or restart.
+Log out and back in (or restart) for all changes to take effect.
 
-## Themes and fonts being used
+## Theme
 
-Theme is **[Dracula](https://draculatheme.com)** and font is **Inconsolata**
-Nerd Font.
+[Catppuccin](https://github.com/catppuccin/catppuccin) across all tools — **Mocha** in dark mode, **Latte** in light mode.
 
-## Screenshots
+Theme switches automatically with macOS system appearance via `osx-dark-mode-notify`. To switch manually:
 
-![screenshot 1][scrn1]
+```sh
+update_theme dark
+update_theme light
+```
 
-![screenshot 2][scrn2]
-
-[scrn1]: /docs/screenshot1.png
-[scrn2]: /docs/screenshot2.png
+**Font:** [JetBrainsMono Nerd Font](https://www.nerdfonts.com), 16 pt.

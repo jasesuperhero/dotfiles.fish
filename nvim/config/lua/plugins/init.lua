@@ -62,6 +62,7 @@ return {
   {
     "folke/which-key.nvim",
     opts = {
+      win = { border = "rounded" },
       spec = {
         -- leader prefix groups
         { "<leader>b", group = "buffers", icon = { icon = "󰈔", color = "cyan" } },
@@ -115,6 +116,11 @@ return {
   },
 
   {
+    "williamboman/mason.nvim",
+    opts = { ui = { border = "rounded" } },
+  },
+
+  {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     event = "VeryLazy",
     dependencies = { "williamboman/mason.nvim" },
@@ -152,6 +158,12 @@ return {
 
   {
     "nvim-telescope/telescope.nvim",
+    opts = function(_, opts)
+      opts.defaults = vim.tbl_deep_extend("force", opts.defaults or {}, {
+        borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+      })
+      return opts
+    end,
     keys = {
       { "<leader>,", "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>", desc = "Switch Buffer" },
       { "<leader>:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
@@ -373,7 +385,9 @@ return {
   {
     "folke/trouble.nvim",
     cmd = { "Trouble" },
-    opts = {},
+    opts = {
+      win = { border = "rounded" },
+    },
     keys = {
       { "<leader>xx", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Document Diagnostics" },
       { "<leader>xX", "<cmd>Trouble diagnostics toggle<cr>", desc = "Workspace Diagnostics" },
@@ -443,6 +457,10 @@ return {
   {
     "stevearc/dressing.nvim",
     lazy = true,
+    opts = {
+      input = { border = "rounded" },
+      select = { builtin = { border = "rounded" } },
+    },
     init = function()
       ---@diagnostic disable-next-line: duplicate-set-field
       vim.ui.select = function(...)
@@ -463,6 +481,7 @@ return {
     opts = {
       render = "compact",
       stages = "slide",
+      border = "rounded",
       timeout = 3000,
       max_height = function() return math.floor(vim.o.lines * 0.75) end,
       max_width = function() return math.floor(vim.o.columns * 0.75) end,
@@ -620,7 +639,7 @@ return {
       text_align = "left",
       placement = "top",
       show_sign = true,
-      show_borders = false,
+      show_borders = true,
       render_event = { "DiagnosticChanged", "CursorMoved" },
     },
   },
@@ -633,7 +652,12 @@ return {
       "hrsh7th/cmp-cmdline",
     },
     opts = function(_, opts)
+      local cmp = require "cmp"
       local lspkind = require "lspkind"
+      opts.window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
+      }
       opts.formatting = {
         format = lspkind.cmp_format {
           mode = "symbol_text",

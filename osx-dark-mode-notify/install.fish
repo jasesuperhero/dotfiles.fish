@@ -25,7 +25,7 @@ echo -n "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
         <string>$HOME/.dotfiles/osx-dark-mode-notify/dark_mode_listener.fish</string>
     </array>
 </dict>
-</plist>" > $DOTFILES/osx-dark-mode-notify/$LAUNCH_AGENT_PLIST
+</plist>" >$DOTFILES/osx-dark-mode-notify/$LAUNCH_AGENT_PLIST
 
 mkdir -p $HOME/Library/LaunchAgents
 

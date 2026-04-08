@@ -43,3 +43,13 @@ o.swapfile = false
 -- Persistent undo
 o.undolevels = 1000
 o.undoreload = 10000
+
+-- Rounded borders for LSP floating windows
+local function with_border(handler)
+  return function(err, result, ctx, config)
+    return handler(err, result, ctx, vim.tbl_extend("force", config or {}, { border = "rounded" }))
+  end
+end
+vim.lsp.handlers["textDocument/hover"] = with_border(vim.lsp.handlers["textDocument/hover"])
+vim.lsp.handlers["textDocument/signatureHelp"] = with_border(vim.lsp.handlers["textDocument/signatureHelp"])
+vim.diagnostic.config { float = { border = "rounded" } }

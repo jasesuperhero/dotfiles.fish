@@ -118,6 +118,8 @@ function install_dotfiles
 
     link_file $DOTFILES_ROOT/wezterm/config $HOME/.config/wezterm backup
     or abort wezterm
+    link_file $DOTFILES_ROOT/ghostty/config $HOME/.config/ghostty backup
+    or abort ghostty
     link_file $DOTFILES_ROOT/mackup/config $HOME/.mackup backup
     or abort mackup
 end

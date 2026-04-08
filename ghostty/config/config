@@ -1,0 +1,53 @@
+# fonts
+font-family = JetBrainsMono NF
+font-size = 16
+
+# Use Symbols Nerd Font Mono for Nerd Font glyph ranges (single-cell width)
+font-codepoint-map = U+E000-U+E00A=Symbols Nerd Font Mono
+font-codepoint-map = U+E0A0-U+E0C8,U+E0CA,U+E0CC-U+E0D7=Symbols Nerd Font Mono
+font-codepoint-map = U+E200-U+E2A9,U+E300-U+E3E3=Symbols Nerd Font Mono
+font-codepoint-map = U+E5FA-U+E6B7,U+E700-U+E8EF=Symbols Nerd Font Mono
+font-codepoint-map = U+EA60-U+EBEB=Symbols Nerd Font Mono
+font-codepoint-map = U+ED00-U+EFC1=Symbols Nerd Font Mono
+font-codepoint-map = U+F000-U+F2FF,U+F300-U+F381,U+F400-U+F533=Symbols Nerd Font Mono
+font-codepoint-map = U+F0001-U+F1AF0=Symbols Nerd Font Mono
+
+# Font metric adjustments
+adjust-cell-height = 5%
+adjust-underline-position = 2
+adjust-underline-thickness = 2
+
+# Disable ligatures (note: kitty can disable per-cursor, ghostty is global-only)
+font-feature = -calt
+
+# cursor
+cursor-style = block
+cursor-style-blink = false
+
+# window
+window-width = 1200
+window-height = 720
+window-padding-x = 2
+window-padding-y = 2
+window-decoration = none
+confirm-close-surface = false
+window-save-state = never
+
+# scrollback
+scrollback-limit = 10000
+
+# URLs
+link-url = true
+
+# macOS
+macos-option-as-alt = left
+quit-after-last-window-closed = true
+
+# keybindings
+keybind = cmd+n=new_window
+
+# shell — launch fish and auto-start zellij if not already inside it
+command = /opt/homebrew/bin/fish --login --interactive -c "if not set -q ZELLIJ; zellij; end"
+
+# theme — auto-switches with macOS light/dark mode
+theme = dark:Catppuccin Mocha,light:Catppuccin Latte

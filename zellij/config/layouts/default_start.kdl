@@ -1,9 +1,87 @@
 layout {
     default_tab_template {
         children
-        // the default zellij tab-bar and status bar plugins
         pane size=1 borderless=true {
-            plugin location="zellij:tab-bar"
+            plugin location="zjstatus" {
+                // Catppuccin Latte
+                color_rosewater "#dc8a78"
+                color_flamingo  "#dd7878"
+                color_pink      "#ea76cb"
+                color_mauve     "#8839ef"
+                color_red       "#d20f39"
+                color_maroon    "#e64553"
+                color_peach     "#fe640b"
+                color_yellow    "#df8e1d"
+                color_green     "#40a02b"
+                color_teal      "#179299"
+                color_sky       "#04a5e5"
+                color_sapphire  "#209fb5"
+                color_blue      "#1e66f5"
+                color_lavender  "#7287fd"
+                color_text      "#4c4f69"
+                color_subtext1  "#5c5f77"
+                color_subtext0  "#6c6f85"
+                color_overlay2  "#7c7f93"
+                color_overlay1  "#8c8fa1"
+                color_overlay0  "#9ca0b0"
+                color_surface2  "#acb0be"
+                color_surface1  "#bcc0cc"
+                color_surface0  "#ccd0da"
+                color_base      "#eff1f5"
+                color_mantle    "#e6e9ef"
+                color_crust     "#dce0e8"
+
+                format_left   " {mode} {tabs}"
+                format_center ""
+
+                format_right  "{pipe_zjstatus_hints}#[bg=none,fg=$mauve]#[bg=$mauve,fg=$base,bold] {session} #[bg=none,fg=$mauve]"
+                format_space  "#[bg=none]"
+                pipe_zjstatus_hints_format "#[bg=#mauve,fg=$base,bold] {output} "
+
+                border_enabled  "false"
+                border_char     "─"
+                border_format   "#[bg=none,fg=$surface2]{char}"
+                border_position "top"
+
+                hide_frame_for_single_pane "false"
+
+                mode_locked      "#[bg=none,fg=$red]#[bg=$red,fg=$base,bold] LOCKED #[bg=none,fg=$red]"
+                mode_normal      "#[bg=none,fg=$green]#[bg=$green,fg=$base,bold] NORMAL #[bg=none,fg=$green]"
+                mode_resize      "#[bg=none,fg=$yellow]#[bg=$yellow,fg=$base,bold] RESIZE #[bg=none,fg=$yellow]"
+                mode_pane        "#[bg=none,fg=$teal]#[bg=$teal,fg=$base,bold] PANE #[bg=none,fg=$teal]"
+                mode_move        "#[bg=none,fg=$yellow]#[bg=$yellow,fg=$base,bold] MOVE #[bg=none,fg=$yellow]"
+                mode_tab         "#[bg=none,fg=$teal]#[bg=$teal,fg=$base,bold] TAB #[bg=none,fg=$teal]"
+                mode_scroll      "#[bg=none,fg=$flamingo]#[bg=$flamingo,fg=$base,bold] SCROLL #[bg=none,fg=$flamingo]"
+                mode_search      "#[bg=none,fg=$flamingo]#[bg=$flamingo,fg=$base,bold] SEARCH #[bg=none,fg=$flamingo]"
+                mode_entersearch "#[bg=none,fg=$flamingo]#[bg=$flamingo,fg=$base,bold] ENTER SEARCH #[bg=none,fg=$flamingo]"
+                mode_renametab   "#[bg=none,fg=$yellow]#[bg=$yellow,fg=$base,bold] RENAME TAB #[bg=none,fg=$yellow]"
+                mode_renamepane  "#[bg=none,fg=$yellow]#[bg=$yellow,fg=$base,bold] RENAME PANE #[bg=none,fg=$yellow]"
+                mode_session     "#[bg=none,fg=$pink]#[bg=$pink,fg=$base,bold] SESSION #[bg=none,fg=$pink]"
+                mode_tmux        "#[bg=none,fg=$mauve]#[bg=$mauve,fg=$base,bold] TMUX #[bg=none,fg=$mauve]"
+
+                tab_active              "#[bg=none,fg=$mauve]#[bg=$mauve,fg=$base,bold]{index} #[bg=$surface1,fg=$mauve,bold] {name} {floating_indicator}#[bg=none,fg=$surface1]"
+                tab_active_fullscreen   "#[bg=none,fg=$mauve]#[bg=$mauve,fg=$base,bold]{index} #[bg=$surface1,fg=$mauve,bold] {fullscreen_indicator} {name}#[bg=none,fg=$surface1]"
+                tab_active_sync         "#[bg=none,fg=$mauve]#[bg=$mauve,fg=$base,bold]{index} #[bg=$surface1,fg=$mauve,bold] {sync_indicator} {name}#[bg=none,fg=$surface1]"
+
+                tab_normal              "#[bg=none,fg=$blue]#[bg=$blue,fg=$base,bold]{index} #[bg=$surface1,fg=$blue,bold] {name} {floating_indicator}#[bg=none,fg=$surface1]"
+                tab_normal_fullscreen   "#[bg=none,fg=$blue]#[bg=$blue,fg=$base,bold]{index} #[bg=$surface1,fg=$blue,bold] {fullscreen_indicator} {name}#[bg=none,fg=$surface1]"
+                tab_normal_sync         "#[bg=none,fg=$blue]#[bg=$blue,fg=$base,bold]{index} #[bg=$surface1,fg=$blue,bold] {sync_indicator} {name}#[bg=none,fg=$surface1]"
+
+                tab_separator " "
+
+                tab_sync_indicator ""
+                tab_fullscreen_indicator "󰊓"
+                tab_floating_indicator "󰹙"
+
+                tab_rename              "#[bg=none,fg=$peach]#[bg=$peach,fg=$base,bold]{index} #[bg=$surface1,fg=$peach,bold] {name}{floating_indicator}#[bg=none,fg=$surface1]"
+
+                tab_display_count         "9"
+                tab_truncate_start_format "#[bg=none,fg=$yellow]  +{count}  "
+                tab_truncate_end_format   "#[bg=none,fg=$yellow]   +{count} "
+
+                datetime        "#[bg=none,fg=$subtext0,bold] {format} "
+                datetime_format "%H:%M:%S"
+            }
         }
     }
 

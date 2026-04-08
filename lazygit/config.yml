@@ -5,7 +5,7 @@ gui:
   scrollHeight: 2
   scrollPastBottom: true
   mouseEvents: true
-  skipUnstageLineWarning: false
+  skipDiscardChangeWarning: false
   skipStashWarning: true
   showIcons: true
   sidePanelWidth: 0.3333
@@ -14,8 +14,8 @@ gui:
 services:
   "github-work": "github:github.com"
 git:
-  paging:
-    useExternalDiffGitConfig: true
+  pagers:
+    - useExternalDiffGitConfig: true
   merging:
     manualCommit: false
     args: ""
@@ -64,7 +64,7 @@ keybinding:
     scrollDownMain-alt1: "J"
     scrollUpMain-alt2: "<c-u>"
     scrollDownMain-alt2: "<c-d>"
-    executeCustomCommand: ":"
+    executeShellCommand: ":"
     createRebaseOptionsMenu: "m"
     pushFiles: "P"
     pullFiles: "p"

@@ -24,6 +24,7 @@ local function fold_virt_text_handler(virtText, lnum, endLnum, width, truncate)
 end
 
 return {
+  close_fold_kinds_for_ft = { default = { "imports" } },
   fold_virt_text_handler = fold_virt_text_handler,
   preview = {
     win_config = {
