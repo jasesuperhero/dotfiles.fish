@@ -46,6 +46,11 @@ function apply_theme --on-variable C_THEME --description "Apply light/dark theme
         _debug "waiting for: $pids"
         wait $pids
         _debug "all themes finished"
+
+        # Re-apply env vars that may be shadowed by globals set during shell init.
+        # Fish global vars (set by plugin conf.d files) take precedence over universal vars,
+        # so updating the universal doesn't propagate to the current session without this.
+        set -gx FZF_DEFAULT_OPTS $FZF_DEFAULT_OPTS
     else
         _debug "no theme scripts found"
     end

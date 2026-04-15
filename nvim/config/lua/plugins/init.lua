@@ -79,6 +79,8 @@ return {
         { "<leader>u", group = "ui", icon = { icon = "󰙵", color = "cyan" } },
         { "<leader>w", group = "windows", icon = { icon = "", color = "blue" } },
         { "<leader>x", group = "diagnostics/quickfix", icon = { icon = "", color = "red" } },
+        { "<leader>a", group = "ai", icon = { icon = "󰚩", color = "cyan" } },
+        { "<leader>o", group = "obsidian", icon = { icon = "󱓼", color = "purple" } },
         -- motion prefix groups
         { "g", group = "goto", icon = { icon = "", color = "blue" } },
         { "gs", group = "surround", icon = { icon = "󰅲", color = "orange" } },
@@ -93,8 +95,16 @@ return {
 
   {
     "stevearc/conform.nvim",
-    -- event = 'BufWritePre', -- uncomment for format on save
+    event = { "BufWritePre" },
     opts = require "configs.conform",
+    keys = {
+      {
+        "<leader>cf",
+        function() require("conform").format { async = true, lsp_fallback = true } end,
+        mode = { "n", "v" },
+        desc = "Format",
+      },
+    },
   },
 
   {
@@ -504,6 +514,12 @@ return {
     "mrjones2014/smart-splits.nvim",
     lazy = true,
     keys = {
+      -- navigate between neovim splits and zellij panes seamlessly
+      { "<A-h>", function() require("smart-splits").move_cursor_left() end, desc = "Move to left split" },
+      { "<A-j>", function() require("smart-splits").move_cursor_down() end, desc = "Move to below split" },
+      { "<A-k>", function() require("smart-splits").move_cursor_up() end, desc = "Move to above split" },
+      { "<A-l>", function() require("smart-splits").move_cursor_right() end, desc = "Move to right split" },
+      -- resize splits
       { "<Up>", function() require("smart-splits").resize_up(2) end, desc = "Resize split up" },
       { "<Down>", function() require("smart-splits").resize_down(2) end, desc = "Resize split down" },
       { "<Left>", function() require("smart-splits").resize_left(2) end, desc = "Resize split left" },
@@ -686,6 +702,48 @@ return {
     "b0o/SchemaStore.nvim",
     lazy = true,
     version = false,
+  },
+
+  -- ─── Obsidian ─────────────────────────────────────────────────────────────
+
+  {
+    "epwalsh/obsidian.nvim",
+    version = "*",
+    lazy = true,
+    ft = "markdown",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = require "configs.obsidian",
+    keys = {
+      { "<leader>on", "<cmd>ObsidianNew<cr>", desc = "New Note" },
+      { "<leader>oo", "<cmd>ObsidianQuickSwitch<cr>", desc = "Open Note" },
+      { "<leader>od", "<cmd>ObsidianToday<cr>", desc = "Daily Note" },
+      { "<leader>ob", "<cmd>ObsidianBacklinks<cr>", desc = "Backlinks" },
+      { "<leader>os", "<cmd>ObsidianSearch<cr>", desc = "Search Notes" },
+      { "<leader>ot", "<cmd>ObsidianTags<cr>", desc = "Tags" },
+      { "<leader>ol", "<cmd>ObsidianLinks<cr>", desc = "Links" },
+      { "<leader>of", "<cmd>ObsidianFollowLink<cr>", desc = "Follow Link" },
+      { "<leader>ow", "<cmd>ObsidianWorkspace<cr>", desc = "Workspace" },
+      { "<leader>or", "<cmd>ObsidianRename<cr>", desc = "Rename Note" },
+      { "<leader>oz", "<cmd>ObsidianTemplate<cr>", desc = "Insert Template" },
+    },
+  },
+
+  -- ─── Claude Code ──────────────────────────────────────────────────────────
+
+  {
+    "greggh/claude-code.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    cmd = { "ClaudeCode", "ClaudeCodeContinue" },
+    opts = {
+      window = {
+        split_ratio = 0.4,
+        position = "vertical",
+      },
+    },
+    keys = {
+      { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Claude Code" },
+      { "<leader>ar", "<cmd>ClaudeCodeContinue<cr>", desc = "Resume Chat" },
+    },
   },
 
   -- ─── Language ─────────────────────────────────────────────────────────────

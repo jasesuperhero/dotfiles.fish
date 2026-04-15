@@ -34,7 +34,8 @@ layout {
                 format_left   " {mode} {tabs}"
                 format_center ""
 
-                format_right  "{pipe_zjstatus_hints}#[bg=none,fg=$mauve]#[bg=$mauve,fg=$base,bold] {session} #[bg=none,fg=$mauve]"
+                // format_right  "{pipe_zjstatus_hints}#[bg=none,fg=$mauve]#[bg=$mauve,fg=$base,bold] {session} #[bg=none,fg=$mauve]"
+                format_right  "{command_cpu}#[bg=$surface0] {command_ram}#[bg=$surface0] {command_host}#[bg=$surface0] {datetime} #[bg=none,fg=$mauve]#[bg=$mauve,fg=$base,bold] {session} #[bg=none,fg=$mauve]"
                 format_space  "#[bg=none]"
                 pipe_zjstatus_hints_format "#[bg=#mauve,fg=$base,bold] {output} "
 
@@ -67,7 +68,7 @@ layout {
                 tab_normal_fullscreen   "#[bg=none,fg=$blue]#[bg=$blue,fg=$base,bold]{index} #[bg=$surface1,fg=$blue,bold] {fullscreen_indicator} {name}#[bg=none,fg=$surface1]"
                 tab_normal_sync         "#[bg=none,fg=$blue]#[bg=$blue,fg=$base,bold]{index} #[bg=$surface1,fg=$blue,bold] {sync_indicator} {name}#[bg=none,fg=$surface1]"
 
-                tab_separator " "
+                tab_separator "#[bg=none] "
 
                 tab_sync_indicator ""
                 tab_fullscreen_indicator "󰊓"
@@ -76,11 +77,26 @@ layout {
                 tab_rename              "#[bg=none,fg=$peach]#[bg=$peach,fg=$base,bold]{index} #[bg=$surface1,fg=$peach,bold] {name}{floating_indicator}#[bg=none,fg=$surface1]"
 
                 tab_display_count         "9"
-                tab_truncate_start_format "#[bg=none,fg=$yellow]  +{count}  "
-                tab_truncate_end_format   "#[bg=none,fg=$yellow]   +{count} "
+                tab_truncate_start_format "#[bg=$surface0,fg=$yellow]  +{count}  "
+                tab_truncate_end_format   "#[bg=$surface0,fg=$yellow]   +{count} "
 
-                datetime        "#[bg=none,fg=$subtext0,bold] {format} "
-                datetime_format "%H:%M:%S"
+                datetime        "#[bg=$surface0,fg=$sky]#[bg=$sky,fg=$base,bold] {format}#[bg=none,fg=$sky]"
+                datetime_format "%H:%M"
+
+                command_cpu_command     "ZJSTATUS_SCRIPTS_DIR/cpu.sh"
+                command_cpu_format      "#[bg=none,fg=$peach]#[bg=$peach,fg=$base,bold] {stdout}#[bg=$surface0,fg=$peach]"
+                command_cpu_interval    "10"
+                command_cpu_rendermode  "static"
+
+                command_ram_command     "ZJSTATUS_SCRIPTS_DIR/ram.sh"
+                command_ram_format      "#[bg=$surface0,fg=$blue]#[bg=$blue,fg=$base,bold] {stdout}#[bg=$surface0,fg=$blue]"
+                command_ram_interval    "30"
+                command_ram_rendermode  "static"
+
+                command_host_command    "hostname -s"
+                command_host_format     "#[bg=$surface0,fg=$teal]#[bg=$teal,fg=$base,bold]󰩠 {stdout}#[bg=$surface0,fg=$teal]"
+                command_host_interval   "3600"
+                command_host_rendermode "static"
             }
         }
     }
