@@ -146,6 +146,8 @@ function install_dotfiles
     or abort gitui
     link_file $DOTFILES_ROOT/k9s/config $HOME/.config/k9s backup
     or abort k9s
+    link_file $DOTFILES_ROOT/gh-dash/config $HOME/.config/gh-dash backup
+    or abort gh-dash
 
     link_file $DOTFILES_ROOT/wezterm/config $HOME/.config/wezterm backup
     or abort wezterm

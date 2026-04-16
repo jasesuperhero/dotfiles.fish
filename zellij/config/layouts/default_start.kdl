@@ -82,6 +82,7 @@ layout {
 
                 datetime        "#[bg=$surface0,fg=$sky]#[bg=$sky,fg=$base,bold] {format}#[bg=none,fg=$sky]"
                 datetime_format "%H:%M"
+                datetime_timezone "Europe/London"
 
                 command_cpu_command     "ZJSTATUS_SCRIPTS_DIR/cpu.sh"
                 command_cpu_format      "#[bg=none,fg=$peach]#[bg=$peach,fg=$base,bold] {stdout}#[bg=$surface0,fg=$peach]"
