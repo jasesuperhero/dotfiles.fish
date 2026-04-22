@@ -26,6 +26,68 @@ return {
     },
   },
 
+  -- ─── Git UI ───────────────────────────────────────────────────────────────
+
+  {
+    "sindrets/diffview.nvim",
+    cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles", "DiffviewFileHistory" },
+    opts = {},
+    keys = {
+      { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = " Diff View" },
+      { "<leader>gD", "<cmd>DiffviewFileHistory %<cr>", desc = " File History" },
+    },
+  },
+
+  {
+    "NeogitOrg/neogit",
+    cmd = "Neogit",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "sindrets/diffview.nvim",
+    },
+    opts = {
+      graph_style = "unicode",
+      integrations = {
+        diffview = true,
+        telescope = true,
+      },
+      commit_editor = {
+        kind = "tab",
+        show_staged_diff = true,
+        staged_diff_split_kind = "split",
+      },
+    },
+    keys = {
+      { "<leader>gg", "<cmd>Neogit<cr>", desc = " Neogit" },
+    },
+  },
+
+  {
+    "pwntester/octo.nvim",
+    cmd = "Octo",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+    opts = {
+      picker = "telescope",
+      enable_builtin = true,
+      default_merge_method = "squash",
+      reviews = {
+        auto_show_threads = true,
+        focus = "right",
+      },
+    },
+    keys = {
+      { "<leader>ghi", "<cmd>Octo issue list<cr>", desc = " Issues" },
+      { "<leader>ghI", "<cmd>Octo issue create<cr>", desc = " New Issue" },
+      { "<leader>ghp", "<cmd>Octo pr list<cr>", desc = " Pull Requests" },
+      { "<leader>ghP", "<cmd>Octo pr create<cr>", desc = " New PR" },
+      { "<leader>ghs", "<cmd>Octo search<cr>", desc = " Search" },
+      { "<leader>ghr", "<cmd>Octo repo list<cr>", desc = " Repos" },
+    },
+  },
+
   {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
@@ -41,18 +103,18 @@ return {
     deactivate = function() vim.cmd "Neotree close" end,
     opts = require "configs.neotree",
     keys = {
-      { "<C-n>", "<cmd>Neotree toggle<cr>", desc = "Toggle NeoTree" },
-      { "<leader>e", "<cmd>Neotree focus<cr>", desc = "Focus NeoTree" },
-      { "<leader>fe", "<cmd>Neotree toggle<cr>", desc = "Explorer (cwd)" },
+      { "<C-n>", "<cmd>Neotree toggle<cr>", desc = "󰙅 Toggle NeoTree" },
+      { "<leader>e", "<cmd>Neotree focus<cr>", desc = "󰙅 Focus NeoTree" },
+      { "<leader>fe", "<cmd>Neotree toggle<cr>", desc = " Explorer (cwd)" },
       {
         "<leader>ge",
         function() require("neo-tree.command").execute { source = "git_status", toggle = true } end,
-        desc = "Git Explorer",
+        desc = " Git Explorer",
       },
       {
         "<leader>be",
         function() require("neo-tree.command").execute { source = "buffers", toggle = true } end,
-        desc = "Buffer Explorer",
+        desc = "󰈔 Buffer Explorer",
       },
     },
   },
@@ -64,12 +126,12 @@ return {
     opts = {
       win = { border = "rounded" },
       spec = {
-        -- leader prefix groups
         { "<leader>b", group = "buffers", icon = { icon = "󰈔", color = "cyan" } },
         { "<leader>c", group = "code", icon = { icon = "", color = "orange" } },
         { "<leader>d", group = "diagnostics", icon = { icon = "", color = "red" } },
         { "<leader>f", group = "find/file", icon = { icon = "", color = "yellow" } },
         { "<leader>g", group = "git", icon = { icon = "", color = "green" } },
+        { "<leader>gh", group = "github", icon = { icon = "", color = "blue" } },
         { "<leader>m", group = "marks", icon = { icon = "", color = "cyan" } },
         { "<leader>p", group = "pick", icon = { icon = "", color = "purple" } },
         { "<leader>q", group = "quit/session", icon = { icon = "", color = "red" } },
@@ -81,7 +143,6 @@ return {
         { "<leader>x", group = "diagnostics/quickfix", icon = { icon = "", color = "red" } },
         { "<leader>a", group = "ai", icon = { icon = "󰚩", color = "cyan" } },
         { "<leader>o", group = "obsidian", icon = { icon = "󱓼", color = "purple" } },
-        -- motion prefix groups
         { "g", group = "goto", icon = { icon = "", color = "blue" } },
         { "gs", group = "surround", icon = { icon = "󰅲", color = "orange" } },
         { "z", group = "fold", icon = { icon = "", color = "yellow" } },
@@ -102,7 +163,7 @@ return {
         "<leader>cf",
         function() require("conform").format { async = true, lsp_fallback = true } end,
         mode = { "n", "v" },
-        desc = "Format",
+        desc = " Format",
       },
     },
   },
@@ -164,53 +225,65 @@ return {
     },
   },
 
-  -- ─── Telescope (extra keymaps on top of NvChad defaults) ─────────────────
+  -- ─── Telescope ────────────────────────────────────────────────────────────
 
   {
     "nvim-telescope/telescope.nvim",
     opts = function(_, opts)
       opts.defaults = vim.tbl_deep_extend("force", opts.defaults or {}, {
         borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+        mappings = {
+          i = {
+            ["<C-j>"] = require("telescope.actions").move_selection_next,
+            ["<C-k>"] = require("telescope.actions").move_selection_previous,
+            ["<C-h>"] = require("telescope.actions").preview_scrolling_left,
+            ["<C-l>"] = require("telescope.actions").preview_scrolling_right,
+          },
+        },
       })
       return opts
     end,
     keys = {
-      { "<leader>,", "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>", desc = "Switch Buffer" },
-      { "<leader>:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
-      { "<leader><space>", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
+      { "<leader>,", "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>", desc = "󰓩 Switch Buffer" },
+      { "<leader>:", "<cmd>Telescope command_history<cr>", desc = " Command History" },
+      { "<leader><space>", "<cmd>Telescope find_files<cr>", desc = " Find Files" },
       -- find
-      { "<leader>fF", "<cmd>Telescope find_files cwd=false<cr>", desc = "Find Files (cwd)" },
-      { "<leader>fg", "<cmd>Telescope git_files<cr>", desc = "Find Files (git)" },
-      { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent Files" },
+      { "<leader>fF", "<cmd>Telescope find_files cwd=false<cr>", desc = " Find Files (cwd)" },
+      { "<leader>fg", "<cmd>Telescope git_files<cr>", desc = " Find Files (git)" },
+      { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "󰋚 Recent Files" },
       -- search
-      { '<leader>s"', "<cmd>Telescope registers<cr>", desc = "Registers" },
-      { "<leader>sa", "<cmd>Telescope autocommands<cr>", desc = "Auto Commands" },
-      { "<leader>sb", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Buffer" },
-      { "<leader>sc", "<cmd>Telescope command_history<cr>", desc = "Command History" },
-      { "<leader>sC", "<cmd>Telescope commands<cr>", desc = "Commands" },
-      { "<leader>sd", "<cmd>Telescope diagnostics bufnr=0<cr>", desc = "Document Diagnostics" },
-      { "<leader>sD", "<cmd>Telescope diagnostics<cr>", desc = "Workspace Diagnostics" },
-      { "<leader>sg", "<cmd>Telescope live_grep<cr>", desc = "Grep" },
-      { "<leader>sG", "<cmd>Telescope live_grep cwd=false<cr>", desc = "Grep (cwd)" },
-      { "<leader>sh", "<cmd>Telescope help_tags<cr>", desc = "Help Pages" },
-      { "<leader>sH", "<cmd>Telescope highlights<cr>", desc = "Highlight Groups" },
-      { "<leader>sk", "<cmd>Telescope keymaps<cr>", desc = "Key Maps" },
-      { "<leader>sM", "<cmd>Telescope man_pages<cr>", desc = "Man Pages" },
-      { "<leader>sm", "<cmd>Telescope marks<cr>", desc = "Jump to Mark" },
-      { "<leader>so", "<cmd>Telescope vim_options<cr>", desc = "Options" },
-      { "<leader>sR", "<cmd>Telescope resume<cr>", desc = "Resume" },
-      { "<leader>sw", "<cmd>Telescope grep_string word_match=-w<cr>", desc = "Word" },
-      { "<leader>sW", "<cmd>Telescope grep_string<cr>", mode = "v", desc = "Selection" },
-      { "<leader>ss", function() require("telescope.builtin").lsp_document_symbols() end, desc = "Goto Symbol" },
+      { '<leader>s"', "<cmd>Telescope registers<cr>", desc = "󱆐 Registers" },
+      { "<leader>sa", "<cmd>Telescope autocommands<cr>", desc = " Auto Commands" },
+      { "<leader>sb", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = " Buffer" },
+      { "<leader>sc", "<cmd>Telescope command_history<cr>", desc = " Command History" },
+      { "<leader>sC", "<cmd>Telescope commands<cr>", desc = " Commands" },
+      { "<leader>sd", "<cmd>Telescope diagnostics bufnr=0<cr>", desc = " Document Diagnostics" },
+      { "<leader>sD", "<cmd>Telescope diagnostics<cr>", desc = " Workspace Diagnostics" },
+      { "<leader>sg", "<cmd>Telescope live_grep<cr>", desc = " Grep" },
+      { "<leader>sG", "<cmd>Telescope live_grep cwd=false<cr>", desc = " Grep (cwd)" },
+      { "<leader>sh", "<cmd>Telescope help_tags<cr>", desc = "󰋖 Help Pages" },
+      { "<leader>sH", "<cmd>Telescope highlights<cr>", desc = " Highlight Groups" },
+      { "<leader>sk", "<cmd>Telescope keymaps<cr>", desc = " Key Maps" },
+      { "<leader>sM", "<cmd>Telescope man_pages<cr>", desc = " Man Pages" },
+      { "<leader>sm", "<cmd>Telescope marks<cr>", desc = " Jump to Mark" },
+      { "<leader>so", "<cmd>Telescope vim_options<cr>", desc = " Options" },
+      { "<leader>sR", "<cmd>Telescope resume<cr>", desc = " Resume" },
+      { "<leader>sw", "<cmd>Telescope grep_string word_match=-w<cr>", desc = " Word" },
+      { "<leader>sW", "<cmd>Telescope grep_string<cr>", mode = "v", desc = " Selection" },
+      {
+        "<leader>ss",
+        function() require("telescope.builtin").lsp_document_symbols() end,
+        desc = " Goto Symbol",
+      },
       {
         "<leader>sS",
         function() require("telescope.builtin").lsp_dynamic_workspace_symbols() end,
-        desc = "Goto Symbol (Workspace)",
+        desc = " Goto Symbol (Workspace)",
       },
       {
         "<leader>uC",
         function() require("telescope.builtin").colorscheme { enable_preview = true } end,
-        desc = "Colorscheme with Preview",
+        desc = " Colorscheme with Preview",
       },
     },
   },
@@ -286,7 +359,7 @@ return {
       {
         "<leader>ut",
         function() require("treesitter-context").toggle() end,
-        desc = "Toggle Treesitter Context",
+        desc = " Toggle Treesitter Context",
       },
     },
   },
@@ -369,11 +442,11 @@ return {
     },
     opts = function() return require "configs.ufo" end,
     keys = {
-      { "zR", function() require("ufo").openAllFolds() end, desc = "Open all folds" },
-      { "zM", function() require("ufo").closeAllFolds() end, desc = "Close all folds" },
-      { "zk", function() require("ufo").goPreviousStartFold() end, desc = "Go previous start fold" },
-      { "zn", function() require("ufo").goNextClosedFold() end, desc = "Go next closed fold" },
-      { "zp", function() require("ufo").goPreviousClosedFold() end, desc = "Go previous closed fold" },
+      { "zR", function() require("ufo").openAllFolds() end, desc = " Open all folds" },
+      { "zM", function() require("ufo").closeAllFolds() end, desc = " Close all folds" },
+      { "zk", function() require("ufo").goPreviousStartFold() end, desc = " Go previous start fold" },
+      { "zn", function() require("ufo").goNextClosedFold() end, desc = " Go next closed fold" },
+      { "zp", function() require("ufo").goPreviousClosedFold() end, desc = " Go previous closed fold" },
     },
   },
 
@@ -384,11 +457,31 @@ return {
     event = "VeryLazy",
     opts = {},
     keys = {
-      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-      { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = " Flash" },
+      {
+        "S",
+        mode = { "n", "o", "x" },
+        function() require("flash").treesitter() end,
+        desc = " Flash Treesitter",
+      },
+      {
+        "r",
+        mode = "o",
+        function() require("flash").remote() end,
+        desc = " Remote Flash",
+      },
+      {
+        "R",
+        mode = { "o", "x" },
+        function() require("flash").treesitter_search() end,
+        desc = " Treesitter Search",
+      },
+      {
+        "<c-s>",
+        mode = { "c" },
+        function() require("flash").toggle() end,
+        desc = " Toggle Flash Search",
+      },
     },
   },
 
@@ -399,10 +492,10 @@ return {
       win = { border = "rounded" },
     },
     keys = {
-      { "<leader>xx", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Document Diagnostics" },
-      { "<leader>xX", "<cmd>Trouble diagnostics toggle<cr>", desc = "Workspace Diagnostics" },
-      { "<leader>xL", "<cmd>Trouble loclist toggle<cr>", desc = "Location List" },
-      { "<leader>xQ", "<cmd>Trouble quickfix toggle<cr>", desc = "Quickfix List" },
+      { "<leader>xx", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = " Document Diagnostics" },
+      { "<leader>xX", "<cmd>Trouble diagnostics toggle<cr>", desc = " Workspace Diagnostics" },
+      { "<leader>xL", "<cmd>Trouble loclist toggle<cr>", desc = " Location List" },
+      { "<leader>xQ", "<cmd>Trouble quickfix toggle<cr>", desc = " Quickfix List" },
       {
         "[q",
         function()
@@ -412,7 +505,7 @@ return {
             pcall(vim.cmd.cprev)
           end
         end,
-        desc = "Previous Trouble/Quickfix",
+        desc = " Previous Trouble/Quickfix",
       },
       {
         "]q",
@@ -423,7 +516,7 @@ return {
             pcall(vim.cmd.cnext)
           end
         end,
-        desc = "Next Trouble/Quickfix",
+        desc = " Next Trouble/Quickfix",
       },
     },
   },
@@ -440,9 +533,9 @@ return {
     event = "BufReadPre",
     opts = {},
     keys = {
-      { "<leader>qs", function() require("persistence").load() end, desc = "Restore Session" },
-      { "<leader>ql", function() require("persistence").load { last = true } end, desc = "Restore Last Session" },
-      { "<leader>qd", function() require("persistence").stop() end, desc = "Don't Save Session" },
+      { "<leader>qs", function() require("persistence").load() end, desc = " Restore Session" },
+      { "<leader>ql", function() require("persistence").load { last = true } end, desc = " Restore Last Session" },
+      { "<leader>qd", function() require("persistence").stop() end, desc = " Don't Save Session" },
     },
   },
 
@@ -451,7 +544,7 @@ return {
     cmd = "Spectre",
     opts = { open_cmd = "noswapfile vnew" },
     keys = {
-      { "<leader>sr", function() require("spectre").open() end, desc = "Replace in Files (Spectre)" },
+      { "<leader>sr", function() require("spectre").open() end, desc = " Replace in Files (Spectre)" },
     },
   },
 
@@ -460,7 +553,7 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     opts = function() return require "configs.aerial" end,
     keys = {
-      { "<leader>cs", "<cmd>AerialToggle<cr>", desc = "Aerial (Symbols)" },
+      { "<leader>cs", "<cmd>AerialToggle<cr>", desc = " Aerial (Symbols)" },
     },
   },
 
@@ -505,7 +598,7 @@ return {
       {
         "<leader>un",
         function() require("notify").dismiss { silent = true, pending = true } end,
-        desc = "Dismiss Notifications",
+        desc = " Dismiss Notifications",
       },
     },
   },
@@ -515,15 +608,15 @@ return {
     lazy = true,
     keys = {
       -- navigate between neovim splits and zellij panes seamlessly
-      { "<A-h>", function() require("smart-splits").move_cursor_left() end, desc = "Move to left split" },
-      { "<A-j>", function() require("smart-splits").move_cursor_down() end, desc = "Move to below split" },
-      { "<A-k>", function() require("smart-splits").move_cursor_up() end, desc = "Move to above split" },
-      { "<A-l>", function() require("smart-splits").move_cursor_right() end, desc = "Move to right split" },
+      { "<A-h>", function() require("smart-splits").move_cursor_left() end, desc = " Move to left split" },
+      { "<A-j>", function() require("smart-splits").move_cursor_down() end, desc = " Move to below split" },
+      { "<A-k>", function() require("smart-splits").move_cursor_up() end, desc = " Move to above split" },
+      { "<A-l>", function() require("smart-splits").move_cursor_right() end, desc = " Move to right split" },
       -- resize splits
-      { "<Up>", function() require("smart-splits").resize_up(2) end, desc = "Resize split up" },
-      { "<Down>", function() require("smart-splits").resize_down(2) end, desc = "Resize split down" },
-      { "<Left>", function() require("smart-splits").resize_left(2) end, desc = "Resize split left" },
-      { "<Right>", function() require("smart-splits").resize_right(2) end, desc = "Resize split right" },
+      { "<Up>", function() require("smart-splits").resize_up(2) end, desc = " Resize split up" },
+      { "<Down>", function() require("smart-splits").resize_down(2) end, desc = " Resize split down" },
+      { "<Left>", function() require("smart-splits").resize_left(2) end, desc = " Resize split left" },
+      { "<Right>", function() require("smart-splits").resize_right(2) end, desc = " Resize split right" },
     },
     opts = {
       ignored_filetypes = { "nofile", "quickfix", "qf", "prompt" },
@@ -554,7 +647,10 @@ return {
           "n",
           key,
           function() require("illuminate")["goto_" .. dir .. "_reference"](false) end,
-          { desc = dir:sub(1, 1):upper() .. dir:sub(2) .. " Reference", buffer = buffer }
+          {
+            desc = (dir == "next" and " " or " ") .. dir:sub(1, 1):upper() .. dir:sub(2) .. " Reference",
+            buffer = buffer,
+          }
         )
       end
       map("]]", "next")
@@ -670,6 +766,12 @@ return {
     opts = function(_, opts)
       local cmp = require "cmp"
       local lspkind = require "lspkind"
+      opts.mapping = vim.tbl_extend("force", opts.mapping or {}, {
+        ["<C-j>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
+        ["<C-k>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
+        ["<C-h>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-l>"] = cmp.mapping.scroll_docs(4),
+      })
       opts.window = {
         completion = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered(),
@@ -686,13 +788,17 @@ return {
     end,
     config = function(_, opts)
       local cmp = require "cmp"
+      local cmdline_mappings = vim.tbl_extend("force", cmp.mapping.preset.cmdline(), {
+        ["<C-j>"] = { c = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert } },
+        ["<C-k>"] = { c = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert } },
+      })
       cmp.setup(opts)
       cmp.setup.cmdline({ "/", "?" }, {
-        mapping = cmp.mapping.preset.cmdline(),
+        mapping = cmdline_mappings,
         sources = { { name = "buffer" } },
       })
       cmp.setup.cmdline(":", {
-        mapping = cmp.mapping.preset.cmdline(),
+        mapping = cmdline_mappings,
         sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
       })
     end,
@@ -714,17 +820,17 @@ return {
     dependencies = { "nvim-lua/plenary.nvim" },
     opts = require "configs.obsidian",
     keys = {
-      { "<leader>on", "<cmd>ObsidianNew<cr>", desc = "New Note" },
-      { "<leader>oo", "<cmd>ObsidianQuickSwitch<cr>", desc = "Open Note" },
-      { "<leader>od", "<cmd>ObsidianToday<cr>", desc = "Daily Note" },
-      { "<leader>ob", "<cmd>ObsidianBacklinks<cr>", desc = "Backlinks" },
-      { "<leader>os", "<cmd>ObsidianSearch<cr>", desc = "Search Notes" },
-      { "<leader>ot", "<cmd>ObsidianTags<cr>", desc = "Tags" },
-      { "<leader>ol", "<cmd>ObsidianLinks<cr>", desc = "Links" },
-      { "<leader>of", "<cmd>ObsidianFollowLink<cr>", desc = "Follow Link" },
-      { "<leader>ow", "<cmd>ObsidianWorkspace<cr>", desc = "Workspace" },
-      { "<leader>or", "<cmd>ObsidianRename<cr>", desc = "Rename Note" },
-      { "<leader>oz", "<cmd>ObsidianTemplate<cr>", desc = "Insert Template" },
+      { "<leader>on", "<cmd>ObsidianNew<cr>", desc = " New Note" },
+      { "<leader>oo", "<cmd>ObsidianQuickSwitch<cr>", desc = " Open Note" },
+      { "<leader>od", "<cmd>ObsidianToday<cr>", desc = " Daily Note" },
+      { "<leader>ob", "<cmd>ObsidianBacklinks<cr>", desc = " Backlinks" },
+      { "<leader>os", "<cmd>ObsidianSearch<cr>", desc = " Search Notes" },
+      { "<leader>ot", "<cmd>ObsidianTags<cr>", desc = " Tags" },
+      { "<leader>ol", "<cmd>ObsidianLinks<cr>", desc = " Links" },
+      { "<leader>of", "<cmd>ObsidianFollowLink<cr>", desc = " Follow Link" },
+      { "<leader>ow", "<cmd>ObsidianWorkspace<cr>", desc = " Workspace" },
+      { "<leader>or", "<cmd>ObsidianRename<cr>", desc = "󰑕 Rename Note" },
+      { "<leader>oz", "<cmd>ObsidianTemplate<cr>", desc = " Insert Template" },
     },
   },
 
@@ -741,8 +847,8 @@ return {
       },
     },
     keys = {
-      { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Claude Code" },
-      { "<leader>ar", "<cmd>ClaudeCodeContinue<cr>", desc = "Resume Chat" },
+      { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "󰚩 Claude Code" },
+      { "<leader>ar", "<cmd>ClaudeCodeContinue<cr>", desc = " Resume Chat" },
     },
   },
 
@@ -754,7 +860,7 @@ return {
     build = function() vim.fn["mkdp#util#install"]() end,
     ft = { "markdown" },
     keys = {
-      { "<leader>cp", "<cmd>MarkdownPreviewToggle<cr>", ft = "markdown", desc = "Markdown Preview" },
+      { "<leader>cp", "<cmd>MarkdownPreviewToggle<cr>", ft = "markdown", desc = " Markdown Preview" },
     },
   },
 }

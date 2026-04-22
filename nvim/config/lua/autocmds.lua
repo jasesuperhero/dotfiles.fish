@@ -1,5 +1,13 @@
 require "nvchad.autocmds"
 
+-- Treat .h and .m files as Objective-C
+vim.filetype.add {
+  extension = {
+    h = "objc",
+    m = "objc",
+  },
+}
+
 local autocmd = vim.api.nvim_create_autocmd
 
 -- Highlight text on yank

@@ -5,31 +5,31 @@ vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local map = vim.keymap.set
     local buf = args.buf
-    map("n", "gr", "<cmd>Telescope lsp_references<cr>", { buffer = buf, desc = "References" })
+    map("n", "gr", "<cmd>Telescope lsp_references<cr>", { buffer = buf, desc = " References" })
     map(
       "n",
       "gI",
       function() require("telescope.builtin").lsp_implementations { reuse_win = true } end,
-      { buffer = buf, desc = "Goto Implementation" }
+      { buffer = buf, desc = " Goto Implementation" }
     )
     map(
       "n",
       "gy",
       function() require("telescope.builtin").lsp_type_definitions { reuse_win = true } end,
-      { buffer = buf, desc = "Goto Type Definition" }
+      { buffer = buf, desc = " Goto Type Definition" }
     )
-    map("n", "gK", vim.lsp.buf.signature_help, { buffer = buf, desc = "Signature Help" })
-    map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { buffer = buf, desc = "Code Action" })
-    map({ "n", "v" }, "<leader>cc", vim.lsp.codelens.run, { buffer = buf, desc = "Run Codelens" })
-    map("n", "<leader>cC", vim.lsp.codelens.refresh, { buffer = buf, desc = "Refresh & Display Codelens" })
+    map("n", "gK", vim.lsp.buf.signature_help, { buffer = buf, desc = "󰋖 Signature Help" })
+    map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { buffer = buf, desc = " Code Action" })
+    map({ "n", "v" }, "<leader>cc", vim.lsp.codelens.run, { buffer = buf, desc = "󰄄 Run Codelens" })
+    map("n", "<leader>cC", vim.lsp.codelens.refresh, { buffer = buf, desc = "󰄄 Refresh & Display Codelens" })
     map(
       { "n", "v" },
       "<leader>cA",
       function() vim.lsp.buf.code_action { context = { only = { "source" }, diagnostics = {} } } end,
-      { buffer = buf, desc = "Source Action" }
+      { buffer = buf, desc = " Source Action" }
     )
-    map("n", "<leader>cr", vim.lsp.buf.rename, { buffer = buf, desc = "Rename" })
-    map("n", "<leader>cl", "<cmd>LspInfo<cr>", { buffer = buf, desc = "Lsp Info" })
+    map("n", "<leader>cr", vim.lsp.buf.rename, { buffer = buf, desc = "󰑕 Rename" })
+    map("n", "<leader>cl", "<cmd>LspInfo<cr>", { buffer = buf, desc = " Lsp Info" })
   end,
 })
 
