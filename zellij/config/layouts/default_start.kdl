@@ -60,7 +60,7 @@ layout {
                 mode_session     "#[bg=none,fg=$pink]#[bg=$pink,fg=$base,bold] SESSION #[bg=none,fg=$pink]"
                 mode_tmux        "#[bg=none,fg=$mauve]#[bg=$mauve,fg=$base,bold] TMUX #[bg=none,fg=$mauve]"
 
-                tab_active              "#[bg=none,fg=$mauve]#[bg=$mauve,fg=$base,bold]{index} #[bg=$surface1,fg=$mauve,bold] {name} {floating_indicator}#[bg=none,fg=$surface1]"
+                tab_active              "#[bg=none,fg=$mauve]#[bg=$mauve,fg=$base,bold]{index} #[bg=$surface1,fg=$mauve,bold] {name} {floating_indicator}#[bg=$red,fg=$surface1]"
                 tab_active_fullscreen   "#[bg=none,fg=$mauve]#[bg=$mauve,fg=$base,bold]{index} #[bg=$surface1,fg=$mauve,bold] {fullscreen_indicator} {name}#[bg=none,fg=$surface1]"
                 tab_active_sync         "#[bg=none,fg=$mauve]#[bg=$mauve,fg=$base,bold]{index} #[bg=$surface1,fg=$mauve,bold] {sync_indicator} {name}#[bg=none,fg=$surface1]"
 
