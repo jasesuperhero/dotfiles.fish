@@ -10,23 +10,8 @@ function _debug --description "Print debug logs when THEME_DEBUG is set"
         "$argv"
 end
 
-# --- Common log formatter (login shells only) ---
-function _log --description "Print formatted status line (login shells only)"
-    status --is-login; or return
-
-    set -l color $argv[1]
-    set -l label $argv[2]
-    set -e argv[1..2]
-
-    printf '[%s%s%s] %s\n' \
-        (set_color --bold $color) \
-        $label \
-        (set_color normal) \
-        "$argv"
-end
-
-# --- Apply themes in parallel ---
-function apply_theme --on-variable C_THEME --description "Apply light/dark theme to the terminal (parallel)"
+# --- Run all theme scripts in parallel ---
+function _run_theme_scripts
     set -l pids
 
     for theme_installer in $DOTFILES/*/theme.fish
@@ -47,23 +32,22 @@ function apply_theme --on-variable C_THEME --description "Apply light/dark theme
         wait $pids
         _debug "all themes finished"
 
-        # Re-apply env vars that may be shadowed by globals set during shell init.
-        # Fish global vars (set by plugin conf.d files) take precedence over universal vars,
-        # so updating the universal doesn't propagate to the current session without this.
         set -gx FZF_DEFAULT_OPTS $FZF_DEFAULT_OPTS
     else
         _debug "no theme scripts found"
     end
 end
 
-# --- Success message ---
-function success --description "Print success message"
-    _log green ' OK ' $argv
+# --- Check theme file on every prompt ---
+function _check_theme_file --on-event fish_prompt
+    set -l file_theme (string trim (cat ~/.theme 2>/dev/null))
+    if test -n "$file_theme" -a "$file_theme" != "$C_THEME"
+        set -gx C_THEME $file_theme
+        _run_theme_scripts
+    end
 end
 
-# --- Abort message ---
-function abort --description "Print abort message and exit"
-    _log yellow ABRT $argv >&2
-    status --is-login; and exit 1
-    return 1
+# --- Apply current theme on shell startup ---
+if test -f ~/.theme
+    set -gx C_THEME (string trim (cat ~/.theme))
 end

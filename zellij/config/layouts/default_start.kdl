@@ -3,33 +3,7 @@ layout {
         children
         pane size=1 borderless=true {
             plugin location="zjstatus" {
-                // Catppuccin Latte
-                color_rosewater "#dc8a78"
-                color_flamingo  "#dd7878"
-                color_pink      "#ea76cb"
-                color_mauve     "#8839ef"
-                color_red       "#d20f39"
-                color_maroon    "#e64553"
-                color_peach     "#fe640b"
-                color_yellow    "#df8e1d"
-                color_green     "#40a02b"
-                color_teal      "#179299"
-                color_sky       "#04a5e5"
-                color_sapphire  "#209fb5"
-                color_blue      "#1e66f5"
-                color_lavender  "#7287fd"
-                color_text      "#4c4f69"
-                color_subtext1  "#5c5f77"
-                color_subtext0  "#6c6f85"
-                color_overlay2  "#7c7f93"
-                color_overlay1  "#8c8fa1"
-                color_overlay0  "#9ca0b0"
-                color_surface2  "#acb0be"
-                color_surface1  "#bcc0cc"
-                color_surface0  "#ccd0da"
-                color_base      "#eff1f5"
-                color_mantle    "#e6e9ef"
-                color_crust     "#dce0e8"
+                // ZJSTATUS_COLORS
 
                 format_left   " {mode} {tabs}"
                 format_center ""
@@ -60,7 +34,7 @@ layout {
                 mode_session     "#[bg=none,fg=$pink]#[bg=$pink,fg=$base,bold] SESSION #[bg=none,fg=$pink]"
                 mode_tmux        "#[bg=none,fg=$mauve]#[bg=$mauve,fg=$base,bold] TMUX #[bg=none,fg=$mauve]"
 
-                tab_active              "#[bg=none,fg=$mauve]#[bg=$mauve,fg=$base,bold]{index} #[bg=$surface1,fg=$mauve,bold] {name} {floating_indicator}#[bg=$red,fg=$surface1]"
+                tab_active              "#[bg=none,fg=$mauve]#[bg=$mauve,fg=$base,bold]{index} #[bg=$surface1,fg=$mauve,bold] {name} {floating_indicator}#[bg=none,fg=$surface1]"
                 tab_active_fullscreen   "#[bg=none,fg=$mauve]#[bg=$mauve,fg=$base,bold]{index} #[bg=$surface1,fg=$mauve,bold] {fullscreen_indicator} {name}#[bg=none,fg=$surface1]"
                 tab_active_sync         "#[bg=none,fg=$mauve]#[bg=$mauve,fg=$base,bold]{index} #[bg=$surface1,fg=$mauve,bold] {sync_indicator} {name}#[bg=none,fg=$surface1]"
 

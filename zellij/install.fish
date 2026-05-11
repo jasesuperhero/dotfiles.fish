@@ -15,17 +15,22 @@ if not test -e $HOME/.config/zellij/themes
     ln -sf $DOTFILES/zellij/config/themes $HOME/.config/zellij/themes
 end
 
-# Replace layouts symlink with a real directory so sed can modify copies without dirtying the repo
+# Replace layouts symlink with a real directory
 if test -L $HOME/.config/zellij/layouts
     rm $HOME/.config/zellij/layouts
 end
 mkdir -p $HOME/.config/zellij/layouts
-cp -f $DOTFILES/zellij/config/layouts/default_start.kdl $HOME/.config/zellij/layouts/default_start.kdl
 
 # Copy scripts and make them executable
 mkdir -p $HOME/.config/zellij/scripts
 cp -f $DOTFILES/zellij/scripts/*.sh $HOME/.config/zellij/scripts/
 chmod +x $HOME/.config/zellij/scripts/*.sh
 
-# Substitute placeholder path in copied layout
-sed -i '' "s|ZJSTATUS_SCRIPTS_DIR|$HOME/.config/zellij/scripts|g" $HOME/.config/zellij/layouts/default_start.kdl
+# Apply current theme (copies layout file and substitutes scripts path)
+if test -n "$C_THEME"
+    "$DOTFILES/zellij/theme.fish"
+else
+    # Fallback to dark if C_THEME not set
+    set -x C_THEME dark
+    "$DOTFILES/zellij/theme.fish"
+end

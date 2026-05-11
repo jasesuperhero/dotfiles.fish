@@ -1,3 +1,3 @@
 #!/opt/homebrew/bin/fish
 
-set -Ux C_THEME $argv[1]
+echo $argv[1] >~/.theme
