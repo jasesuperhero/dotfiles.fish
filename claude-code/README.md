@@ -1,0 +1,108 @@
+# Claude Code
+
+Configuration for [Claude Code](https://claude.com/claude-code) integrated with this dotfiles environment:
+
+- **Theme switching** — `~/.claude.json` theme follows macOS light/dark mode via `theme.fish`.
+- **Zellij notifier** — status widget in the zjstatus bar and a macOS banner when Claude finishes a turn or is waiting on you.
+- **Claude.app icon** — extracted to `icon.png` and used by the macOS notifications.
+
+The script and layout pieces live in `bin/`, `zellij/scripts/`, and `zellij/config/layouts/` — only the icon and theme switcher live here.
+
+## Zellij notifier
+
+### What you get
+
+| Event in Claude                             | Status bar (zjstatus) | macOS banner                        | Sound |
+| ------------------------------------------- | --------------------- | ----------------------------------- | ----- |
+| Claude finished a turn (`Stop`)             | `✻ done`              | "Claude Code · ✻ Task finished"     | —     |
+| Claude is waiting on input (`Notification`) | `● waiting`           | "Claude Code · ● Waiting for input" | Funk  |
+| You sent a new prompt (`UserPromptSubmit`)  | (cleared)             | —                                   | —     |
+
+The banner body is `<session> · pane <pane-id> · <cwd>`, e.g. `brave-tiger · pane 18 · ~/.dotfiles`.
+
+Outside Zellij the script is a no-op (guarded by `$ZELLIJ`), so plain-terminal Claude stays silent.
+
+### Pieces
+
+- **`zellij/scripts/claude-notify.sh`** — POSIX sh dispatcher. Takes one arg: `stop | notification | clear`.
+  - Pipes status into zjstatus via `zellij pipe --name claude_status -- "<msg>"`.
+  - Fires `terminal-notifier` (preferred) or `osascript` (fallback) for the banner.
+  - Uses `claude-code/icon.png` as the banner icon when `terminal-notifier` is available.
+- **`zellij/config/layouts/default_start.kdl`** — adds `{pipe_claude_status}` to `format_right` and a `pipe_claude_status_format` definition next to the existing `pipe_zjstatus_hints_format`.
+- **`~/.claude/settings.json`** — *not in this repo* (per-user, contains tokens). See setup below.
+
+### One-time setup
+
+1. **Install dependencies** (already in `01-brew/Brewfile`):
+
+   ```sh
+   brew install terminal-notifier
+   ```
+
+   `terminal-notifier` is what enables the custom Claude icon and the rich title/subtitle/message layout. Without it the script falls back to `osascript` (Script Editor icon, plain banner).
+
+1. **Refresh the Claude icon** if Claude.app updates:
+
+   ```sh
+   sips -s format png /Applications/Claude.app/Contents/Resources/electron.icns \
+       --out ~/.dotfiles/claude-code/icon.png
+   ```
+
+1. **Wire the hooks** in `~/.claude/settings.json` (this file is not symlinked from the repo because it carries per-machine tokens). Add the following entries inside the existing top-level `"hooks"` object — preserve any other hooks already there:
+
+   ```json
+   "hooks": {
+     "Stop": [
+       {
+         "hooks": [
+           { "type": "command", "command": "/Users/<you>/.dotfiles/zellij/scripts/claude-notify.sh stop" }
+         ]
+       }
+     ],
+     "Notification": [
+       {
+         "hooks": [
+           { "type": "command", "command": "/Users/<you>/.dotfiles/zellij/scripts/claude-notify.sh notification" }
+         ]
+       }
+     ],
+     "UserPromptSubmit": [
+       {
+         "hooks": [
+           { "type": "command", "command": "/Users/<you>/.dotfiles/zellij/scripts/claude-notify.sh clear" }
+         ]
+       }
+     ]
+   }
+   ```
+
+1. **Reload Zellij** so zjstatus picks up the new `pipe_claude_status` slot — detach + reattach, or open a new tab with the updated layout.
+
+1. **Grant macOS notification permission** to `terminal-notifier` the first time it fires (System Settings → Notifications → terminal-notifier → Allow).
+
+### Verify
+
+Inside a Zellij pane:
+
+```sh
+# Status bar widget round-trip
+printf '● test' | zellij pipe --name claude_status   # widget appears
+printf ''       | zellij pipe --name claude_status   # widget disappears
+
+# Hook script (banner + widget)
+~/.dotfiles/zellij/scripts/claude-notify.sh stop          # ✻ done + silent banner
+~/.dotfiles/zellij/scripts/claude-notify.sh notification  # ● waiting + Funk banner
+~/.dotfiles/zellij/scripts/claude-notify.sh clear         # widget cleared
+```
+
+Then start `claude` in a Zellij pane, ask a one-shot question, and confirm the banner + widget appear when it finishes.
+
+### Why some things look the way they do
+
+- **Tab name isn't in the banner.** `zellij action query-tab-names` and `current-tab-info` return *"There is no active session!"* when called from a Claude hook (a non-attached child process). Only `zellij pipe` works headlessly. Session, pane id, and cwd come from env / `$PWD` instead.
+- **Pane name targeting was rejected.** `zellij action rename-pane` only renames the *focused* pane in the session, so it can't reliably target the Claude pane if focus has moved. The zjstatus widget is global to the session, which sidesteps the focus problem entirely.
+- **Sound only on "waiting".** "Done" fires often and gets noisy with sound. "Waiting" is rarer and worth interrupting for.
+
+## Theme switching
+
+`theme.fish` is invoked by `osx-dark-mode-notify` when macOS appearance changes. It rewrites the `"theme"` key in `~/.claude.json` to `"dark"` or `"light"` (matching Catppuccin Mocha / Latte used elsewhere in the dotfiles).

@@ -1,0 +1,25 @@
+#!/usr/bin/env fish
+# zj-launch — entry point used by ghostty.
+#
+# If a zellij session is already running, attach to the most recently created
+# active one. Otherwise start a fresh session. EXITED sessions are skipped so
+# old sessions don't get resurrected on every launch.
+#
+# If ZELLIJ is already set (rare — nested launch), drop into a normal shell.
+
+if set -q ZELLIJ
+    exec fish --login --interactive
+end
+
+set -l latest (
+    zellij list-sessions --no-formatting --reverse 2>/dev/null \
+        | grep -v EXITED \
+        | head -n 1 \
+        | awk '{print $1}'
+)
+
+if test -n "$latest"
+    exec zellij attach $latest
+else
+    exec zellij
+end

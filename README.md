@@ -92,6 +92,8 @@ Everything below is installed automatically by bootstrap — via `Brewfile` on m
 
 **Terminals:** [Kitty](https://sw.kovidgoyal.net/kitty) and [Ghostty](https://ghostty.org)
 
+**Claude Code:** Zellij status integration + macOS notifications — see [claude-code/README.md](claude-code/README.md).
+
 **macOS apps (via cask):** Alfred, Bartender, Docker, Fork, IINA, Kap, Karabiner-Elements, Obsidian, Postman, Stats, and more.
 
 **Mac App Store:** Magnet, Spark, Things, Next Meeting, Noizio.

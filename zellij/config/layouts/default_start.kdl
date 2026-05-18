@@ -9,9 +9,10 @@ layout {
                 format_center ""
 
                 // format_right  "{pipe_zjstatus_hints}#[bg=none,fg=$mauve]#[bg=$mauve,fg=$base,bold] {session} #[bg=none,fg=$mauve]"
-                format_right  "{command_cpu}#[bg=$surface0] {command_ram}#[bg=$surface0] {command_host}#[bg=$surface0] {datetime} #[bg=none,fg=$mauve]#[bg=$mauve,fg=$base,bold] {session} #[bg=none,fg=$mauve]"
+                format_right  "{pipe_claude_status}{command_cpu}#[bg=$surface0] {command_ram}#[bg=$surface0] {command_host}#[bg=$surface0] {datetime} #[bg=none,fg=$mauve]#[bg=$mauve,fg=$base,bold] {session} #[bg=none,fg=$mauve]"
                 format_space  "#[bg=none]"
                 pipe_zjstatus_hints_format "#[bg=#mauve,fg=$base,bold] {output} "
+                pipe_claude_status_format "#[bg=none,fg=$peach]#[bg=$peach,fg=$base,bold] {output} #[bg=none,fg=$peach]"
 
                 border_enabled  "false"
                 border_char     "─"

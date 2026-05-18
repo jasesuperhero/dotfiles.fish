@@ -46,8 +46,8 @@ quit-after-last-window-closed = true
 # keybindings
 keybind = cmd+n=new_window
 
-# shell — launch fish and auto-start zellij if not already inside it
-command = /opt/homebrew/bin/fish --login --interactive -c "if not set -q ZELLIJ; zellij; end"
+# shell — attach to the latest active zellij session, else create a new one
+command = /Users/daniel/.dotfiles/bin/zj-launch
 
 # theme — auto-switches with macOS light/dark mode
 theme = dark:Catppuccin Mocha,light:Catppuccin Latte
