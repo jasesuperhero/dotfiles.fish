@@ -61,7 +61,6 @@ sudo apt-get install -y \
     git \
     git-lfs \
     httpie \
-    pre-commit \
     python3-virtualenv \
     ripgrep \
     shellcheck \
@@ -190,6 +189,15 @@ if not command -qa shfmt
     curl -fsSL "https://github.com/mvdan/sh/releases/download/$shfmt_version/shfmt_"$shfmt_version"_linux_$arch" \
         -o ~/.local/bin/shfmt
     chmod +x ~/.local/bin/shfmt
+end
+
+# ── prek ─────────────────────────────────────────────────────────────────────
+
+if not command -qa prek
+    set prek_version (_latest_gh_release j178/prek)
+    set arch (_arch_musl)
+    curl -fsSL "https://github.com/j178/prek/releases/download/$prek_version/prek-$arch-unknown-linux-musl.tar.gz" \
+        | tar xz -C ~/.local/bin/ prek
 end
 
 # ── viu ──────────────────────────────────────────────────────────────────────

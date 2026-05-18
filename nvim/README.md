@@ -7,7 +7,7 @@ NvChad v2.5-based configuration with Catppuccin theme, automatic dark/light mode
 - Neovim >= 0.11
 - Git
 - [Nerd Font](https://www.nerdfonts.com/) (for icons)
-- `stylua` — Lua formatter (used by pre-commit hooks in this repo)
+- `stylua` — Lua formatter (used by prek hooks in this repo)
 
 ## Installation
 
