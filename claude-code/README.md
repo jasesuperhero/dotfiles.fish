@@ -18,7 +18,7 @@ The script and layout pieces live in `bin/`, `zellij/scripts/`, and `zellij/conf
 | Claude is waiting on input (`Notification`) | `● waiting`           | "Claude Code · ● Waiting for input" | Funk  |
 | You sent a new prompt (`UserPromptSubmit`)  | (cleared)             | —                                   | —     |
 
-The banner body is `<session> · pane <pane-id> · <cwd>`, e.g. `brave-tiger · pane 18 · ~/.dotfiles`.
+The banner body is `<session> · <tab>? · pane <pane-id> · <cwd>`, e.g. `brave-tiger · work · pane 18 · ~/.dotfiles`. Tab name is included when `$ZELLIJ_TAB_NAME` is set in the pane (see [Tab name](#tab-name) below); when it isn't, the body collapses to `<session> · pane <id> · <cwd>`.
 
 Outside Zellij the script is a no-op (guarded by `$ZELLIJ`), so plain-terminal Claude stays silent.
 
@@ -99,9 +99,29 @@ Then start `claude` in a Zellij pane, ask a one-shot question, and confirm the b
 
 ### Why some things look the way they do
 
-- **Tab name isn't in the banner.** `zellij action query-tab-names` and `current-tab-info` return *"There is no active session!"* when called from a Claude hook (a non-attached child process). Only `zellij pipe` works headlessly. Session, pane id, and cwd come from env / `$PWD` instead.
+- **Tab name comes from a layout-set env var, not the zellij CLI.** `zellij action query-tab-names` and `current-tab-info` return *"There is no active session!"* when called from a Claude hook (a non-attached child process, even via `fish -c`, with a synthetic TTY, or with `--session <name>`). Only `zellij pipe` works headlessly. So the layout sets `ZELLIJ_TAB_NAME` per tab via fish `-C` (see [Tab name](#tab-name)), and the hook reads `$ZELLIJ_TAB_NAME` directly.
 - **Pane name targeting was rejected.** `zellij action rename-pane` only renames the *focused* pane in the session, so it can't reliably target the Claude pane if focus has moved. The zjstatus widget is global to the session, which sidesteps the focus problem entirely.
 - **Sound only on "waiting".** "Done" fires often and gets noisy with sound. "Waiting" is rarer and worth interrupting for.
+
+## Tab name
+
+Because `zellij action` requires an attached interactive client (zellij 0.44.1), `ZELLIJ_TAB_NAME` is *not* set by zellij itself — we set it from the layout. In `zellij/config/layouts/default_start.kdl`:
+
+```kdl
+tab name="work" focus=true {
+    pane command="fish" {
+        args "--login" "--interactive" "-C" "set -gx ZELLIJ_TAB_NAME work"
+    }
+}
+```
+
+`fish -C "..."` runs the `set -gx` before the shell becomes interactive, so the env var is present in every child (Claude Code, Bash hooks, etc.) without affecting the user's normal shell startup.
+
+**Caveats:**
+
+- Only the layout-declared `"work"` tab gets `ZELLIJ_TAB_NAME`. Tabs you create interactively via `Ctrl+T n` won't have it (the notification body falls back to the no-tab format).
+- The env var is captured at pane-launch time. If you rename the tab at runtime via `Ctrl+T r`, `ZELLIJ_TAB_NAME` keeps the original value — it does not track the new name.
+- Adding a second declared tab? Mirror the pattern: copy the `pane command="fish" { … }` block and change the env value to match.
 
 ## Theme switching
 

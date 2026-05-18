@@ -78,6 +78,8 @@ layout {
     }
 
     tab name="work" focus=true {
-        pane
+        pane command="fish" {
+            args "--login" "--interactive" "-C" "set -gx ZELLIJ_TAB_NAME work"
+        }
     }
 }

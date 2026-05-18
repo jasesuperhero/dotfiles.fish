@@ -10,13 +10,18 @@ ICON="$HOME/.dotfiles/claude-code/icon.png"
 
 context() {
     sess="${ZELLIJ_SESSION_NAME:-?}"
+    tab="${ZELLIJ_TAB_NAME:-}"
     pid="${ZELLIJ_PANE_ID:-?}"
     cwd="${PWD:-?}"
     case "$cwd" in
     "$HOME") cwd="~" ;;
     "$HOME"/*) cwd="~${cwd#$HOME}" ;;
     esac
-    printf '%s · pane %s · %s' "$sess" "$pid" "$cwd"
+    if [ -n "$tab" ]; then
+        printf '%s · %s · pane %s · %s' "$sess" "$tab" "$pid" "$cwd"
+    else
+        printf '%s · pane %s · %s' "$sess" "$pid" "$cwd"
+    fi
 }
 
 notify() {
