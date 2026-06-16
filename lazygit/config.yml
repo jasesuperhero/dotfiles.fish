@@ -7,7 +7,7 @@ gui:
   mouseEvents: true
   skipDiscardChangeWarning: false
   skipStashWarning: true
-  showIcons: true
+  nerdFontsVersion: "3"
   sidePanelWidth: 0.3333
   commitLength:
     show: true
@@ -15,7 +15,9 @@ services:
   "github-work": "github:github.com"
 git:
   pagers:
-    - useExternalDiffGitConfig: true
+    - colorArg: always
+      # yamllint disable-line rule:line-length
+      pager: delta --paging=never --features $(test "$C_THEME" = "dark" && echo dark-mode || echo light-mode)
   merging:
     manualCommit: false
     args: ""
@@ -124,7 +126,7 @@ keybinding:
     pasteCommits: "v"
     tagCommit: "T"
     checkoutCommit: "<space>"
-    resetCherryPick: "<c-R>"
+    resetCherryPick: "<c-r>"
   stash:
     popStash: "g"
   commitFiles:
