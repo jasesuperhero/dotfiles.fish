@@ -58,6 +58,7 @@ brew 'wget'
 brew 'xcodesorg/made/xcodes'
 brew 'yazi'
 brew 'zellij'
+brew 'zoxide'
 
 cask 'alfred'
 cask 'bartender'
