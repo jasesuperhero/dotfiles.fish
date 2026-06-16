@@ -1,5 +1,10 @@
-#!/usr/bin/env fish
+#!/bin/bash
 # zj-launch — entry point used by ghostty.
+#
+# Ghostty invokes this via `bash --noprofile --norc`, which skips /etc/profile
+# and therefore skips /usr/libexec/path_helper. We run path_helper ourselves
+# so /opt/homebrew/bin (zellij, fish, mise, thefuck, grc, …) is on PATH before
+# we exec anything downstream.
 #
 # If a zellij session is already running, attach to the most recently created
 # active one. Otherwise start a fresh session. EXITED sessions are skipped so
@@ -7,19 +12,19 @@
 #
 # If ZELLIJ is already set (rare — nested launch), drop into a normal shell.
 
-if set -q ZELLIJ
+eval "$(/usr/libexec/path_helper -s)"
+
+if [ -n "$ZELLIJ" ]; then
     exec fish --login --interactive
-end
+fi
 
-set -l latest (
-    zellij list-sessions --no-formatting --reverse 2>/dev/null \
-        | grep -v EXITED \
-        | head -n 1 \
-        | awk '{print $1}'
-)
+latest=$(zellij list-sessions --no-formatting --reverse 2>/dev/null |
+    grep -v EXITED |
+    head -n 1 |
+    awk '{print $1}')
 
-if test -n "$latest"
-    exec zellij attach $latest
+if [ -n "$latest" ]; then
+    exec zellij attach "$latest"
 else
     exec zellij
-end
+fi

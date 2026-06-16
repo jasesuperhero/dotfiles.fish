@@ -7,6 +7,20 @@ EVENT="${1:-clear}"
 
 PIPE_NAME="claude_status"
 ICON="$HOME/.dotfiles/claude-code/icon.png"
+ZELLIJ_BIN="/opt/homebrew/bin/zellij"
+TERM_BUNDLE="com.mitchellh.ghostty"
+
+# Shell command wired to the notification's click / "Show" action via
+# terminal-notifier -execute. NotificationCenter spawns this detached and
+# without Homebrew on PATH, so we use absolute paths. focus-pane-id jumps to
+# the originating tab + pane; then we bring the terminal window forward.
+focus_cmd() {
+    sess="${ZELLIJ_SESSION_NAME:-}"
+    pid="${ZELLIJ_PANE_ID:-}"
+    [ -n "$sess" ] && [ -n "$pid" ] || return 0
+    printf "%s --session '%s' action focus-pane-id '%s' >/dev/null 2>&1; /usr/bin/open -b '%s'" \
+        "$ZELLIJ_BIN" "$sess" "$pid" "$TERM_BUNDLE"
+}
 
 context() {
     sess="${ZELLIJ_SESSION_NAME:-?}"
@@ -30,10 +44,12 @@ notify() {
     [ "$(uname -s)" = "Darwin" ] || return 0
 
     msg="$(context)"
+    jump="$(focus_cmd)"
 
     if command -v terminal-notifier >/dev/null 2>&1; then
         set -- -title "Claude Code" -subtitle "$subtitle" -message "$msg"
         [ -f "$ICON" ] && set -- "$@" -appIcon "$ICON"
+        [ -n "$jump" ] && set -- "$@" -execute "$jump"
         [ -n "$sound" ] && set -- "$@" -sound "$sound"
         terminal-notifier "$@" >/dev/null 2>&1 || true
     else
