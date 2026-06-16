@@ -49,7 +49,7 @@ brew 'sevenzip' # yazi: archive preview & extraction
 brew 'sox'
 brew 'starship'
 brew 'terminal-notifier'
-brew 'tldr'
+brew 'tealdeer'
 brew 'tmux'
 brew 'virtualenv'
 brew 'viu'

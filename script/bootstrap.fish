@@ -150,6 +150,8 @@ function install_dotfiles
     or abort gh-dash
     link_file $DOTFILES_ROOT/atuin/config $HOME/.config/atuin backup
     or abort atuin
+    link_file $DOTFILES_ROOT/tealdeer/config $HOME/.config/tealdeer backup
+    or abort tealdeer
     link_file $DOTFILES_ROOT/yazi/config $HOME/.config/yazi backup
     or abort yazi
 

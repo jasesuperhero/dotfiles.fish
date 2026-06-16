@@ -65,7 +65,6 @@ sudo apt-get install -y \
     ripgrep \
     shellcheck \
     sox \
-    tldr \
     tmux \
     unzip \
     webp \
@@ -221,6 +220,16 @@ if not command -qa atuin
     # Tarball layout varies across cargo-dist versions (flat vs nested dir).
     cp (find $atuin_tmp -type f -name atuin) ~/.local/bin/atuin
     rm -rf $atuin_tmp
+end
+
+# ── tealdeer (tldr) ───────────────────────────────────────────────────────────
+
+if not command -qa tldr
+    set tealdeer_version (_latest_gh_release dbrgn/tealdeer)
+    set arch (_arch_musl)
+    curl -fsSL "https://github.com/dbrgn/tealdeer/releases/download/$tealdeer_version/tealdeer-linux-$arch-musl" \
+        -o ~/.local/bin/tldr
+    chmod +x ~/.local/bin/tldr
 end
 
 # ── JetBrainsMono Nerd Font ───────────────────────────────────────────────────

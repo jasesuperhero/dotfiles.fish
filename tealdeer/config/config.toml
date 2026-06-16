@@ -1,0 +1,23 @@
+# tealdeer — https://tealdeer-rs.github.io/tealdeer/config.html
+
+[display]
+compact = false
+use_pager = false
+
+[updates]
+# Refresh the cached pages automatically in the background.
+auto_update = true
+auto_update_interval_hours = 720
+
+[style.command_name]
+foreground = "green"
+
+[style.example_text]
+foreground = "white"
+
+[style.example_code]
+foreground = "blue"
+
+[style.example_variable]
+foreground = "yellow"
+underline = true
