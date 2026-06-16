@@ -210,6 +210,19 @@ if not command -qa viu
     chmod +x ~/.local/bin/viu
 end
 
+# ── atuin ────────────────────────────────────────────────────────────────────
+
+if not command -qa atuin
+    set atuin_version (_latest_gh_release atuinsh/atuin)
+    set arch (_arch_musl)
+    set atuin_tmp (mktemp -d)
+    curl -fsSL "https://github.com/atuinsh/atuin/releases/download/$atuin_version/atuin-$arch-unknown-linux-musl.tar.gz" \
+        | tar xz -C $atuin_tmp
+    # Tarball layout varies across cargo-dist versions (flat vs nested dir).
+    cp (find $atuin_tmp -type f -name atuin) ~/.local/bin/atuin
+    rm -rf $atuin_tmp
+end
+
 # ── JetBrainsMono Nerd Font ───────────────────────────────────────────────────
 
 set fonts_dir ~/.local/share/fonts

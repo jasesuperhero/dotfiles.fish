@@ -1,6 +1,7 @@
 tap 'derailed/k9s'
 
 brew 'aria2'
+brew 'atuin'
 brew 'bash'
 brew 'bat'
 brew 'bensadeh/despell/despell'

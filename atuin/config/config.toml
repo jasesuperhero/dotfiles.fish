@@ -1,0 +1,10 @@
+# Compact inline search UI (fzf-like) instead of full screen.
+style = "compact"
+inline_height = 20
+
+# Show a preview of the selected command.
+show_preview = true
+
+# Default theme; overridden at runtime by ATUIN_THEME__NAME via atuin/theme.fish.
+[theme]
+name = "catppuccin-mocha-mauve"
