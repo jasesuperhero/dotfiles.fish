@@ -1,13 +1,18 @@
 #!/usr/bin/env fish
 
-# Use a universal variable (like bat/theme.fish): theme scripts run in subshells
-# from apply_theme.fish, so -gx would not propagate to running fish instances.
-# ATUIN_THEME__NAME overrides [theme] name in config.toml.
+# atuin only reads the theme name from config.toml — the ATUIN_THEME__NAME env
+# override is NOT honoured — so rewrite the [theme] name line in place. install.fish
+# copies config.toml as a real file (not the repo symlink) so this doesn't churn git.
+set -l config $HOME/.config/atuin/config.toml
+test -f $config; or exit 0
+
 switch $C_THEME
     case dark
-        set -Ux ATUIN_THEME__NAME catppuccin-mocha-mauve
+        set theme catppuccin-mocha-mauve
     case light
-        set -Ux ATUIN_THEME__NAME catppuccin-latte-mauve
+        set theme catppuccin-latte-mauve
     case "*"
         exit 1
 end
+
+sed -i '' -E "s|^name = \".*\"|name = \"$theme\"|" $config
