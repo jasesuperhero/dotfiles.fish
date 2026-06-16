@@ -44,8 +44,18 @@ local servers = {
   "solargraph",
   "ts_ls",
   "yamlls",
+  "sourcekit",
+  "kotlin_ls",
+  "jdtls",
 }
 vim.lsp.enable(servers)
+
+-- sourcekit-lsp: system binary from Xcode (not available via Mason)
+vim.lsp.config("sourcekit", {
+  cmd = { "sourcekit-lsp" },
+  filetypes = { "swift", "objc", "objcpp", "c", "cpp" },
+  root_markers = { "Package.swift", "*.xcodeproj", "*.xcworkspace", "compile_commands.json", ".git" },
+})
 
 -- jsonls: load schemas from SchemaStore
 vim.lsp.config("jsonls", {

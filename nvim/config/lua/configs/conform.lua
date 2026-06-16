@@ -17,6 +17,8 @@ local options = {
     jsonc = { "prettierd" },
     markdown = { "prettierd" },
     yaml = { "prettierd" },
+    swift = { "swift_format" },
+    kotlin = { "ktlint" },
   },
 
   format_on_save = {

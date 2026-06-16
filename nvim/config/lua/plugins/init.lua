@@ -63,6 +63,27 @@ return {
   },
 
   {
+    "akinsho/git-conflict.nvim",
+    version = "*",
+    event = { "BufReadPre", "BufNewFile" },
+    opts = {
+      default_mappings = false, -- use the <leader>gx* maps below instead of co/ct/cb
+      default_commands = true,
+      disable_diagnostics = false,
+      list_opener = "copen",
+    },
+    keys = {
+      { "<leader>gxo", "<cmd>GitConflictChooseOurs<cr>", desc = " Choose Ours" },
+      { "<leader>gxt", "<cmd>GitConflictChooseTheirs<cr>", desc = " Choose Theirs" },
+      { "<leader>gxb", "<cmd>GitConflictChooseBoth<cr>", desc = " Choose Both" },
+      { "<leader>gx0", "<cmd>GitConflictChooseNone<cr>", desc = " Choose None" },
+      { "<leader>gxl", "<cmd>GitConflictListQf<cr>", desc = " List Conflicts" },
+      { "]x", "<cmd>GitConflictNextConflict<cr>", desc = " Next Conflict" },
+      { "[x", "<cmd>GitConflictPrevConflict<cr>", desc = " Prev Conflict" },
+    },
+  },
+
+  {
     "pwntester/octo.nvim",
     cmd = "Octo",
     dependencies = {
@@ -132,6 +153,7 @@ return {
         { "<leader>f", group = "find/file", icon = { icon = "", color = "yellow" } },
         { "<leader>g", group = "git", icon = { icon = "", color = "green" } },
         { "<leader>gh", group = "github", icon = { icon = "", color = "blue" } },
+        { "<leader>gx", group = "conflict", icon = { icon = "", color = "red" } },
         { "<leader>m", group = "marks", icon = { icon = "", color = "cyan" } },
         { "<leader>p", group = "pick", icon = { icon = "", color = "purple" } },
         { "<leader>q", group = "quit/session", icon = { icon = "", color = "red" } },
@@ -208,12 +230,15 @@ return {
         "solargraph",
         "typescript-language-server",
         "yaml-language-server",
+        "kotlin-language-server",
+        "jdtls",
         -- formatters
         "prettierd",
         "shfmt",
         "black",
         "rubocop",
         "stylua",
+        "ktlint",
         -- linters
         "shellcheck",
         "markdownlint",
@@ -251,6 +276,8 @@ return {
       { "<leader>fF", "<cmd>Telescope find_files cwd=false<cr>", desc = " Find Files (cwd)" },
       { "<leader>fg", "<cmd>Telescope git_files<cr>", desc = " Find Files (git)" },
       { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "󰋚 Recent Files" },
+      -- git
+      { "<leader>gs", "<cmd>Telescope git_status<cr>", desc = " Changed Files" },
       -- search
       { '<leader>s"', "<cmd>Telescope registers<cr>", desc = "󱆐 Registers" },
       { "<leader>sa", "<cmd>Telescope autocommands<cr>", desc = " Auto Commands" },
@@ -309,10 +336,12 @@ return {
         "gitignore",
         "git_rebase",
         "html",
+        "java",
         "javascript",
         "json",
         "json5",
         "jsonc",
+        "kotlin",
         "lua",
         "luadoc",
         "luap",
@@ -323,6 +352,7 @@ return {
         "ruby",
         "rst",
         "scss",
+        "swift",
         "toml",
         "tsx",
         "typescript",
@@ -530,7 +560,7 @@ return {
 
   {
     "folke/persistence.nvim",
-    event = "BufReadPre",
+    lazy = true,
     opts = {},
     keys = {
       { "<leader>qs", function() require("persistence").load() end, desc = " Restore Session" },
@@ -550,7 +580,7 @@ return {
 
   {
     "stevearc/aerial.nvim",
-    event = { "BufReadPre", "BufNewFile" },
+    cmd = { "AerialToggle", "AerialOpen", "AerialClose" },
     opts = function() return require "configs.aerial" end,
     keys = {
       { "<leader>cs", "<cmd>AerialToggle<cr>", desc = " Aerial (Symbols)" },
@@ -816,9 +846,16 @@ return {
     "epwalsh/obsidian.nvim",
     version = "*",
     lazy = true,
-    ft = "markdown",
     dependencies = { "nvim-lua/plenary.nvim" },
     opts = require "configs.obsidian",
+    init = function()
+      local vault = vim.fn.expand "~/Documents/notes"
+      vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
+        pattern = vault .. "/*.md",
+        once = true,
+        callback = function() require("lazy").load { plugins = { "obsidian.nvim" } } end,
+      })
+    end,
     keys = {
       { "<leader>on", "<cmd>ObsidianNew<cr>", desc = " New Note" },
       { "<leader>oo", "<cmd>ObsidianQuickSwitch<cr>", desc = " Open Note" },
@@ -858,7 +895,6 @@ return {
     "iamcco/markdown-preview.nvim",
     cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
     build = function() vim.fn["mkdp#util#install"]() end,
-    ft = { "markdown" },
     keys = {
       { "<leader>cp", "<cmd>MarkdownPreviewToggle<cr>", ft = "markdown", desc = " Markdown Preview" },
     },
