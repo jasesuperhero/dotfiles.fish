@@ -31,9 +31,20 @@ autocmd("BufEnter", {
 
 -- Spell check and soft wrap for prose filetypes
 autocmd("FileType", {
-  pattern = { "gitcommit", "markdown", "text" },
+  pattern = { "gitcommit", "text" },
   callback = function()
     vim.opt_local.wrap = true
+    vim.opt_local.linebreak = true -- wrap at word boundaries, not mid-word
+    vim.opt_local.breakindent = true -- keep wrapped lines aligned with indent
+    vim.opt_local.spell = true
+  end,
+})
+
+-- Markdown: keep long lines on one line (no wrap), just spell check
+autocmd("FileType", {
+  pattern = { "markdown" },
+  callback = function()
+    vim.opt_local.wrap = false
     vim.opt_local.spell = true
   end,
 })
