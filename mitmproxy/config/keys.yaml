@@ -1,0 +1,19 @@
+# Custom keybindings for the mitmproxy console.
+# Format: https://docs.mitmproxy.org/stable/concepts/options/#keybindings
+#
+# mitmproxy ALREADY ships with vim-style navigation out of the box:
+#   j / k   move down / up     h / l   collapse / expand / back / enter
+#   g / G        jump to top / bottom      / n N   search, next, prev
+#   ctrl f / b   page down / up            q       go back / exit
+#   :            command prompt            ?       context help
+#
+# These add the vim half/whole-page motions ctrl-d / ctrl-u, which mitmproxy
+# does not bind by default.
+- key: ctrl d
+  ctx: [global]
+  cmd: console.nav.pagedown
+  help: Page down (vim ctrl-d)
+- key: ctrl u
+  ctx: [global]
+  cmd: console.nav.pageup
+  help: Page up (vim ctrl-u)

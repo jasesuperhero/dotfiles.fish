@@ -1,0 +1,19 @@
+# mitmproxy options — full reference:
+# https://docs.mitmproxy.org/stable/concepts/options/
+# Theme-independent settings only. The console_palette (light = Catppuccin Latte
+# vibe, dark = Mocha vibe) is selected at launch by mitmproxy/theme.fish so the
+# console follows the system light/dark theme like the rest of the tools.
+
+# Let the terminal's Catppuccin background show through instead of mitmproxy
+# painting its own background, so the console blends into kitty.
+console_palette_transparent: true
+
+# Fallback palette for non-fish / direct launches (theme.fish overrides this).
+console_palette: dark
+
+# Sort the flow list newest-last by arrival time (like Charles' sequence view).
+view_order: time
+
+# Charles listens on 8888 by default; keep mitmproxy's 8080 unless you want to
+# match Charles exactly — uncomment to change.
+# listen_port: 8080

@@ -1,0 +1,6 @@
+# This dir is symlinked to ~/.mitmproxy, where mitmproxy writes its generated
+# CA cert/key and other runtime files. Track only the hand-written config.
+*
+!.gitignore
+!config.yaml
+!keys.yaml

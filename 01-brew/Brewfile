@@ -39,6 +39,7 @@ brew 'mackup'
 brew 'mas'
 brew 'mint'
 brew 'mise'
+brew 'mole'
 brew 'neovim'
 brew 'pango'
 brew 'poppler' # yazi: PDF preview

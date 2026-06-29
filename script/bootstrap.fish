@@ -159,6 +159,8 @@ function install_dotfiles
     or abort ghostty
     link_file $DOTFILES_ROOT/mackup/config $HOME/.mackup backup
     or abort mackup
+    link_file $DOTFILES_ROOT/mitmproxy/config $HOME/.mitmproxy backup
+    or abort mitmproxy
 end
 
 # Bootstrap gum early for better output on re-runs (fresh installs get it via 01-brew)
