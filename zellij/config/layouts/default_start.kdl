@@ -77,6 +77,18 @@ layout {
         }
     }
 
+    tab name="dotfiles" cwd="/Users/daniel/.dotfiles" {
+        pane split_direction="vertical" {
+            pane split_direction="horizontal" size="60%" {
+                pane command="nvim" size="70%" {
+                    args "."
+                }
+                pane name="terminal"
+            }
+            pane command="lazygit"
+        }
+    }
+
     tab name="work" focus=true {
         pane command="fish" {
             args "--login" "--interactive" "-C" "set -gx ZELLIJ_TAB_NAME work"
