@@ -5,7 +5,7 @@ function gco -d "git checkout local or remote branch with fzf"
         git for-each-ref --sort=-committerdate \
             --format='%(refname:short)' refs/heads refs/remotes |
         string match -v 'origin/HEAD' |
-        fzf --reverse --height 40% \
+        fzf --reverse \
             --preview 'git log --oneline --graph --color=always -n 30 {}'
     )
     or return

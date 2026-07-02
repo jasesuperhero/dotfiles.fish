@@ -6,7 +6,7 @@ function gstash -d "browse git stashes with fzf (enter=apply, ctrl-p=pop, ctrl-x
 
     set -l result (
         git stash list |
-        fzf --reverse --height 60% \
+        fzf --reverse \
             --expect=ctrl-p,ctrl-x \
             --preview "$preview" --preview-window 'right,60%'
     )

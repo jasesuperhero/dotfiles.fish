@@ -6,7 +6,7 @@ function glog -d "browse git log with fzf and a delta diff preview"
 
     set -l result (
         git log --color=always --format='%h %C(auto)%s %C(dim)%cr %an' $argv |
-        fzf --ansi --no-sort --reverse --height 80% \
+        fzf --ansi --no-sort --reverse \
             --expect=ctrl-y \
             --preview "$preview" --preview-window 'right,60%'
     )

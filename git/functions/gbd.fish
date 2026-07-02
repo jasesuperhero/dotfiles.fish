@@ -4,7 +4,7 @@ function gbd -d "fuzzy-delete local git branches (Tab to multi-select)"
     set -l branches (
         git branch --format='%(refname:short)' |
         string match -v (git branch --show-current) |
-        fzf -m --reverse --height 50% \
+        fzf -m --reverse \
             --preview 'git log --oneline --graph --color=always -n 30 {}'
     )
     or return

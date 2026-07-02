@@ -13,7 +13,7 @@ function gadd -d "interactively stage changed/untracked files with fzf (Tab to m
         git status --short --no-renames |
         string match -rv '^##' | # drop branch header (status.branch users)
         string match -rv '^[MADRC] ' | # drop entries with nothing left to stage
-        fzf -m --reverse --height 60% \
+        fzf -m --reverse \
             --preview "$preview" --preview-window 'right,60%'
     )
     or return

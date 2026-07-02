@@ -6,7 +6,7 @@ function gunstage -d "interactively unstage files with fzf (Tab to multi-select)
 
     set -l files (
         git diff --cached --name-only |
-        fzf -m --reverse --height 60% \
+        fzf -m --reverse \
             --preview "$preview" --preview-window 'right,60%'
     )
     or return

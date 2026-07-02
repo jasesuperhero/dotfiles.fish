@@ -31,8 +31,7 @@ function _run_theme_scripts
         _debug "waiting for: $pids"
         wait $pids
         _debug "all themes finished"
-
-        set -gx FZF_DEFAULT_OPTS $FZF_DEFAULT_OPTS
+        set -eg FZF_DEFAULT_OPTS
     else
         _debug "no theme scripts found"
     end
