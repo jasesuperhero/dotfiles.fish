@@ -6,11 +6,15 @@
 # so /opt/homebrew/bin (zellij, fish, mise, thefuck, grc, …) is on PATH before
 # we exec anything downstream.
 #
-# If a zellij session is already running, attach to the most recently created
-# active one. Otherwise start a fresh session. EXITED sessions are skipped so
-# old sessions don't get resurrected on every launch.
+# If any zellij sessions are running, present a numbered menu of the active
+# (non-EXITED) ones and ask which to attach to. Enter attaches to the most
+# recent, "n" starts a fresh session. If none are running, start fresh with no
+# prompt. EXITED sessions are skipped so old sessions don't get resurrected.
 #
 # If ZELLIJ is already set (rare — nested launch), drop into a normal shell.
+#
+# NOTE: Ghostty runs this under macOS system /bin/bash (3.2), so we avoid
+# mapfile and other bash 4+ features.
 
 eval "$(/usr/libexec/path_helper -s)"
 
@@ -18,13 +22,42 @@ if [ -n "$ZELLIJ" ]; then
     exec fish --login --interactive
 fi
 
-latest=$(zellij list-sessions --no-formatting --reverse 2>/dev/null |
+# Collect active sessions, most-recent-first.
+sessions=()
+while IFS= read -r line; do
+    [ -n "$line" ] && sessions+=("$line")
+done < <(zellij list-sessions --no-formatting --reverse 2>/dev/null |
     grep -v EXITED |
-    head -n 1 |
     awk '{print $1}')
 
-if [ -n "$latest" ]; then
-    exec zellij attach "$latest"
-else
+if [ ${#sessions[@]} -eq 0 ]; then
     exec zellij
 fi
+
+echo "Active zellij sessions:"
+i=1
+for s in "${sessions[@]}"; do
+    printf "  %d) %s\n" "$i" "$s"
+    i=$((i + 1))
+done
+printf "Attach to which? [1-%d, Enter=1, n=new] " "${#sessions[@]}"
+read -r choice
+
+case "$choice" in
+"")
+    exec zellij attach "${sessions[0]}"
+    ;;
+n | N)
+    exec zellij
+    ;;
+*[!0-9]*)
+    exec zellij attach "${sessions[0]}"
+    ;;
+*)
+    if [ "$choice" -ge 1 ] && [ "$choice" -le "${#sessions[@]}" ]; then
+        exec zellij attach "${sessions[$((choice - 1))]}"
+    else
+        exec zellij attach "${sessions[0]}"
+    fi
+    ;;
+esac
