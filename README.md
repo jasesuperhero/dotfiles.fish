@@ -42,40 +42,45 @@ inside the one file, not with separate scripts.
 ### Fresh machine
 
 Supported: **macOS** (Apple Silicon; Intel works too) and **Ubuntu/Debian**
-(x86_64 and arm64).
+(x86_64 and arm64). Prerequisites: `git` and `curl` only.
 
-1. Install mise (the only prerequisite besides `git`/`curl`):
+1. Install mise, then make it available in the current shell (a new shell also
+   works):
 
    ```sh
    curl https://mise.run | sh
+   eval "$(~/.local/bin/mise activate bash)"   # bash; use `activate zsh` for zsh
    ```
 
-   Then make `mise` available in the current shell (a new shell also works):
+2. Clone the repo (with submodules — the Neovim config uses one):
 
    ```sh
-   # bash/zsh
-   eval "$(~/.local/bin/mise activate bash)"   # or: activate zsh
+   git clone --recurse-submodules \
+     https://github.com/jasesuperhero/dotfiles.fish.git ~/.dotfiles
    ```
 
-2. Clone the repo and provision:
-
-   ```sh
-   ~/.local/bin/mise bootstrap \
-     --from https://github.com/jasesuperhero/dotfiles.fish.git \
-     --from-dir ~/.dotfiles
-   ```
-
-3. Make this repo the global mise config (one-time), then bootstrap again so
-   `[tools]`/`[env]` are active machine-wide:
+3. Make the repo the global mise config. This symlinks
+   `~/.config/mise/config.toml` → `~/.dotfiles/mise.toml` (backing up any
+   existing global config) and seeds an untracked
+   `~/.config/mise/config.local.toml` for machine-local tools:
 
    ```sh
    fish ~/.dotfiles/tasks/adopt-global-config.fish
+   ```
+
+4. Provision:
+
+   ```sh
    cd ~/.dotfiles && mise bootstrap
    ```
 
-> On a fresh machine `mise bootstrap` prompts once for your git `user.name` /
-> `user.email` (stored only in `~/.gitconfig`, never in the repo) and offers to
-> make Fish your login shell.
+> `mise bootstrap` prompts once for your git `user.name` / `user.email` (stored
+> only in `~/.gitconfig`, never in the repo) and offers to make Fish your login
+> shell. Open a new terminal afterwards so Fish + mise activation take effect.
+
+Alternatively, `mise bootstrap --from <git-url> --from-dir ~/.dotfiles` clones
+and provisions in one step; run the adoption step (3) afterwards to make the
+tools global.
 
 ### Existing machine
 
@@ -135,6 +140,9 @@ Lua) and their CLIs (`prettier`, `eslint`, `black`, `yamllint`, `solargraph`,
 **Claude Code:** Zellij status integration + macOS notifications — see
 [claude-code/README.md](claude-code/README.md).
 
+**Editor configs** (symlinked from the repo): Neovim (`nvim/`), Zed
+(`zed/config/`), plus assorted app configs (bat, btop, k9s, yazi, ghostty, …).
+
 **macOS apps** (Homebrew casks): Alfred, Bartender, Fork, IINA, Kap,
 Karabiner-Elements, Kitty, mitmproxy, Obsidian, RescueTime, Stats, Telegram,
 Visual Studio Code. Existing installs are adopted, not replaced.
@@ -181,8 +189,9 @@ Dock/Finder, `chflags`, dark-notify agent) run in `tasks/macos-extras.fish`.
 Several legacy tweaks from the old `set-defaults.sh` were **dropped**: the
 Gatekeeper-weakening `LSQuarantine=false`; obsolete Dashboard, hibernate/
 sleepimage, `tmutil disablelocal`, sudden-motion-sensor and standby tweaks; and
-app-specific blocks. The system appearance is **not** forced to Dark — the theme
-follows it automatically.
+app-specific blocks. Safari prefs are also omitted — Safari is sandboxed, so
+`defaults write com.apple.Safari …` fails without Full Disk Access. The system
+appearance is **not** forced to Dark — the theme follows it automatically.
 
 ## Theme
 
