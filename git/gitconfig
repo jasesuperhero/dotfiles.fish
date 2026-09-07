@@ -146,9 +146,9 @@ textconv = hexdump -v -C
 	# Automatically correct and execute mistyped commands
 	autocorrect = 1
 
-[user]
-	name = Daniel Kalintsev
-	email = d.kalintsev@gmail.com
+# NOTE: user.name / user.email intentionally live ONLY in ~/.gitconfig (local,
+# per-machine identity). They are never tracked here. `tasks/git-local.fish`
+# prompts for them on a fresh machine and wires the include to this file.
 
 [dotfiles]
 managed = true

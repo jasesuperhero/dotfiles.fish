@@ -1,7 +1,6 @@
 #!/usr/bin/env fish
 
-set -gx EDITOR nvim
-set -gx VISUAL nvim
+# EDITOR/VISUAL are set in mise.toml [env] (machine-wide), not here.
 
 abbr -a e nvim
 abbr -a v nvim
