@@ -1,9 +1,0 @@
-cspell
-eslint
-eslint_d
-fixjson
-jsonlint
-neovim
-npm
-pnpm
-prettier

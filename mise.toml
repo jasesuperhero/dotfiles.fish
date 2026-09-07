@@ -1,0 +1,354 @@
+# =============================================================================
+# mise.toml — single declarative source of truth for this machine.
+#
+# `mise bootstrap` (run from ~/.dotfiles) provisions macOS and Ubuntu/Debian
+# from this one file. It is ALSO the global mise config: the adoption step
+# symlinks ~/.config/mise/config.toml -> ~/.dotfiles/mise.toml so [tools] and
+# [env] are active machine-wide (see tasks/adopt-global-config.fish).
+#
+# Layering:
+#   this file (tracked)                -> everything shared across machines
+#   ~/.config/mise/config.local.toml   -> UNTRACKED machine/work-specific tools
+#                                         (loaded globally by mise; e.g. go pin,
+#                                          bazel, ktlint, swiftformat, ...)
+#
+# Prefer a cross-platform [tools] declaration over duplicate brew:/apt: installs
+# whenever the resulting binary/behaviour is equivalent. Host package managers
+# are used for OS libraries, build deps, GUI apps and OS-coupled software only.
+# =============================================================================
+
+[settings]
+# Ruby: use precompiled binaries instead of compiling from source.
+ruby.compile = false
+
+# =============================================================================
+# [env] — shell-independent environment (active everywhere via the global config)
+# =============================================================================
+[env]
+EDITOR = "nvim"
+VISUAL = "nvim"
+WEDITOR = "nvim"
+DOTFILES = "{{env.HOME}}/.dotfiles"
+PROJECTS = "{{env.HOME}}/Developer"
+GOPATH = "{{env.HOME}}/Developer/Go"
+LC_CTYPE = "en_US.UTF-8"
+LC_ALL = "en_US.UTF-8"
+# PATH additions (was 00-dotfiles/install.fish fish_add_path + golang fish_user_paths).
+# ~/.local/bin is handled in 02-fish/config.fish; ~/.cargo/bin is dropped (cargo
+# tools are now mise-managed and shimmed).
+_.path = [
+    "{{env.HOME}}/.dotfiles/bin",
+    "{{env.HOME}}/.bin",
+    "{{env.HOME}}/Developer/Go/bin",
+]
+
+# =============================================================================
+# [tools] — portable runtimes + cross-platform CLIs (shared macOS + Ubuntu).
+# Everything here replaces the old per-component `mise install`/`mise use` scripts
+# AND the macOS brew CLIs / Ubuntu manual GitHub-release downloads they duplicated.
+# =============================================================================
+[tools]
+
+# --- language runtimes -------------------------------------------------------
+node = "latest"
+python = "latest"
+ruby = "latest"
+rust = "latest"
+lua = "latest"
+# NOTE: `go` is intentionally NOT here — it was never declared by the dotfiles.
+# Its pin lives in the untracked ~/.config/mise/config.local.toml.
+
+# --- cross-platform developer CLIs (aqua backend; x86_64 + arm64) ------------
+# Converged from macOS brew + Ubuntu manual GitHub-release installers.
+neovim = "latest"
+delta = "latest"        # git-delta; provides the `delta` binary
+eza = "latest"
+dust = "latest"
+lazygit = "latest"
+lazydocker = "latest"
+k9s = "latest"
+kubectx = "latest"
+kubens = "latest"
+zellij = "latest"
+shfmt = "latest"
+prek = "latest"
+atuin = "latest"
+tealdeer = "latest"     # provides `tldr`
+starship = "latest"
+fd = "latest"
+bat = "latest"
+ripgrep = "latest"      # provides `rg`
+fzf = "latest"
+gh = "latest"           # removes the Ubuntu GitHub-CLI apt repo entirely
+gum = "latest"
+jq = "latest"
+yazi = "latest"
+gping = "latest"
+
+# --- Node CLIs (was: npm install --global from npm_packages.txt) --------------
+"npm:cspell" = "latest"
+"npm:eslint" = "latest"
+"npm:eslint_d" = "latest"
+"npm:fixjson" = "latest"
+"npm:jsonlint" = "latest"
+"npm:prettier" = "latest"
+"npm:neovim" = "latest"        # Neovim Node provider — kept on PATH for nvim
+
+# --- Python CLIs (was: pip install from python_pip.txt) ----------------------
+# Standalone apps only. Libraries (PyYAML/termcolor/tomli) are NOT pipx apps;
+# they live in the mise-managed python and are imported by scripts/plugins.
+"pipx:black" = "latest"
+"pipx:yamllint" = "latest"
+"pipx:pynvim" = "latest"       # Neovim Python provider
+
+# --- Ruby CLIs (was: gem install from ruby_gems.txt) -------------------------
+"gem:bundler" = "latest"
+"gem:solargraph" = "latest"
+"gem:neovim" = "latest"        # Neovim Ruby provider
+
+# --- Rust CLIs (was: cargo install --locked in rust/install.fish) ------------
+"cargo:cargo-update" = { version = "latest", depends = ["rust"] }
+"cargo:stylua" = { version = "latest", depends = ["rust"] }
+"cargo:cargo-nextest" = { version = "latest", depends = ["rust"] }
+
+# =============================================================================
+# [bootstrap.packages] — host packages ONLY (OS libraries, build deps, GUI apps,
+# OS-coupled software, and tools with no suitable mise backend). Never duplicate
+# something already in [tools].
+# =============================================================================
+[bootstrap.packages]
+
+# ---------- macOS: Homebrew formulae (os = "macos") --------------------------
+"brew:fish" = { os = "macos" }
+"brew:mise" = { os = "macos" }
+"brew:git" = { os = "macos" }
+"brew:git-lfs" = { os = "macos" }
+"brew:bash" = { os = "macos" }
+"brew:coreutils" = { os = "macos" }
+"brew:cmake" = { os = "macos" }
+"brew:gcc" = { os = "macos" }
+"brew:clang-format" = { os = "macos" }
+"brew:ffmpeg" = { os = "macos" }        # audio/stream analysis
+"brew:sox" = { os = "macos" }
+"brew:imagemagick" = { os = "macos" }   # yazi: preview non-standard images
+"brew:poppler" = { os = "macos" }       # yazi: PDF preview
+"brew:sevenzip" = { os = "macos" }      # yazi: archive preview & extraction
+"brew:pango" = { os = "macos" }
+"brew:gd" = { os = "macos" }
+"brew:gdk-pixbuf" = { os = "macos" }
+"brew:gnutls" = { os = "macos" }
+"brew:webp" = { os = "macos" }
+"brew:chafa" = { os = "macos" }         # no mise backend
+"brew:viu" = { os = "macos" }           # no mise backend
+"brew:aria2" = { os = "macos" }
+"brew:httpie" = { os = "macos" }
+"brew:wget" = { os = "macos" }
+"brew:tmux" = { os = "macos" }
+"brew:mas" = { os = "macos" }           # Mac App Store CLI
+"brew:m-cli" = { os = "macos" }
+"brew:mackup" = { os = "macos" }
+"brew:mole" = { os = "macos" }
+"brew:terminal-notifier" = { os = "macos" }
+# Apple / iOS development
+"brew:carthage" = { os = "macos" }
+"brew:mint" = { os = "macos" }
+"brew:xcodesorg/made/xcodes" = { os = "macos" }
+# third-party taps (fully-qualified so mise fetches the tap)
+"brew:bensadeh/despell/despell" = { os = "macos" }
+"brew:cormacrelf/tap/dark-notify" = { os = "macos" }   # macOS appearance observer
+
+# ---------- macOS: Homebrew casks (os = "macos") -----------------------------
+# Existing installs are ADOPTED, not replaced (preserves permission grants).
+"brew-cask:alfred" = { os = "macos" }
+"brew-cask:bartender" = { os = "macos" }
+"brew-cask:fork" = { os = "macos" }
+"brew-cask:iina" = { os = "macos" }
+"brew-cask:kap" = { os = "macos" }
+"brew-cask:karabiner-elements" = { os = "macos" }
+"brew-cask:kitty" = { os = "macos" }
+"brew-cask:mitmproxy" = { os = "macos" }
+"brew-cask:obsidian" = { os = "macos" }
+"brew-cask:rescuetime" = { os = "macos" }
+"brew-cask:stats" = { os = "macos" }
+"brew-cask:telegram-desktop" = { os = "macos" }
+"brew-cask:visual-studio-code" = { os = "macos" }
+"brew-cask:font-jetbrains-mono-nerd-font" = { os = "macos" }
+
+# ---------- Ubuntu/Debian: apt (os = "linux") --------------------------------
+# Host packages only. bat/fd/fzf/ripgrep/gh moved to [tools], so the old
+# batcat/fdfind compatibility symlinks and the GitHub-CLI apt repo are gone.
+"apt:fish" = { os = "linux" }
+"apt:git" = { os = "linux" }
+"apt:git-lfs" = { os = "linux" }
+"apt:cmake" = { os = "linux" }
+"apt:gcc" = { os = "linux" }
+"apt:clang-format" = { os = "linux" }
+"apt:ffmpeg" = { os = "linux" }
+"apt:sox" = { os = "linux" }
+"apt:chafa" = { os = "linux" }
+"apt:webp" = { os = "linux" }
+"apt:aria2" = { os = "linux" }
+"apt:httpie" = { os = "linux" }
+"apt:wget" = { os = "linux" }
+"apt:tmux" = { os = "linux" }
+"apt:unzip" = { os = "linux" }
+"apt:btop" = { os = "linux" }
+"apt:shellcheck" = { os = "linux" }
+"apt:xclip" = { os = "linux" }            # Neovim clipboard provider on Linux
+"apt:python3-virtualenv" = { os = "linux" }
+
+# =============================================================================
+# [dotfiles] — symlink management (replaces script/bootstrap.fish link_file and
+# 00-dotfiles/install.fish). Sources use ~/.dotfiles/... so they resolve to the
+# real repo regardless of how the config is loaded (project or global symlink).
+#
+# fish conf.d/functions use `symlink-each` (per-file) so fisher-generated files
+# in those dirs are never clobbered. atuin/zellij/starship are NOT here — their
+# theme scripts rewrite the files, so they are seeded as real files by
+# tasks/seed-configs.fish.
+# =============================================================================
+[dotfiles]
+
+# --- fish: per-file so fisher-managed files coexist --------------------------
+"~/.config/fish/conf.d" = { source = "~/.dotfiles/02-fish/conf.d", mode = "symlink-each" }
+"~/.config/fish/functions" = { source = "~/.dotfiles/02-fish/functions", mode = "symlink-each" }
+"~/.config/fish/config.fish" = { source = "~/.dotfiles/02-fish/config.fish", mode = "symlink" }
+
+# component conf.d/functions (each component owns its snippets) --------------
+"~/.config/fish/conf.d/atuin.fish" = { source = "~/.dotfiles/atuin/conf.d/atuin.fish", mode = "symlink" }
+"~/.config/fish/conf.d/bat_abbr.fish" = { source = "~/.dotfiles/bat/conf.d/bat_abbr.fish", mode = "symlink" }
+"~/.config/fish/conf.d/docker_abbr.fish" = { source = "~/.dotfiles/docker/conf.d/docker_abbr.fish", mode = "symlink" }
+"~/.config/fish/conf.d/dog_abbr.fish" = { source = "~/.dotfiles/dog/conf.d/dog_abbr.fish", mode = "symlink" }
+"~/.config/fish/conf.d/dust_abbr.fish" = { source = "~/.dotfiles/dust/conf.d/dust_abbr.fish", mode = "symlink" }
+"~/.config/fish/conf.d/eza_abbr.fish" = { source = "~/.dotfiles/eza/conf.d/eza_abbr.fish", mode = "symlink" }
+"~/.config/fish/conf.d/fd_abbr.fish" = { source = "~/.dotfiles/fd/conf.d/fd_abbr.fish", mode = "symlink" }
+"~/.config/fish/conf.d/fzf_theme.fish" = { source = "~/.dotfiles/fzf/conf.d/fzf_theme.fish", mode = "symlink" }
+"~/.config/fish/conf.d/git_abbr.fish" = { source = "~/.dotfiles/git/conf.d/git_abbr.fish", mode = "symlink" }
+"~/.config/fish/conf.d/gping_abbr.fish" = { source = "~/.dotfiles/gping/conf.d/gping_abbr.fish", mode = "symlink" }
+"~/.config/fish/conf.d/mise.fish" = { source = "~/.dotfiles/mise/conf.d/mise.fish", mode = "symlink" }
+"~/.config/fish/conf.d/nvim_abbr.fish" = { source = "~/.dotfiles/nvim/conf.d/nvim_abbr.fish", mode = "symlink" }
+"~/.config/fish/conf.d/install.fish" = { source = "~/.dotfiles/pnpm/conf.d/install.fish", mode = "symlink" }
+"~/.config/fish/conf.d/ripgrep.fish" = { source = "~/.dotfiles/ripgrep/conf.d/ripgrep.fish", mode = "symlink" }
+"~/.config/fish/conf.d/rustnet_abbr.fish" = { source = "~/.dotfiles/rustnet/conf.d/rustnet_abbr.fish", mode = "symlink" }
+"~/.config/fish/conf.d/set-locale.fish" = { source = "~/.dotfiles/system/conf.d/set-locale.fish", mode = "symlink" }
+"~/.config/fish/conf.d/starship.fish" = { source = "~/.dotfiles/starship/conf.d/starship.fish", mode = "symlink" }
+"~/.config/fish/conf.d/system_abbr.fish" = { source = "~/.dotfiles/system/conf.d/system_abbr.fish", mode = "symlink" }
+"~/.config/fish/conf.d/tealdeer.fish" = { source = "~/.dotfiles/tealdeer/conf.d/tealdeer.fish", mode = "symlink" }
+"~/.config/fish/conf.d/zoxide.fish" = { source = "~/.dotfiles/zoxide/conf.d/zoxide.fish", mode = "symlink" }
+# macOS-only fish snippets
+"~/.config/fish/conf.d/macos_abbr.fish" = { source = "~/.dotfiles/macos/conf.d/macos_abbr.fish", mode = "symlink", os = "macos" }
+"~/.config/fish/conf.d/macos_path.fish" = { source = "~/.dotfiles/macos/conf.d/macos_path.fish", mode = "symlink", os = "macos" }
+"~/.config/fish/conf.d/mitm_abbr.fish" = { source = "~/.dotfiles/mitmproxy/conf.d/mitm_abbr.fish", mode = "symlink", os = "macos" }
+"~/.config/fish/conf.d/xcode_abbr.fish" = { source = "~/.dotfiles/xcode/conf.d/xcode_abbr.fish", mode = "symlink", os = "macos" }
+
+# --- whole application config dirs (safe to symlink; theme = env vars) --------
+"~/.config/nvim" = { source = "~/.dotfiles/nvim/config", mode = "symlink" }
+"~/.config/bat" = { source = "~/.dotfiles/bat/config", mode = "symlink" }
+"~/.config/btop" = { source = "~/.dotfiles/btop/config", mode = "symlink" }
+"~/.config/k9s" = { source = "~/.dotfiles/k9s/config", mode = "symlink" }
+"~/.config/yazi" = { source = "~/.dotfiles/yazi/config", mode = "symlink" }
+"~/.config/gitui" = { source = "~/.dotfiles/gitui/config", mode = "symlink" }
+"~/.config/gh-dash" = { source = "~/.dotfiles/gh-dash/config", mode = "symlink" }
+"~/.config/tealdeer" = { source = "~/.dotfiles/tealdeer/config", mode = "symlink" }
+"~/.config/ghostty" = { source = "~/.dotfiles/ghostty/config", mode = "symlink" }
+"~/.config/zed" = { source = "~/.dotfiles/zed/config", mode = "symlink-each" }
+
+# --- macOS-only application config -------------------------------------------
+"~/.config/kitty" = { source = "~/.dotfiles/kitty/config", mode = "symlink", os = "macos" }
+"~/.mitmproxy" = { source = "~/.dotfiles/mitmproxy/config", mode = "symlink", os = "macos" }
+"~/Library/Application Support/com.mitchellh.ghostty/config" = { source = "~/.dotfiles/ghostty/config/config", mode = "symlink", os = "macos" }
+
+# --- home dotfiles -----------------------------------------------------------
+"~/.gitignore" = { source = "~/.dotfiles/git/gitignore.symlink", mode = "symlink" }
+"~/.editorconfig" = { source = "~/.dotfiles/editorconfig/editorconfig.symlink", mode = "symlink" }
+"~/.ssh/config.dotfiles" = { source = "~/.dotfiles/ssh/config.dotfiles", mode = "symlink" }
+
+# =============================================================================
+# [bootstrap.macos.defaults] — macOS system preferences (os-gated automatically).
+# Obsolete / no-op / security-reducing tweaks from the old set-defaults.sh were
+# deliberately dropped (see tasks/macos-extras.fish header and README).
+# AppleInterfaceStyle is intentionally NOT forced — the theme system observes the
+# system appearance; forcing Dark would fight automatic light/dark switching.
+# =============================================================================
+[bootstrap.macos.defaults]
+# Keyboard
+"NSGlobalDomain.ApplePressAndHoldEnabled" = false
+"NSGlobalDomain.KeyRepeat" = 2
+"NSGlobalDomain.InitialKeyRepeat" = 15
+"NSGlobalDomain.NSAutomaticQuoteSubstitutionEnabled" = false
+"NSGlobalDomain.NSAutomaticDashSubstitutionEnabled" = false
+"NSGlobalDomain.NSAutomaticSpellingCorrectionEnabled" = false
+"NSGlobalDomain.WebAutomaticTextReplacementEnabled" = true
+# Trackpad / mouse
+"NSGlobalDomain.com.apple.trackpad.scaling" = 2.0
+"NSGlobalDomain.com.apple.mouse.scaling" = 2.5
+# UI
+"NSGlobalDomain.AppleShowScrollBars" = "Always"
+"NSGlobalDomain.NSWindowResizeTime" = 0.001
+# Screensaver / security
+"com.apple.screensaver.askForPassword" = 1
+"com.apple.screensaver.askForPasswordDelay" = 0
+# Network browser
+"com.apple.NetworkBrowser.BrowseAllInterfaces" = 1
+# Menu bar
+"com.apple.menuextra.battery.ShowPercent" = true
+# Dock
+"com.apple.dock.mru-spaces" = false
+"com.apple.dock.tilesize" = 45
+"com.apple.dock.expose-animation-duration" = 0.1
+"com.apple.dock.expose-group-by-app" = true
+"com.apple.dock.autohide-delay" = 0.0
+"com.apple.dock.autohide-time-modifier" = 0.0
+"com.apple.dock.autohide" = true
+"com.apple.dock.launchanim" = false
+# Finder
+"com.apple.finder.FXPreferredViewStyle" = "Nlsv"
+"com.apple.finder.ShowExternalHardDrivesOnDesktop" = true
+"com.apple.finder.ShowRemovableMediaOnDesktop" = true
+"com.apple.finder.NSNavPanelExpandedStateForSaveMode" = true
+"com.apple.finder.NSTableViewDefaultSizeMode" = 1
+"com.apple.finder.ShowStatusBar" = true
+"com.apple.finder.ShowPathbar" = true
+"com.apple.finder.WarnOnEmptyTrash" = false
+"com.apple.finder.NSDocumentSaveNewDocumentsToCloud" = false
+"com.apple.finder._FXShowPosixPathInTitle" = true
+"com.apple.finder.FXEnableExtensionChangeWarning" = false
+"com.apple.desktopservices.DSDontWriteNetworkStores" = true
+# Web dev toggles (low-risk, useful)
+"com.apple.Safari.IncludeDevelopMenu" = true
+"com.apple.Safari.WebKitDeveloperExtrasEnabledPreferenceKey" = true
+"com.apple.Safari.ShowFavoritesBar" = false
+"com.google.Chrome.AppleEnableSwipeNavigateWithScrolls" = false
+
+# =============================================================================
+# [tasks] — imperative EXCEPTIONS only. The special `bootstrap` task runs on every
+# `mise bootstrap`; each sub-task is idempotent. Everything here is something mise
+# cannot express declaratively.
+# =============================================================================
+[tasks.fisher]
+description = "Install fisher (if absent) and converge 03-fisher/plugins"
+run = "fish $DOTFILES/tasks/fisher.fish"
+
+[tasks.git-local]
+description = "Ensure ~/.gitconfig include + identity (prompt only if missing); gh settings"
+run = "fish $DOTFILES/tasks/git-local.fish"
+
+[tasks.ssh-setup]
+description = "Ensure ~/.ssh/config includes config.dotfiles; fix permissions"
+run = "fish $DOTFILES/tasks/ssh-setup.fish"
+
+[tasks.seed-configs]
+description = "Seed atuin/zellij/starship real-file configs + rebuild bat cache + apply theme"
+run = "fish $DOTFILES/tasks/seed-configs.fish"
+
+[tasks.os-extras]
+description = "OS-specific setup: macOS defaults side-effects + dark-notify; Ubuntu fonts"
+run = "fish $DOTFILES/tasks/os-extras.fish"
+
+[tasks.login-shell]
+description = "Add fish to /etc/shells and set it as the login shell (skipped in CI)"
+run = "fish $DOTFILES/tasks/login-shell.fish"
+
+[tasks.bootstrap]
+description = "Idempotent post-provision exceptions"
+depends = ["fisher", "git-local", "ssh-setup", "seed-configs", "os-extras", "login-shell"]

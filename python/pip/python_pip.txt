@@ -1,6 +1,0 @@
-black
-pynvim
-PyYAML
-termcolor
-tomli
-yamllint
