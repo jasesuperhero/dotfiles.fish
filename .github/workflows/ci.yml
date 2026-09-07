@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [master, mise-bootstrap-migration]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  ubuntu:
+    name: Ubuntu (${{ matrix.arch }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { runner: ubuntu-latest, arch: x86_64 }
+          - { runner: ubuntu-24.04-arm, arch: arm64 }
+    runs-on: ${{ matrix.runner }}
+    env:
+      CI: "true"                     # tasks/login-shell.fish self-skips
+      MISE_SKIP_LOGIN_SHELL: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: .dotfiles
+          submodules: recursive
+
+      - name: Install mise
+        run: |
+          curl https://mise.run | sh
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Symlink repo to ~/.dotfiles
+        run: |
+          # checkout put us in $GITHUB_WORKSPACE/.dotfiles; expose it at ~/.dotfiles
+          ln -sfn "$GITHUB_WORKSPACE/.dotfiles" "$HOME/.dotfiles"
+
+      - name: Trust config
+        working-directory: ~/.dotfiles
+        run: mise trust
+
+      - name: Validate config parses
+        working-directory: ~/.dotfiles
+        run: |
+          mise config ls
+          mise tasks
+          mise bootstrap status || true
+
+      - name: Dry-run bootstrap
+        working-directory: ~/.dotfiles
+        run: mise bootstrap --dry-run
+
+      - name: Install portable tools + apply dotfiles
+        working-directory: ~/.dotfiles
+        run: mise bootstrap --only tools,dotfiles --yes
+
+      - name: Verify key binaries resolve
+        working-directory: ~/.dotfiles
+        run: |
+          set -e
+          for t in nvim delta eza dust lazygit k9s zellij shfmt \
+                   atuin tealdeer starship fd bat rg fzf gh jq gum; do
+            echo "== $t =="
+            mise exec -- $t --version 2>/dev/null | head -1 \
+              || { echo "MISSING: $t"; exit 1; }
+          done
