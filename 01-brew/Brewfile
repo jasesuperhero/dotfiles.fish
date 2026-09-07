@@ -45,6 +45,7 @@ brew 'pango'
 brew 'poppler' # yazi: PDF preview
 brew 'prek'
 brew 'ripgrep'
+brew 'rustnet'
 brew 'shellcheck'
 brew 'shfmt'
 brew 'sevenzip' # yazi: archive preview & extraction
