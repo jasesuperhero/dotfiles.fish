@@ -1,0 +1,104 @@
+// Zed keymap — ports the Neovim (NvChad) keybindings. Leader = <space>.
+// Where a clean Zed action exists we use it; otherwise we delegate to Zed's
+// default shortcut via SendKeystrokes so the binding can't silently break.
+// See https://zed.dev/docs/key-bindings for available actions.
+[
+  // ─── Insert mode ──────────────────────────────────────────────────────────
+  {
+    "context": "Editor && vim_mode == insert && !menu",
+    "bindings": {
+      "j k": ["workspace::SendKeystrokes", "escape"], // nvim: imap jk <ESC>
+      "j j": ["workspace::SendKeystrokes", "escape"]
+    }
+  },
+
+  // ─── Normal mode: editing / motions ────────────────────────────────────────
+  {
+    "context": "Editor && vim_mode == normal && !menu",
+    "bindings": {
+      ";": ["workspace::SendKeystrokes", ":"], // nvim: ; enters command mode
+      "shift-h": "pane::ActivatePreviousItem", // nvim: <S-h> prev buffer
+      "shift-l": "pane::ActivateNextItem", // nvim: <S-l> next buffer
+      "[ b": "pane::ActivatePreviousItem",
+      "] b": "pane::ActivateNextItem",
+      "z r": "editor::UnfoldAll", // nvim ufo: zR open all folds
+      "z m": "editor::FoldAll", // nvim ufo: zM close all folds
+      // Diagnostics — delegate to Zed defaults (f8 / shift-f8)
+      "] d": ["workspace::SendKeystrokes", "f8"],
+      "[ d": ["workspace::SendKeystrokes", "shift-f8"],
+      // Git hunks
+      "] h": "editor::GoToHunk",
+      "[ h": "editor::GoToPreviousHunk"
+    }
+  },
+
+  // ─── LSP navigation (nvim lspconfig.lua) ───────────────────────────────────
+  {
+    "context": "Editor && vim_mode == normal && !menu",
+    "bindings": {
+      "g r": "editor::FindAllReferences", // nvim: gr references
+      "g i": "editor::GoToImplementation", // nvim: gI implementation
+      "g y": "editor::GoToTypeDefinition" // nvim: gy type definition
+    }
+  },
+
+  // ─── Leader maps (normal + visual) ─────────────────────────────────────────
+  {
+    "context": "(Editor && vim_mode == normal && !menu) || (Editor && vim_mode == visual && !menu)",
+    "bindings": {
+      // Find / files (nvim telescope) — delegate to Zed defaults
+      "space space": "file_finder::Toggle", // nvim: <leader><space> find files
+      "space f f": "file_finder::Toggle", // nvim: <leader>ff
+      "space f r": ["workspace::SendKeystrokes", "cmd-p"], // recent files
+      "space ,": "tab_switcher::Toggle", // nvim: <leader>, switch buffer
+      "space s g": ["workspace::SendKeystrokes", "cmd-shift-f"], // nvim: <leader>sg grep
+      "space s w": ["workspace::SendKeystrokes", "cmd-shift-f"], // nvim: <leader>sw grep word
+      "space s s": "outline::Toggle", // nvim: <leader>ss document symbols
+      "space :": "command_palette::Toggle", // nvim: <leader>: commands
+
+      // Explorer (nvim neo-tree)
+      "space e": "project_panel::ToggleFocus", // nvim: <leader>e focus tree
+
+      // Code (nvim lspconfig)
+      "space c a": "editor::ToggleCodeActions", // nvim: <leader>ca code action
+      "space c r": "editor::Rename", // nvim: <leader>cr rename
+      "space c s": "outline_panel::ToggleFocus", // nvim: <leader>cs symbols (aerial)
+      "space c d": "editor::Hover", // nvim: <leader>cd line diagnostics
+      "space c f": "editor::Format", // nvim: format buffer
+
+      // Comment toggle (nvim NvChad <leader>/)
+      "space /": "editor::ToggleComments",
+
+      // Diagnostics / Trouble (nvim <leader>xx)
+      "space x x": "diagnostics::Deploy",
+
+      // Git (nvim neogit / diffview / gitsigns)
+      "space g g": "git_panel::ToggleFocus", // nvim: <leader>gg neogit
+      "space g s": "git_panel::ToggleFocus", // nvim: <leader>gs changed files
+
+      // Tasks (Zed task runner — rspec/pytest/etc from tasks.json)
+      "space r r": "task::Spawn", // pick a task
+      "space r t": "task::Rerun", // rerun last task
+
+      // Save (nvim <leader>w)
+      "space w": "workspace::Save",
+
+      // Windows / splits (nvim <leader>- and <leader>|)
+      "space -": "pane::SplitDown", // nvim: <leader>- split below
+      "space \\": "pane::SplitRight" // nvim: <leader>| split right
+    }
+  },
+
+  // ─── Explorer toggle + split navigation (global normal mode) ───────────────
+  {
+    "context": "Editor && vim_mode == normal && !menu",
+    "bindings": {
+      "ctrl-n": "project_panel::ToggleFocus", // nvim: <C-n> toggle neo-tree
+      // smart-splits: move between splits with Alt+hjkl
+      "alt-h": ["workspace::ActivatePaneInDirection", "Left"],
+      "alt-j": ["workspace::ActivatePaneInDirection", "Down"],
+      "alt-k": ["workspace::ActivatePaneInDirection", "Up"],
+      "alt-l": ["workspace::ActivatePaneInDirection", "Right"]
+    }
+  }
+]

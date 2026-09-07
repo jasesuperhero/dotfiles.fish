@@ -1,0 +1,192 @@
+// Zed settings — mirrors the VSCode setup AND the Neovim (NvChad) config:
+// fonts, Catppuccin theme/icons, vim options, prettier/conform formatters,
+// language extensions, right-hand sidebar. See keymap.json for the vim keymaps.
+//
+// For all available options: `zed: open default settings` from the command
+// palette (cmd-shift-p).
+//
+// NOTE: secrets (e.g. the GitHub MCP token that used to live in
+// `context_servers`) are intentionally NOT tracked here. Add them by hand to
+// this file after install — but it's a symlink into the dotfiles repo, so
+// anything added here would be committed. Keep secrets elsewhere.
+{
+  // --- Fonts (VSCode/nvim: JetBrainsMono Nerd Font Mono, ligatures, size 14) ---
+  "ui_font_family": "JetBrainsMonoNL Nerd Font",
+  "ui_font_size": 16,
+  "buffer_font_family": "JetBrainsMono Nerd Font Mono",
+  "buffer_font_size": 14,
+  "buffer_font_features": {
+    "calt": true // ligatures — VSCode editor.fontLigatures
+  },
+  "terminal": {
+    "font_family": "JetBrainsMono Nerd Font Mono"
+  },
+
+  // --- Theme + icons, auto light/dark (VSCode window.autoDetectColorScheme) ---
+  "icon_theme": "Catppuccin Latte",
+  "theme": {
+    "mode": "system",
+    "light": "Catppuccin Latte",
+    "dark": "Catppuccin Mocha"
+  },
+
+  // --- Editor behaviour ported from nvim options.lua ---
+  "relative_line_numbers": true, // nvim: relativenumber
+  "vertical_scroll_margin": 18, // nvim: scrolloff = 18
+  "horizontal_scroll_margin": 3, // nvim: sidescrolloff = 3
+  "soft_wrap": "none", // nvim: wrap = false
+  "cursor_blink": false,
+
+  // --- Editor power-ups ---
+  "autosave": "on_focus_change",
+  // Inline diagnostics at end-of-line (nvim diagflow.nvim / errorlens)
+  "diagnostics": {
+    "inline": {
+      "enabled": true,
+      "update_debounce_ms": 150
+    }
+  },
+  // LSP inlay hints (types / parameter names), like nvim's vim.lsp.inlay_hint
+  "inlay_hints": {
+    "enabled": true,
+    "show_type_hints": true,
+    "show_parameter_hints": true,
+    "show_other_hints": true
+  },
+  // Organize imports on save across languages (conform lsp_fallback vibe)
+  "code_actions_on_format": {
+    "source.organizeImports": true
+  },
+
+  // --- Panels — VSCode keeps the sidebar on the right ---
+  "project_panel": {
+    "dock": "right"
+  },
+  "outline_panel": {
+    "dock": "right"
+  },
+  "collaboration_panel": {
+    "dock": "left"
+  },
+  "git_panel": {
+    "dock": "left"
+  },
+  "agent": {
+    "dock": "right",
+    "favorite_models": [],
+    "model_parameters": []
+  },
+
+  // --- AI: Zed's built-in multi-line edit prediction (Zeta). The agent panel
+  // is docked on the right; pick a model there. Inline assist = ctrl-enter. ---
+  "features": {
+    "edit_prediction_provider": "zed"
+  },
+  "show_edit_predictions": true,
+
+  // --- Vim (nvim: system clipboard, jk->Esc, <space> leader; see keymap.json) ---
+  "vim_mode": true,
+  "vim": {
+    "use_system_clipboard": "always",
+    "use_multiline_find": true,
+    "use_smartcase_find": true,
+    "highlight_on_yank_duration": 200
+  },
+
+  // --- Git: inline blame (like gitsigns). Merge-conflict resolution is built
+  // in — open a conflicted file for inline Accept Current/Incoming/Both. ---
+  "git": {
+    "inline_blame": {
+      "enabled": true
+    }
+  },
+
+  // --- Hidden files (VSCode files.exclude: node_modules, .history) ---
+  "file_scan_exclusions": [
+    "**/.git",
+    "**/.svn",
+    "**/.hg",
+    "**/CVS",
+    "**/.DS_Store",
+    "**/node_modules",
+    "**/.history"
+  ],
+
+  // --- Language extensions to auto-install, matching nvim's LSP/treesitter set
+  // (lua_ls, solargraph, sourcekit, kotlin, ansible, dockerfile, etc.) ---
+  "auto_install_extensions": {
+    "catppuccin": true,
+    "catppuccin-icons": true,
+    "git-firefly": true,
+    "html": true,
+    "make": true,
+    "dockerfile": true,
+    "proto": true,
+    "xml": true,
+    "ansible": true,
+    "python-requirements": true,
+    "ruby": true,
+    "swift": true,
+    "lua": true,
+    "kotlin": true,
+    "fish": true,
+    "toml": true,
+    "tailwindcss": true,
+    "terraform": true,
+    "astro": true,
+    "nix": true,
+    "graphql": true
+  },
+
+  // --- Format on save with conform-equivalent formatters (nvim conform.lua) ---
+  // Uses tools already on your PATH: stylua, black, shfmt, fish_indent,
+  // swift-format, prettier (built into Zed). Ruby/Kotlin format via LSP.
+  "format_on_save": "on",
+  "formatter": "language_server",
+  "languages": {
+    "JavaScript": {
+      "formatter": "prettier",
+      "code_actions_on_format": { "source.fixAll.eslint": true }
+    },
+    "TypeScript": {
+      "formatter": "prettier",
+      "code_actions_on_format": { "source.fixAll.eslint": true }
+    },
+    "TSX": {
+      "formatter": "prettier",
+      "code_actions_on_format": { "source.fixAll.eslint": true }
+    },
+    "JSX": {
+      "formatter": "prettier",
+      "code_actions_on_format": { "source.fixAll.eslint": true }
+    },
+    "JSON": { "formatter": "prettier" },
+    "JSONC": { "formatter": "prettier" },
+    "CSS": { "formatter": "prettier" },
+    "SCSS": { "formatter": "prettier" },
+    "HTML": { "formatter": "prettier" },
+    "YAML": { "formatter": "prettier" },
+    "Markdown": { "formatter": "prettier" },
+    "Lua": {
+      "formatter": { "external": { "command": "stylua", "arguments": ["-"] } }
+    },
+    "Python": {
+      "format_on_type": true, // VSCode [python] editor.formatOnType
+      "formatter": { "external": { "command": "black", "arguments": ["-", "-q"] } }
+    },
+    "Shell Script": {
+      "formatter": { "external": { "command": "shfmt", "arguments": ["-"] } }
+    },
+    "Fish": {
+      "formatter": { "external": { "command": "fish_indent" } }
+    },
+    "Swift": {
+      "formatter": { "external": { "command": "swift-format", "arguments": ["format", "-"] } }
+    },
+    "Ruby": { "formatter": "language_server" }
+  },
+
+  "session": {
+    "trust_all_worktrees": true
+  }
+}

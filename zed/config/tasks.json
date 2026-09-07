@@ -1,0 +1,67 @@
+// Zed tasks — run tests/build like your VSCode tasks + rspec runner.
+// Spawn with `task: spawn` (cmd-shift-p) or bind a key to `task::Spawn`.
+// Zed variables: $ZED_FILE, $ZED_RELATIVE_FILE, $ZED_ROW, $ZED_SYMBOL, $ZED_WORKTREE_ROOT
+[
+  // ─── Ruby / RSpec (replaces vscode thadeu.vscode-run-rspec-file) ───────────
+  {
+    "label": "rspec: current file",
+    "command": "bundle exec rspec \"$ZED_RELATIVE_FILE\"",
+    "reveal": "always",
+    "tags": ["ruby-test"]
+  },
+  {
+    "label": "rspec: nearest (current line)",
+    "command": "bundle exec rspec \"$ZED_RELATIVE_FILE:$ZED_ROW\"",
+    "reveal": "always"
+  },
+  {
+    "label": "rspec: all",
+    "command": "bundle exec rspec"
+  },
+
+  // ─── Python ────────────────────────────────────────────────────────────────
+  {
+    "label": "pytest: current file",
+    "command": "python -m pytest \"$ZED_RELATIVE_FILE\" -v",
+    "reveal": "always",
+    "tags": ["python-test"]
+  },
+  {
+    "label": "pytest: all",
+    "command": "python -m pytest -v"
+  },
+  {
+    "label": "python: run current file",
+    "command": "python \"$ZED_FILE\"",
+    "reveal": "always"
+  },
+
+  // ─── Swift ─────────────────────────────────────────────────────────────────
+  {
+    "label": "swift: test",
+    "command": "swift test",
+    "reveal": "always"
+  },
+  {
+    "label": "swift: build",
+    "command": "swift build"
+  },
+
+  // ─── Rust ──────────────────────────────────────────────────────────────────
+  {
+    "label": "cargo: test",
+    "command": "cargo test"
+  },
+  {
+    "label": "cargo: run",
+    "command": "cargo run",
+    "reveal": "always"
+  },
+
+  // ─── Generic ───────────────────────────────────────────────────────────────
+  {
+    "label": "make",
+    "command": "make",
+    "reveal": "always"
+  }
+]
