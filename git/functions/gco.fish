@@ -10,13 +10,12 @@ function gco -d "git checkout local or remote branch with fzf"
     )
     or return
 
-    # Remote pick like "origin/feature" -> switch to a tracking "feature"
-    set -l local (string replace -r '^[^/]+/' '' -- $branch)
-    if git show-ref --verify --quiet "refs/heads/$local"
-        git switch $local
-    else if test "$local" != "$branch"
-        git switch -c $local --track $branch
+    if git show-ref --verify --quiet "refs/heads/$branch"
+        # Local branch — check it out directly (handles names with slashes).
+        git checkout $branch
     else
-        git switch $branch
+        # Remote-tracking pick like "origin/eng/foo": drop the remote name and let
+        # git's DWIM create/switch the matching local branch, same as `git co eng/foo`.
+        git checkout (string replace -r '^[^/]+/' '' -- $branch)
     end
 end
