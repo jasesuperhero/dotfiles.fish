@@ -40,6 +40,9 @@ o.timeoutlen = 250
 -- Files
 o.swapfile = false
 
+-- Load project-local `.nvim.lua`/`.nvimrc`/`.exrc` from the cwd (prompts once to :trust per repo).
+o.exrc = true
+
 -- Persistent undo
 o.undolevels = 1000
 o.undoreload = 10000
