@@ -40,8 +40,9 @@ if command -q gh
 end
 
 # Install this repo's git pre-commit hooks (was git-hooks/install.fish).
+# --force removes any stale legacy hook so prek doesn't run in migration mode.
 if command -q prek; and test -f "$DOTFILES/.pre-commit-config.yaml"
     pushd "$DOTFILES"
-    prek install 2>/dev/null; or true
+    prek install --force 2>/dev/null; or true
     popd
 end
