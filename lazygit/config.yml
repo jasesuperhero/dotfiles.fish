@@ -14,10 +14,10 @@ gui:
 services:
   "github-work": "github:github.com"
 git:
-  pagers:
+  diffRenderers:
     - colorArg: always
       # yamllint disable-line rule:line-length
-      pager: delta --paging=never --features $(test "$C_THEME" = "dark" && echo dark-mode || echo light-mode)
+      command: delta --paging=never --features $(test "$C_THEME" = "dark" && echo dark-mode || echo light-mode)
   merging:
     manualCommit: false
     args: ""
