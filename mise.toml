@@ -51,6 +51,7 @@ _.path = [
 
 # --- language runtimes -------------------------------------------------------
 node = "latest"
+pnpm = "latest"        # default Node package manager (standalone; was npm -g pnpm)
 python = "latest"
 ruby = "latest"
 rust = "latest"
