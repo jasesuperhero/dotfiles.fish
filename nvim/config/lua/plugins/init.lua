@@ -342,6 +342,7 @@ return {
         "json5",
         "jsonc",
         "kotlin",
+        "latex",
         "lua",
         "luadoc",
         "luap",
@@ -897,6 +898,19 @@ return {
     build = function() vim.fn["mkdp#util#install"]() end,
     keys = {
       { "<leader>cp", "<cmd>MarkdownPreviewToggle<cr>", ft = "markdown", desc = " Markdown Preview" },
+    },
+  },
+
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    ft = { "markdown" },
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons", -- icons above code blocks
+    },
+    opts = {},
+    keys = {
+      { "<leader>um", "<cmd>RenderMarkdown toggle<cr>", ft = "markdown", desc = " Toggle Markdown Render" },
     },
   },
 }
