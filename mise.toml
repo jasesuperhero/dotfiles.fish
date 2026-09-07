@@ -270,55 +270,66 @@ gping = "latest"
 # AppleInterfaceStyle is intentionally NOT forced — the theme system observes the
 # system appearance; forcing Dark would fight automatic light/dark switching.
 # =============================================================================
-[bootstrap.macos.defaults]
+[bootstrap.macos.defaults.NSGlobalDomain]
 # Keyboard
-"NSGlobalDomain.ApplePressAndHoldEnabled" = false
-"NSGlobalDomain.KeyRepeat" = 2
-"NSGlobalDomain.InitialKeyRepeat" = 15
-"NSGlobalDomain.NSAutomaticQuoteSubstitutionEnabled" = false
-"NSGlobalDomain.NSAutomaticDashSubstitutionEnabled" = false
-"NSGlobalDomain.NSAutomaticSpellingCorrectionEnabled" = false
-"NSGlobalDomain.WebAutomaticTextReplacementEnabled" = true
+ApplePressAndHoldEnabled = false
+KeyRepeat = 2
+InitialKeyRepeat = 15
+NSAutomaticQuoteSubstitutionEnabled = false
+NSAutomaticDashSubstitutionEnabled = false
+NSAutomaticSpellingCorrectionEnabled = false
+WebAutomaticTextReplacementEnabled = true
 # Trackpad / mouse
-"NSGlobalDomain.com.apple.trackpad.scaling" = 2.0
-"NSGlobalDomain.com.apple.mouse.scaling" = 2.5
+"com.apple.trackpad.scaling" = 2.0
+"com.apple.mouse.scaling" = 2.5
 # UI
-"NSGlobalDomain.AppleShowScrollBars" = "Always"
-"NSGlobalDomain.NSWindowResizeTime" = 0.001
-# Screensaver / security
-"com.apple.screensaver.askForPassword" = 1
-"com.apple.screensaver.askForPasswordDelay" = 0
-# Network browser
-"com.apple.NetworkBrowser.BrowseAllInterfaces" = 1
-# Menu bar
-"com.apple.menuextra.battery.ShowPercent" = true
-# Dock
-"com.apple.dock.mru-spaces" = false
-"com.apple.dock.tilesize" = 45
-"com.apple.dock.expose-animation-duration" = 0.1
-"com.apple.dock.expose-group-by-app" = true
-"com.apple.dock.autohide-delay" = 0.0
-"com.apple.dock.autohide-time-modifier" = 0.0
-"com.apple.dock.autohide" = true
-"com.apple.dock.launchanim" = false
-# Finder
-"com.apple.finder.FXPreferredViewStyle" = "Nlsv"
-"com.apple.finder.ShowExternalHardDrivesOnDesktop" = true
-"com.apple.finder.ShowRemovableMediaOnDesktop" = true
-"com.apple.finder.NSNavPanelExpandedStateForSaveMode" = true
-"com.apple.finder.NSTableViewDefaultSizeMode" = 1
-"com.apple.finder.ShowStatusBar" = true
-"com.apple.finder.ShowPathbar" = true
-"com.apple.finder.WarnOnEmptyTrash" = false
-"com.apple.finder.NSDocumentSaveNewDocumentsToCloud" = false
-"com.apple.finder._FXShowPosixPathInTitle" = true
-"com.apple.finder.FXEnableExtensionChangeWarning" = false
-"com.apple.desktopservices.DSDontWriteNetworkStores" = true
+AppleShowScrollBars = "Always"
+NSWindowResizeTime = 0.001
+
+[bootstrap.macos.defaults."com.apple.screensaver"]
+askForPassword = 1
+askForPasswordDelay = 0
+
+[bootstrap.macos.defaults."com.apple.NetworkBrowser"]
+BrowseAllInterfaces = 1
+
+[bootstrap.macos.defaults."com.apple.menuextra.battery"]
+ShowPercent = true
+
+[bootstrap.macos.defaults."com.apple.dock"]
+mru-spaces = false
+tilesize = 45
+expose-animation-duration = 0.1
+expose-group-by-app = true
+autohide-delay = 0.0
+autohide-time-modifier = 0.0
+autohide = true
+launchanim = false
+
+[bootstrap.macos.defaults."com.apple.finder"]
+FXPreferredViewStyle = "Nlsv"
+ShowExternalHardDrivesOnDesktop = true
+ShowRemovableMediaOnDesktop = true
+NSNavPanelExpandedStateForSaveMode = true
+NSTableViewDefaultSizeMode = 1
+ShowStatusBar = true
+ShowPathbar = true
+WarnOnEmptyTrash = false
+NSDocumentSaveNewDocumentsToCloud = false
+_FXShowPosixPathInTitle = true
+FXEnableExtensionChangeWarning = false
+
+[bootstrap.macos.defaults."com.apple.desktopservices"]
+DSDontWriteNetworkStores = true
+
 # Web dev toggles (low-risk, useful)
-"com.apple.Safari.IncludeDevelopMenu" = true
-"com.apple.Safari.WebKitDeveloperExtrasEnabledPreferenceKey" = true
-"com.apple.Safari.ShowFavoritesBar" = false
-"com.google.Chrome.AppleEnableSwipeNavigateWithScrolls" = false
+[bootstrap.macos.defaults."com.apple.Safari"]
+IncludeDevelopMenu = true
+WebKitDeveloperExtrasEnabledPreferenceKey = true
+ShowFavoritesBar = false
+
+[bootstrap.macos.defaults."com.google.Chrome"]
+AppleEnableSwipeNavigateWithScrolls = false
 
 # =============================================================================
 # [tasks] — imperative EXCEPTIONS only. The special `bootstrap` task runs on every
