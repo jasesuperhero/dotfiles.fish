@@ -4,6 +4,6 @@ else
     set -gx PNPM_HOME "$HOME/.local/share/pnpm"
 end
 
-if not string match -q -- $PNPM_HOME $PATH
-    set -gx PATH "$PNPM_HOME" $PATH
-end
+# pnpm installs global package binaries into $PNPM_HOME/bin. Append it (not
+# prepend) so a mise-managed `pnpm` keeps priority over anything pnpm drops here.
+fish_add_path -ga $PNPM_HOME/bin
