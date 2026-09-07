@@ -1,120 +1,177 @@
 # Daniel's dotfiles
 
-Config files for Fish, Neovim, Zellij, Kitty, Ghostty, and more — macOS and Linux.
+Config files for Fish, Neovim, Zellij, Kitty, Ghostty, and more — provisioned
+declaratively with [`mise bootstrap`](https://mise.jdx.dev/cli/bootstrap.html) on
+**macOS** and **Ubuntu/Debian Linux**.
 
 ______________________________________________________________________
 
 <!--toc:start-->
 
+- [How it works](#how-it-works)
 - [Installation](#installation)
-  - [Dependencies](#dependencies)
-  - [Install](#install)
-  - [Update](#update)
-- [Revert](#revert)
-- [Recommended software](#recommended-software)
+  - [Fresh machine](#fresh-machine)
+  - [Existing machine](#existing-machine)
+  - [Preview & status](#preview--status)
+  - [Updating](#updating)
+- [Architecture](#architecture)
+- [Machine-local tools](#machine-local-tools)
+- [Conflicts & safety](#conflicts--safety)
 - [macOS defaults](#macos-defaults)
 - [Theme](#theme)
+- [Reverting](#reverting)
 
 <!--toc:end-->
 
+## How it works
+
+One file — [`mise.toml`](mise.toml) — is the source of truth for the whole
+machine. `mise bootstrap` reads it and converges the machine to that state:
+portable tools, host packages, dotfile symlinks, macOS preferences, the login
+shell, and a few small idempotent tasks. The same command runs on macOS and
+Ubuntu; platform differences are expressed with `os = "macos"` / `os = "linux"`
+inside the one file, not with separate scripts.
+
+`mise.toml` is also installed as the **global** mise config
+(`~/.config/mise/config.toml` → this file), so the runtimes and CLIs in
+`[tools]` are available everywhere, not just inside `~/.dotfiles`.
+
 ## Installation
 
-### Dependencies
+### Fresh machine
 
-- `git`
-- `curl`
-- `fish` — install via `brew install fish` or from [fishshell.com](https://fishshell.com)
+Supported: **macOS** (Apple Silicon; Intel works too) and **Ubuntu/Debian**
+(x86_64 and arm64).
 
-### Install
+1. Install mise (the only prerequisite besides `git`/`curl`):
+
+   ```sh
+   curl https://mise.run | sh
+   ```
+
+   Then make `mise` available in the current shell (a new shell also works):
+
+   ```sh
+   # bash/zsh
+   eval "$(~/.local/bin/mise activate bash)"   # or: activate zsh
+   ```
+
+2. Clone the repo and provision:
+
+   ```sh
+   ~/.local/bin/mise bootstrap \
+     --from https://github.com/jasesuperhero/dotfiles.fish.git \
+     --from-dir ~/.dotfiles
+   ```
+
+3. Make this repo the global mise config (one-time), then bootstrap again so
+   `[tools]`/`[env]` are active machine-wide:
+
+   ```sh
+   fish ~/.dotfiles/tasks/adopt-global-config.fish
+   cd ~/.dotfiles && mise bootstrap
+   ```
+
+> On a fresh machine `mise bootstrap` prompts once for your git `user.name` /
+> `user.email` (stored only in `~/.gitconfig`, never in the repo) and offers to
+> make Fish your login shell.
+
+### Existing machine
 
 ```sh
-git clone https://github.com/jasesuperhero/dotfiles.fish.git ~/.dotfiles
 cd ~/.dotfiles
-./script/bootstrap.fish
+git pull --ff-only
+mise bootstrap
 ```
 
-The bootstrap script will:
+### Preview & status
 
-1. **macOS:** Install Homebrew (if missing) and run `brew bundle` — **Linux:** install apt packages and download binaries from GitHub releases
-1. Symlink all config files to their expected locations
-1. Prompt for git `user.name` / `user.email` on a fresh machine
-1. Install [Fisher](https://github.com/jorgebucaran/fisher) and all plugins
-1. Set Fish as the default shell
-
-> Existing files are backed up with a `.backup` suffix before being replaced.
-
-### Update
+Nothing is applied until you say so — inspect first:
 
 ```sh
-cd ~/.dotfiles
-git pull origin master
-./script/bootstrap.fish
+mise bootstrap --dry-run          # show every change that would be made
+mise bootstrap status             # overall convergence status
+mise bootstrap packages status    # host packages (brew/apt)
+mise bootstrap dotfiles status    # symlinks
+mise bootstrap macos defaults status
 ```
 
-## Revert
+### Updating
 
-Remove the dotfiles and Fish config:
+- `mise bootstrap` — converge to the configured state (safe, idempotent; does
+  **not** upgrade already-installed tools).
+- `mise upgrade` — upgrade the versioned tools in `[tools]`.
+- `mise bootstrap packages upgrade` — upgrade the host packages (brew/apt).
 
-```sh
-rm -rf ~/.dotfiles ~/.config/fish
+## Architecture
+
+```
+mise.toml (== ~/.config/mise/config.toml)
+├── [tools]              portable runtimes + cross-platform CLIs (macOS + Ubuntu)
+├── [env]               EDITOR/DOTFILES/PROJECTS/GOPATH/locale + PATH
+├── [bootstrap.packages] brew:/brew-cask: (macOS) + apt: (Ubuntu) — host deps only
+├── [dotfiles]          symlinks (per-file for fish; whole-dir for app configs)
+├── [bootstrap.macos.defaults]  macOS preferences
+└── [tasks.bootstrap]   idempotent exceptions: fisher, git identity, ssh,
+                        config seeding, dark-notify, fonts, login shell
 ```
 
-Find any backed-up originals with:
+The rule: a tool lives in `[tools]` (shared, one declaration) whenever a mature
+cross-platform mise backend gives the same binary on both OSes. Host package
+managers are used only for OS libraries, build deps, GUI apps (macOS casks), and
+software with no good mise backend. Fish stays the shell; application configs
+stay in their component directories; mise owns orchestration.
 
-```sh
-fd -e backup -H -E Library -d 3 .
-```
+## Machine-local tools
 
-Then manually restore as needed.
+Tools that are specific to one machine (work tools, `go` pin, etc.) are **not**
+tracked here. They live in an untracked `~/.config/mise/config.local.toml`, which
+mise loads globally alongside the tracked config. `tasks/adopt-global-config.fish`
+seeds it for you.
 
-## Recommended software
+## Conflicts & safety
 
-Everything below is installed automatically by bootstrap — via `Brewfile` on macOS, or via apt + GitHub releases on Linux.
-
-| Tool                                                        | Description                                         |
-| ----------------------------------------------------------- | --------------------------------------------------- |
-| [`bat`](https://github.com/sharkdp/bat)                     | `cat` with syntax highlighting                      |
-| [`delta`](https://github.com/dandavison/delta)              | Better git diffs                                    |
-| [`dust`](https://github.com/bootandy/dust)                  | Intuitive `du` replacement                          |
-| [`eza`](https://github.com/eza-community/eza)               | Modern `ls` replacement                             |
-| [`fd`](https://github.com/sharkdp/fd)                       | Fast, user-friendly `find`                          |
-| [`fzf`](https://github.com/junegunn/fzf)                    | Fuzzy finder                                        |
-| [`gh`](https://github.com/cli/cli)                          | GitHub CLI                                          |
-| [`k9s`](https://k9scli.io)                                  | Kubernetes TUI                                      |
-| [`kubectx`](https://github.com/ahmetb/kubectx)              | Fast Kubernetes context/namespace switching         |
-| [`lazydocker`](https://github.com/jesseduffield/lazydocker) | Docker TUI                                          |
-| [`lazygit`](https://github.com/jesseduffield/lazygit)       | Git TUI                                             |
-| [`mise`](https://mise.jdx.dev)                              | Runtime version manager (Node, Python, Ruby, Go, …) |
-| [`neovim`](https://neovim.io)                               | Editor — see [nvim/README.md](nvim/README.md)       |
-| [`ripgrep`](https://github.com/BurntSushi/ripgrep)          | Fast `grep`                                         |
-| [`starship`](https://starship.rs)                           | Cross-shell prompt                                  |
-| [`zellij`](https://zellij.dev)                              | Terminal multiplexer                                |
-
-**Terminals:** [Kitty](https://sw.kovidgoyal.net/kitty) and [Ghostty](https://ghostty.org)
-
-**Claude Code:** Zellij status integration + macOS notifications — see [claude-code/README.md](claude-code/README.md).
-
-**macOS apps (via cask):** Alfred, Bartender, Docker, Fork, IINA, Kap, Karabiner-Elements, Obsidian, Postman, Stats, and more.
-
-**Mac App Store:** Magnet, Spark, Things, Next Meeting, Noizio.
+- Existing correct symlinks are detected as already-applied — re-running is safe.
+- `mise bootstrap` does **not** overwrite unmanaged files by default; a real
+  file where a managed symlink is expected surfaces as a conflict rather than
+  being deleted. Resolve it, or (deliberately) `mise bootstrap --force-dotfiles`.
+- Your `~/.gitconfig` identity, `~/.ssh/config`, `~/.localrc.fish`, and
+  fisher-generated files are preserved, never clobbered.
 
 ## macOS defaults
 
-```sh
-~/.dotfiles/macos/set-defaults.sh
-```
-
-Log out and back in (or restart) for all changes to take effect.
+Applied declaratively via `[bootstrap.macos.defaults]`; side effects (restarting
+Dock/Finder, `chflags`, dark-notify agent) run in `tasks/macos-extras.fish`.
+Several legacy tweaks from the old `set-defaults.sh` were **dropped**: the
+Gatekeeper-weakening `LSQuarantine=false`; obsolete Dashboard, hibernate/
+sleepimage, `tmutil disablelocal`, sudden-motion-sensor and standby tweaks; and
+app-specific blocks. The system appearance is **not** forced to Dark — the theme
+follows it automatically.
 
 ## Theme
 
-[Catppuccin](https://github.com/catppuccin/catppuccin) across all tools — **Mocha** in dark mode, **Latte** in light mode.
-
-On macOS, the theme switches automatically with the system appearance via `osx-dark-mode-notify`. To switch manually:
+[Catppuccin](https://github.com/catppuccin/catppuccin) across all tools —
+**Mocha** in dark mode, **Latte** in light mode. On macOS the theme switches
+automatically with the system appearance via `osx-dark-mode-notify`. Switch
+manually with:
 
 ```sh
 update_theme dark
 update_theme light
 ```
 
-**Font:** [JetBrainsMono Nerd Font](https://www.nerdfonts.com), 16 pt.
+**Font:** [JetBrainsMono Nerd Font](https://www.nerdfonts.com), 16 pt (macOS
+cask; Ubuntu user-install).
+
+## Reverting
+
+The migration's rollback mechanism is git history. To remove the dotfiles
+entirely:
+
+```sh
+rm ~/.config/mise/config.toml           # remove the global symlink
+rm -rf ~/.dotfiles ~/.config/fish
+```
+
+Then restore your previous global mise config from
+`~/.config/mise/config.toml.pre-mise-bootstrap` if present.
