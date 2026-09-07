@@ -322,12 +322,10 @@ FXEnableExtensionChangeWarning = false
 [bootstrap.macos.defaults."com.apple.desktopservices"]
 DSDontWriteNetworkStores = true
 
-# Web dev toggles (low-risk, useful)
-[bootstrap.macos.defaults."com.apple.Safari"]
-IncludeDevelopMenu = true
-WebKitDeveloperExtrasEnabledPreferenceKey = true
-ShowFavoritesBar = false
-
+# Web dev toggle. NOTE: Safari is sandboxed — its prefs live in
+# ~/Library/Containers and can't be written via `defaults` without Full Disk
+# Access (and doing so aborts bootstrap), so Safari defaults are intentionally
+# omitted. Chrome's domain is a normal plist and writes fine.
 [bootstrap.macos.defaults."com.google.Chrome"]
 AppleEnableSwipeNavigateWithScrolls = false
 
