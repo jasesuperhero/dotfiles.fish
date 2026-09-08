@@ -11,13 +11,13 @@ set -l want "$DOTFILES/git/gitconfig"
 git config --file "$gitconfig" --get-all include.path 2>/dev/null | grep -Fxq "$want"
 or git config --file "$gitconfig" --add include.path "$want"
 
-# Prompt for identity ONLY if missing.
-if test -z (git config --global user.name)
+# Prompt for identity ONLY if missing (never in CI — no tty, would stall).
+if test -z (git config --global user.name); and not set -q CI
     read -P "Git author name: " name
     and test -n "$name"
     and git config --global user.name "$name"
 end
-if test -z (git config --global user.email)
+if test -z (git config --global user.email); and not set -q CI
     read -P "Git author email: " email
     and test -n "$email"
     and git config --global user.email "$email"

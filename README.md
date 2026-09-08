@@ -64,7 +64,7 @@ Supported: **macOS** (Apple Silicon; Intel works too) and **Ubuntu/Debian**
    `~/.config/mise/config.local.toml` for machine-local tools:
 
    ```sh
-   fish ~/.dotfiles/tasks/adopt-global-config.fish
+   sh ~/.dotfiles/tasks/adopt-global-config.sh
    ```
 
 4. Provision:
@@ -169,7 +169,7 @@ stay in their component directories; mise owns orchestration.
 
 Tools that are specific to one machine (work tools, `go` pin, etc.) are **not**
 tracked here. They live in an untracked `~/.config/mise/config.local.toml`, which
-mise loads globally alongside the tracked config. `tasks/adopt-global-config.fish`
+mise loads globally alongside the tracked config. `tasks/adopt-global-config.sh`
 seeds it for you.
 
 ## Conflicts & safety

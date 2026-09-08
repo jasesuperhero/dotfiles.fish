@@ -2,7 +2,7 @@
 # Compatibility wrapper — provisioning is now `mise bootstrap` (see mise.toml).
 #
 # First time on a machine? Make the repo the global mise config first:
-#   fish ~/.dotfiles/tasks/adopt-global-config.fish
+#   sh ~/.dotfiles/tasks/adopt-global-config.sh
 # Then this wrapper (or `mise bootstrap` directly) provisions everything.
 
 if not command -q mise

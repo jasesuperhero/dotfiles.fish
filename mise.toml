@@ -4,7 +4,7 @@
 # `mise bootstrap` (run from ~/.dotfiles) provisions macOS and Ubuntu/Debian
 # from this one file. It is ALSO the global mise config: the adoption step
 # symlinks ~/.config/mise/config.toml -> ~/.dotfiles/mise.toml so [tools] and
-# [env] are active machine-wide (see tasks/adopt-global-config.fish).
+# [env] are active machine-wide (see tasks/adopt-global-config.sh).
 #
 # Layering:
 #   this file (tracked)                -> everything shared across machines
@@ -228,7 +228,7 @@ gping = "latest"
 "~/.config/fish/conf.d/gping_abbr.fish" = { source = "~/.dotfiles/gping/conf.d/gping_abbr.fish", mode = "symlink" }
 "~/.config/fish/conf.d/mise.fish" = { source = "~/.dotfiles/mise/conf.d/mise.fish", mode = "symlink" }
 "~/.config/fish/conf.d/nvim_abbr.fish" = { source = "~/.dotfiles/nvim/conf.d/nvim_abbr.fish", mode = "symlink" }
-"~/.config/fish/conf.d/install.fish" = { source = "~/.dotfiles/pnpm/conf.d/install.fish", mode = "symlink" }
+"~/.config/fish/conf.d/pnpm_path.fish" = { source = "~/.dotfiles/pnpm/conf.d/pnpm_path.fish", mode = "symlink" }
 "~/.config/fish/conf.d/ripgrep.fish" = { source = "~/.dotfiles/ripgrep/conf.d/ripgrep.fish", mode = "symlink" }
 "~/.config/fish/conf.d/rustnet_abbr.fish" = { source = "~/.dotfiles/rustnet/conf.d/rustnet_abbr.fish", mode = "symlink" }
 "~/.config/fish/conf.d/set-locale.fish" = { source = "~/.dotfiles/system/conf.d/set-locale.fish", mode = "symlink" }
@@ -360,5 +360,14 @@ description = "Add fish to /etc/shells and set it as the login shell (skipped in
 run = "fish $DOTFILES/tasks/login-shell.fish"
 
 [tasks.bootstrap]
-description = "Idempotent post-provision exceptions"
-depends = ["fisher", "git-local", "ssh-setup", "seed-configs", "os-extras", "login-shell"]
+description = "Idempotent post-provision exceptions (serial — some steps prompt)"
+# Run serially via an ordered `run` (NOT parallel `depends`) so interactive
+# prompts in git-local / login-shell / macos-extras don't collide or interleave.
+run = [
+    "mise run fisher",
+    "mise run git-local",
+    "mise run ssh-setup",
+    "mise run seed-configs",
+    "mise run os-extras",
+    "mise run login-shell",
+]

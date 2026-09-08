@@ -13,16 +13,22 @@ set -l fonts_dir ~/.local/share/fonts
 
 # JetBrainsMono Nerd Font — user install, no root. The archive is arch-agnostic.
 if not test -f "$fonts_dir/JetBrainsMonoNerdFont-Regular.ttf"
-    set -l ver (curl -sf "https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest" \
+    # Authenticate the API call when a token is present (avoids the 60 req/hr
+    # unauthenticated GitHub rate limit, e.g. in CI).
+    set -l auth
+    test -n "$GITHUB_TOKEN"; and set auth -H "Authorization: Bearer $GITHUB_TOKEN"
+
+    set -l ver (curl -sf $auth "https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest" \
         | string match -r '"tag_name": *"([^"]+)"' | tail -1 | string trim -c '"')
     if test -n "$ver"
-        curl -fsSL "https://github.com/ryanoasis/nerd-fonts/releases/download/$ver/JetBrainsMono.tar.xz" \
-            -o /tmp/JetBrainsMono.tar.xz
+        # Unique temp path (avoid a shared /tmp collision between concurrent runs).
+        set -l tmp (mktemp -t JetBrainsMono.XXXXXX)
+        curl -fsSL "https://github.com/ryanoasis/nerd-fonts/releases/download/$ver/JetBrainsMono.tar.xz" -o "$tmp"
         and mkdir -p "$fonts_dir"
-        and tar xf /tmp/JetBrainsMono.tar.xz -C "$fonts_dir"
+        and tar xf "$tmp" -C "$fonts_dir"
         and fc-cache -f "$fonts_dir"
-        rm -f /tmp/JetBrainsMono.tar.xz
+        rm -f "$tmp"
     else
-        echo "linux-extras: could not resolve Nerd Font version (offline?); skipping"
+        echo "linux-extras: could not resolve Nerd Font version (offline/rate-limited?); skipping"
     end
 end

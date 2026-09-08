@@ -7,6 +7,20 @@ end
 set LAUNCH_AGENT_ID "com.dkalintsev.dark-notify"
 set LAUNCH_AGENT_PLIST "$LAUNCH_AGENT_ID.plist"
 
+# Resolve the dark-notify binary instead of hard-coding /opt/homebrew — Intel
+# Homebrew lives at /usr/local, and the binary may be anywhere on PATH.
+set -l dark_notify (command -v dark-notify)
+if test -z "$dark_notify"; and type -q brew
+    set dark_notify (brew --prefix)/bin/dark-notify
+end
+if test -z "$dark_notify"; or not test -x "$dark_notify"
+    echo "dark-notify: binary not found; install with 'brew install cormacrelf/tap/dark-notify'. Skipping." >&2
+    exit 0
+end
+
+# Logs go into the repo dir (this file lives in $DOTFILES/osx-dark-mode-notify).
+set -l log_dir "$DOTFILES/osx-dark-mode-notify"
+
 echo -n "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\"
 \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
@@ -19,14 +33,14 @@ echo -n "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
     <key>RunAtLoad</key>
     <true/>
     <key>StandardErrorPath</key>
-    <string>$HOME/osx-dark-mode-notify/dark-notify-stderr.log</string>
+    <string>$log_dir/dark-notify-stderr.log</string>
     <key>StandardOutPath</key>
-    <string>$HOME/osx-dark-mode-notify/dark-notify-stdout.log</string>
+    <string>$log_dir/dark-notify-stdout.log</string>
     <key>ProgramArguments</key>
     <array>
-        <string>/opt/homebrew/bin/dark-notify</string>
+        <string>$dark_notify</string>
         <string>-c</string>
-        <string>$HOME/.dotfiles/osx-dark-mode-notify/dark_mode_listener.fish</string>
+        <string>$DOTFILES/osx-dark-mode-notify/dark_mode_listener.fish</string>
     </array>
 </dict>
 </plist>" >$DOTFILES/osx-dark-mode-notify/$LAUNCH_AGENT_PLIST
