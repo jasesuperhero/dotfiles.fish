@@ -231,7 +231,6 @@ gping = "latest"
 "~/.config/fish/conf.d/pnpm_path.fish" = { source = "~/.dotfiles/pnpm/conf.d/pnpm_path.fish", mode = "symlink" }
 "~/.config/fish/conf.d/ripgrep.fish" = { source = "~/.dotfiles/ripgrep/conf.d/ripgrep.fish", mode = "symlink" }
 "~/.config/fish/conf.d/rustnet_abbr.fish" = { source = "~/.dotfiles/rustnet/conf.d/rustnet_abbr.fish", mode = "symlink" }
-"~/.config/fish/conf.d/set-locale.fish" = { source = "~/.dotfiles/system/conf.d/set-locale.fish", mode = "symlink" }
 "~/.config/fish/conf.d/starship.fish" = { source = "~/.dotfiles/starship/conf.d/starship.fish", mode = "symlink" }
 "~/.config/fish/conf.d/system_abbr.fish" = { source = "~/.dotfiles/system/conf.d/system_abbr.fish", mode = "symlink" }
 "~/.config/fish/conf.d/tealdeer.fish" = { source = "~/.dotfiles/tealdeer/conf.d/tealdeer.fish", mode = "symlink" }

@@ -12,15 +12,16 @@ function docker -w docker
 end
 
 function _docker_start
-    switch (uname)
-        case Darwin
-            if test -z (pgrep com.docker.hyperkit)
-                open -g -j -a Docker.app
-                while ! command docker stats --no-stream >/dev/null 2>&1
-                    echo -n .
-                    sleep 1
-                end
-                echo
-            end
+    test (uname) = Darwin; or return
+    # Check Docker readiness directly instead of pgrep'ing a specific helper
+    # process (Docker Desktop dropped com.docker.hyperkit for the VZ backend, so
+    # the old `pgrep com.docker.hyperkit` was almost always empty).
+    if not command docker stats --no-stream >/dev/null 2>&1
+        open -g -j -a Docker.app
+        while not command docker stats --no-stream >/dev/null 2>&1
+            echo -n .
+            sleep 1
+        end
+        echo
     end
 end

@@ -3,7 +3,7 @@ function c -d "quick cd into $PROJECTS"
         case ''
             cd $PROJECTS
         case '*'
-            cd $PROJECTS/$argv[1]
+            cd "$PROJECTS/$argv[1]"
     end
 end
 

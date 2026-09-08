@@ -1,5 +1,5 @@
 function h -d "quick cd into $HOME"
-    cd $HOME/$argv
+    cd "$HOME/$argv"
 end
 
 function __h_complete
