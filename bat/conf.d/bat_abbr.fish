@@ -1,7 +1,7 @@
 #!/usr/bin/env fish
 
 if command -qa bat
-    abbr -a cat "bat --paging=always "
+    abbr -a cat "bat --paging=auto "
     set -gx MANPAGER "sh -c 'col -bx | bat -l man --paging=always'"
 end
 
