@@ -7,18 +7,30 @@ on:
   workflow_dispatch:
 
 jobs:
-  ubuntu:
-    name: Ubuntu (${{ matrix.arch }})
+  bootstrap:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
       matrix:
         include:
-          - { runner: ubuntu-latest, arch: x86_64 }
-          - { runner: ubuntu-24.04-arm, arch: arm64 }
-    runs-on: ${{ matrix.runner }}
+          - name: Ubuntu x86_64
+            runner: ubuntu-latest
+            full: true
+          - name: Ubuntu arm64
+            runner: ubuntu-24.04-arm
+            full: true
+          # macOS: tools + dotfiles only. A full bootstrap would install GUI
+          # casks, need mas/Apple-ID sign-in, write system defaults and chsh -
+          # impractical on a runner. This still exercises the aqua tools and the
+          # symlink layer on macOS.
+          - name: macOS arm64
+            runner: macos-latest
+            full: false
     env:
       CI: "true"                     # tasks/login-shell.fish self-skips
       MISE_SKIP_LOGIN_SHELL: "1"
+      GITHUB_TOKEN: ${{ github.token }}  # linux-extras font fetch
     steps:
       - uses: actions/checkout@v4
 
@@ -41,7 +53,14 @@ jobs:
           cd ~/.dotfiles
           mise bootstrap --dry-run
 
-      - name: Install portable tools + apply dotfiles
+      - name: Provision (full bootstrap)
+        if: matrix.full
+        run: |
+          cd ~/.dotfiles
+          mise bootstrap --yes
+
+      - name: Provision (tools + dotfiles only)
+        if: ${{ !matrix.full }}
         run: |
           cd ~/.dotfiles
           mise bootstrap --only tools,dotfiles --yes
@@ -56,3 +75,15 @@ jobs:
             mise exec -- "$t" --version 2>/dev/null | head -1 \
               || { echo "MISSING: $t"; exit 1; }
           done
+
+      - name: Shell startup smoke test
+        if: matrix.full
+        run: |
+          out=$(mise exec -- fish -ic 'echo __OK__' 2>&1) || true
+          printf '%s\n' "$out"
+          echo "$out" | grep -q __OK__ \
+            || { echo "fish did not start cleanly"; exit 1; }
+          if echo "$out" | grep -qi 'command not found'; then
+            echo "shell startup printed command-not-found"; exit 1
+          fi
+          echo "shell startup clean"
