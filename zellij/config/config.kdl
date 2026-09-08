@@ -207,18 +207,17 @@ simplified_ui true
 // Default: $SHELL
 default_shell "fish"
 
-// Toggle between having pane frames around the panes
-// Options:
-//   - true (default)
-//   - false
-//
-// pane_frames true
-ui {
-    pane_frames {
-        rounded_corners true
-        hide_session_name true
-    }
-}
+// Toggle between having pane frames around the panes (true = default).
+pane_frames true
+
+// Frame style (zellij >= 0.44):
+//   - titles (default: a title line above each pane, NO border box)
+//   - full   (draw a full border box around each pane)
+//   - none   (equivalent to pane_frames false)
+// Use "full" to get borders around panes.
+// NOTE: zellij 0.45 REMOVED the old `ui { pane_frames { rounded_corners ... } }`
+// block (and the rounded_corners toggle), replacing it with pane_frame_style.
+pane_frame_style "full"
 
 // Choose the theme that is specified in the themes section.
 // Default: default
