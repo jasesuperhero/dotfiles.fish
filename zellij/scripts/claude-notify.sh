@@ -10,6 +10,20 @@ ICON="$HOME/.dotfiles/claude-code/icon.png"
 ZELLIJ_BIN="/opt/homebrew/bin/zellij"
 TERM_BUNDLE="com.mitchellh.ghostty"
 
+# terminal-notifier (and, more rarely, osascript / zellij pipe) can deadlock
+# against a busy NotificationCenter and never return. Claude Code blocks on the
+# Stop hook until its child exits, so a wedged notifier shows up as an endless
+# "running stop hooks…". Cap every external call and fire the notification
+# detached so the hook itself always returns promptly.
+if command -v timeout >/dev/null 2>&1; then
+    TIMEOUT="timeout"
+elif command -v gtimeout >/dev/null 2>&1; then
+    TIMEOUT="gtimeout"
+else
+    TIMEOUT=""
+fi
+guard() { if [ -n "$TIMEOUT" ]; then "$TIMEOUT" "$@"; else shift; "$@"; fi; }
+
 # Shell command wired to the notification's click / "Show" action via
 # terminal-notifier -execute. NotificationCenter spawns this detached and
 # without Homebrew on PATH, so we use absolute paths. focus-pane-id jumps to
@@ -51,30 +65,30 @@ notify() {
         [ -f "$ICON" ] && set -- "$@" -appIcon "$ICON"
         [ -n "$jump" ] && set -- "$@" -execute "$jump"
         [ -n "$sound" ] && set -- "$@" -sound "$sound"
-        terminal-notifier "$@" >/dev/null 2>&1 || true
+        guard 10 terminal-notifier "$@" >/dev/null 2>&1
     else
         if [ -n "$sound" ]; then
-            osascript -e "display notification \"$msg\" with title \"Claude Code\" subtitle \"$subtitle\" sound name \"$sound\"" \
-                >/dev/null 2>&1 || true
+            guard 10 osascript -e "display notification \"$msg\" with title \"Claude Code\" subtitle \"$subtitle\" sound name \"$sound\"" \
+                >/dev/null 2>&1
         else
-            osascript -e "display notification \"$msg\" with title \"Claude Code\" subtitle \"$subtitle\"" \
-                >/dev/null 2>&1 || true
+            guard 10 osascript -e "display notification \"$msg\" with title \"Claude Code\" subtitle \"$subtitle\"" \
+                >/dev/null 2>&1
         fi
     fi
 }
 
 pipe() {
-    printf '%s' "$1" | zellij pipe --name "$PIPE_NAME" >/dev/null 2>&1 || true
+    printf '%s' "$1" | guard 5 "$ZELLIJ_BIN" pipe --name "$PIPE_NAME" >/dev/null 2>&1 || true
 }
 
 case "$EVENT" in
 stop)
     pipe "✻ done"
-    notify "✻ Task finished"
+    notify "✻ Task finished" >/dev/null 2>&1 &
     ;;
 notification)
     pipe "● waiting"
-    notify "● Waiting for input" "Funk"
+    notify "● Waiting for input" "Funk" >/dev/null 2>&1 &
     ;;
 clear | *)
     pipe ""
