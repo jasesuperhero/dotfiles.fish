@@ -52,11 +52,10 @@ Supported: **macOS** (Apple Silicon; Intel works too) and **Ubuntu/Debian**
    eval "$(~/.local/bin/mise activate bash)"   # bash; use `activate zsh` for zsh
    ```
 
-2. Clone the repo (with submodules — the Neovim config uses one):
+2. Clone the repo:
 
    ```sh
-   git clone --recurse-submodules \
-     https://github.com/jasesuperhero/dotfiles.fish.git ~/.dotfiles
+   git clone https://github.com/jasesuperhero/dotfiles.fish.git ~/.dotfiles
    ```
 
 3. Make the repo the global mise config. This symlinks

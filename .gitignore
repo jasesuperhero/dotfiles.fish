@@ -1,3 +1,11 @@
 *~
 dist
 .claude
+.DS_Store
+
+# Alfred preferences: huge (emoji-pack snippets), machine-specific, and Alfred
+# has its own sync — keep the bundle out of the repo.
+alfred/
+
+# Karabiner auto-generated dated backups (pure churn).
+mackup/data/Mackup/.config/karabiner/automatic_backups/

@@ -21,8 +21,6 @@ jobs:
       MISE_SKIP_LOGIN_SHELL: "1"
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: recursive
 
       - name: Install mise and expose ~/.dotfiles
         run: |
