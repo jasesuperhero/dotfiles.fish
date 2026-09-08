@@ -8,4 +8,4 @@ test -f $config; or exit 0
 
 set -l theme (theme_pick catppuccin-mocha-mauve catppuccin-latte-mauve); or exit 1
 
-sed -i '' -E "s|^name = \".*\"|name = \"$theme\"|" $config
+_sed_inplace -E "s|^name = \".*\"|name = \"$theme\"|" $config

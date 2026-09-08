@@ -8,7 +8,7 @@ set TEMPLATE "$DOTFILES/zellij/config/layouts/default_start.kdl"
 set -l zellij_theme (theme_pick catppuccin-mocha catppuccin-latte); or exit 1
 set -l color_file (theme_pick "$DOTFILES/zellij/themes/zjstatus_mocha.kdl" "$DOTFILES/zellij/themes/zjstatus_latte.kdl")
 
-sed -i '' -E "s/^theme .*/theme \"$zellij_theme\"/" $ZELLIJ_CONFIG_FILE
+_sed_inplace -E "s/^theme .*/theme \"$zellij_theme\"/" $ZELLIJ_CONFIG_FILE
 
 # Assemble layout: replace ZJSTATUS_COLORS marker with theme colour definitions
 awk -v cf="$color_file" '
@@ -17,7 +17,7 @@ awk -v cf="$color_file" '
 ' $TEMPLATE >$ZELLIJ_LAYOUT_FILE
 
 # Substitute the scripts path placeholder
-sed -i '' "s|ZJSTATUS_SCRIPTS_DIR|$SCRIPTS_DIR|g" $ZELLIJ_LAYOUT_FILE
+_sed_inplace "s|ZJSTATUS_SCRIPTS_DIR|$SCRIPTS_DIR|g" $ZELLIJ_LAYOUT_FILE
 
 # Reload zjstatus in all running (non-exited) zellij sessions
 if command -q zellij

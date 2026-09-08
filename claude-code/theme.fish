@@ -2,4 +2,4 @@
 
 set -l theme (theme_pick dark light); or exit 1
 
-sed -i '' "s/\"theme\": \"[^\"]*\"/\"theme\": \"$theme\"/" "$HOME/.claude.json"
+_sed_inplace "s/\"theme\": \"[^\"]*\"/\"theme\": \"$theme\"/" "$HOME/.claude.json"
