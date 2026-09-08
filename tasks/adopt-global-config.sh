@@ -21,27 +21,27 @@ repo="$HOME/.dotfiles/mise.toml"
 mkdir -p "$HOME/.config/mise"
 
 if [ -L "$global" ]; then
-	echo "global config already a symlink -> $(readlink "$global")"
+    echo "global config already a symlink -> $(readlink "$global")"
 elif [ -f "$global" ]; then
-	backup="$global.pre-mise-bootstrap"
-	# Don't clobber an existing backup on a second run.
-	[ -e "$backup" ] || cp "$global" "$backup"
-	echo "backed up existing global config -> $backup"
-	echo ">> Move any machine/work-specific [tools] from that backup into"
-	echo ">> $localcfg (untracked)."
-	rm "$global"
-	ln -s "$repo" "$global"
-	echo "linked $global -> $repo"
+    backup="$global.pre-mise-bootstrap"
+    # Don't clobber an existing backup on a second run.
+    [ -e "$backup" ] || cp "$global" "$backup"
+    echo "backed up existing global config -> $backup"
+    echo ">> Move any machine/work-specific [tools] from that backup into"
+    echo ">> $localcfg (untracked)."
+    rm "$global"
+    ln -s "$repo" "$global"
+    echo "linked $global -> $repo"
 else
-	ln -s "$repo" "$global"
-	echo "linked $global -> $repo"
+    ln -s "$repo" "$global"
+    echo "linked $global -> $repo"
 fi
 
 # Seed the untracked local config if absent (carries tools the dotfiles don't own).
 if [ ! -f "$localcfg" ]; then
-	printf '# Untracked machine/work-specific mise tools — loaded globally by mise,\n# kept out of the tracked dotfiles. Add work tools (bazel, ktlint, ...) here.\n[tools]\ngo = "latest"\n' >"$localcfg"
-	mise trust "$localcfg" >/dev/null 2>&1 || true
-	echo "seeded $localcfg (edit to add machine-local tools)"
+    printf '# Untracked machine/work-specific mise tools — loaded globally by mise,\n# kept out of the tracked dotfiles. Add work tools (bazel, ktlint, ...) here.\n[tools]\ngo = "latest"\n' >"$localcfg"
+    mise trust "$localcfg" >/dev/null 2>&1 || true
+    echo "seeded $localcfg (edit to add machine-local tools)"
 fi
 
 mise trust "$repo" >/dev/null 2>&1 || true
