@@ -354,6 +354,10 @@ run = "fish $DOTFILES/tasks/seed-configs.fish"
 description = "OS-specific setup: macOS defaults side-effects + dark-notify; Ubuntu fonts"
 run = "fish $DOTFILES/tasks/os-extras.fish"
 
+[tasks.zellij-plugins]
+description = "Build zellij plugins with no prebuilt release (new-tab-next-to-current)"
+run = "fish $DOTFILES/tasks/zellij-plugins.fish"
+
 [tasks.login-shell]
 description = "Add fish to /etc/shells and set it as the login shell (skipped in CI)"
 run = "fish $DOTFILES/tasks/login-shell.fish"
@@ -367,6 +371,7 @@ run = [
     "mise run git-local",
     "mise run ssh-setup",
     "mise run seed-configs",
+    "mise run zellij-plugins",
     "mise run os-extras",
     "mise run login-shell",
 ]

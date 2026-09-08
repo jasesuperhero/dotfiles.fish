@@ -55,6 +55,10 @@ keybinds {
         bind "h" "Left" "Up" "k" { GoToPreviousTab; }
         bind "l" "Right" "Down" "j" { GoToNextTab; }
         bind "n" { NewTab; SwitchToMode "Normal"; }
+        // New tab NEXT TO the current one (vimkim/zellij-new-tab-next-to-current).
+        // Additive: plain "n" still makes a tab at the end, so this is safe even
+        // before the wasm is built by tasks/zellij-plugins.fish.
+        bind "N" { MessagePlugin "new-tab-next-to-current" { name "new-tab-right"; launch_new false; }; SwitchToMode "Normal"; }
         bind "x" { CloseTab; SwitchToMode "Normal"; }
         bind "s" { ToggleActiveSyncTab; SwitchToMode "Normal"; }
         bind "1" { GoToTab 1; SwitchToMode "Normal"; }
@@ -138,6 +142,7 @@ keybinds {
     shared_except "locked" {
         bind "Ctrl Alt g" { SwitchToMode "Locked"; }
         bind "Ctrl Alt q" { Quit; }
+        bind "Ctrl y" { LaunchOrFocusPlugin "harpoon" { floating true; move_to_focused_tab true; }; }
         bind "Alt n" { NewPane; }
         bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
         bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
@@ -183,10 +188,29 @@ plugins {
         overflow_str ""
         pipe_name "zjstatus_hints"
     }
+
+    // harpoon: quick pane switching (LaunchOrFocusPlugin below). Prebuilt wasm.
+    harpoon location="https://github.com/Nacho114/harpoon/releases/download/v0.3.0/harpoon.wasm"
+
+    // autolock: auto-switch zellij to Locked mode when a full-screen TUI (nvim,
+    // fzf, ...) is focused, so its keymaps (and smart-splits.nvim's Alt-hjkl) win
+    // over zellij's; unlocks otherwise. Enables seamless nvim-split<->zellij-pane nav.
+    autolock location="https://github.com/fresh2dev/zellij-autolock/releases/download/0.2.2/zellij-autolock.wasm" {
+        is_enabled true
+        triggers "nvim|vim|fzf|yazi|lazygit|gitui|k9s|btop"
+        reaction_seconds "0.3"
+        print_to_log false
+    }
+
+    // new-tab-next-to-current: no prebuilt release — built from source into
+    // ~/.config/zellij/plugins by tasks/zellij-plugins.fish. Loaded lazily by the
+    // Tab-mode "N" keybind (not preloaded, so a missing wasm can't break startup).
+    new-tab-next-to-current location="file:~/.config/zellij/plugins/zellij-new-tab-next-to-current.wasm"
 }
 
 load_plugins {
     zjstatus-hints
+    autolock
 }
 
 // Choose what to do when zellij receives SIGTERM, SIGINT, SIGQUIT or SIGHUP
