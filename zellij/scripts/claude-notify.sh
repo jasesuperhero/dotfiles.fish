@@ -7,7 +7,13 @@ EVENT="${1:-clear}"
 
 PIPE_NAME="claude_status"
 ICON="$HOME/.dotfiles/claude-code/icon.png"
-ZELLIJ_BIN="/opt/homebrew/bin/zellij"
+# Resolve zellij: the hook itself runs with a normal PATH, but keep arch-aware
+# fallbacks (Intel /usr/local, Apple Silicon /opt/homebrew) so this isn't pinned
+# to one prefix. The click-action (focus_cmd) still needs an absolute path.
+ZELLIJ_BIN="$(command -v zellij 2>/dev/null || true)"
+[ -n "$ZELLIJ_BIN" ] || for c in /opt/homebrew/bin/zellij /usr/local/bin/zellij; do
+    [ -x "$c" ] && ZELLIJ_BIN="$c" && break
+done
 TERM_BUNDLE="com.mitchellh.ghostty"
 
 # terminal-notifier (and, more rarely, osascript / zellij pipe) can deadlock
@@ -22,7 +28,10 @@ elif command -v gtimeout >/dev/null 2>&1; then
 else
     TIMEOUT=""
 fi
-guard() { if [ -n "$TIMEOUT" ]; then "$TIMEOUT" "$@"; else shift; "$@"; fi; }
+guard() { if [ -n "$TIMEOUT" ]; then "$TIMEOUT" "$@"; else
+    shift
+    "$@"
+fi; }
 
 # Shell command wired to the notification's click / "Show" action via
 # terminal-notifier -execute. NotificationCenter spawns this detached and
@@ -81,13 +90,24 @@ pipe() {
     printf '%s' "$1" | guard 5 "$ZELLIJ_BIN" pipe --name "$PIPE_NAME" >/dev/null 2>&1 || true
 }
 
+# zellij-attention plugin: appends a per-tab icon on the ORIGINATING pane's tab
+# (● waiting / ✻ done), so you can see which tab needs you — not just the single
+# global {pipe_claude_status} slot. Broadcast pipe (--name) reaches the loaded
+# plugin instance; it auto-clears when you focus the pane. $1 = waiting|completed.
+attention() {
+    [ -n "${ZELLIJ_PANE_ID:-}" ] && [ -n "$ZELLIJ_BIN" ] || return 0
+    guard 5 "$ZELLIJ_BIN" pipe --name "zellij-attention::$1::$ZELLIJ_PANE_ID" >/dev/null 2>&1 || true
+}
+
 case "$EVENT" in
 stop)
     pipe "✻ done"
+    attention completed
     notify "✻ Task finished" >/dev/null 2>&1 &
     ;;
 notification)
     pipe "● waiting"
+    attention waiting
     notify "● Waiting for input" "Funk" >/dev/null 2>&1 &
     ;;
 clear | *)

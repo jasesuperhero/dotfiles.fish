@@ -206,11 +206,22 @@ plugins {
     // ~/.config/zellij/plugins by tasks/zellij-plugins.fish. Loaded lazily by the
     // Tab-mode "N" keybind (not preloaded, so a missing wasm can't break startup).
     new-tab-next-to-current location="file:~/.config/zellij/plugins/zellij-new-tab-next-to-current.wasm"
+
+    // zellij-attention: appends an icon to a TAB's name when a Claude Code pane
+    // needs attention (● waiting / ✻ done), auto-clearing when you focus the pane.
+    // Driven by zellij/scripts/claude-notify.sh (which the Claude hooks already
+    // call). Per-tab, unlike the single global {pipe_claude_status} zjstatus slot.
+    zellij-attention location="https://github.com/KiryuuLight/zellij-attention/releases/download/v0.3.1/zellij-attention.wasm" {
+        enabled "true"
+        waiting_icon "●"
+        completed_icon "✻"
+    }
 }
 
 load_plugins {
     zjstatus-hints
     autolock
+    zellij-attention
 }
 
 // Choose what to do when zellij receives SIGTERM, SIGINT, SIGQUIT or SIGHUP
