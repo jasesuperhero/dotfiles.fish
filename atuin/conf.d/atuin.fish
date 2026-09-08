@@ -1,6 +1,8 @@
 #!/usr/bin/env fish
 
-if command -q atuin
+# Prompt/interactive-only: skip in non-interactive shells so they don't pay for
+# `atuin init` or bind keys they'll never use.
+if status is-interactive; and command -q atuin
     # --disable-up-arrow keeps fish's native Up-arrow history; Ctrl-R opens atuin.
     atuin init fish --disable-up-arrow | source
 

@@ -1,13 +1,6 @@
 #!/usr/bin/env fish
 
-switch $C_THEME
-    case dark
-        set YAZI_FLAVOR catppuccin-mocha
-    case light
-        set YAZI_FLAVOR catppuccin-latte
-    case "*"
-        exit 1
-end
+set -l YAZI_FLAVOR (theme_pick catppuccin-mocha catppuccin-latte); or exit 1
 
 # Both keys point at the same flavor so Yazi follows C_THEME rather than its
 # own terminal-background detection. New Yazi instances pick this up.

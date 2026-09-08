@@ -1,6 +1,8 @@
 #!/usr/bin/env fish
 
-if command -q zoxide
+# Interactive-only: non-interactive shells (scripts, theme.fish children) keep
+# fish's builtin `cd` and don't pay for `zoxide init`.
+if status is-interactive; and command -q zoxide
     zoxide init fish --cmd cd | source
 
     # Override zoxide's built-in `cdi` (inline 45%-height fzf) so it uses our

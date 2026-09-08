@@ -1,10 +1,5 @@
 #!/usr/bin/env fish
 
-switch $C_THEME
-    case dark
-        set -Ux GLAMOUR_STYLE $DOTFILES/glow/themes/dark.json
-    case light
-        set -Ux GLAMOUR_STYLE $DOTFILES/glow/themes/light.json
-    case "*"
-        exit 1
-end
+# GLAMOUR_STYLE is an env var glow reads, so keep it exported (universal so it
+# propagates live to other shells).
+set -Ux GLAMOUR_STYLE (theme_pick $DOTFILES/glow/themes/dark.json $DOTFILES/glow/themes/light.json); or exit 1

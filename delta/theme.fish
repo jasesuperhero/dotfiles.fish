@@ -1,12 +1,5 @@
 #!/usr/bin/env fish
 
-switch $C_THEME
-    case dark
-        set DELTA_THEME Catppuccin-mocha
-    case light
-        set DELTA_THEME Catppuccin-latte
-    case "*"
-        exit 1
-end
+set -l DELTA_THEME (theme_pick Catppuccin-mocha Catppuccin-latte); or exit 1
 
 alias --save delta="delta --syntax-theme \"$DELTA_THEME\"" &>/dev/null

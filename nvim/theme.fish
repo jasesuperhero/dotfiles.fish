@@ -1,10 +1,5 @@
 #!/usr/bin/env fish
 
-switch $C_THEME
-    case dark
-        echo 'vim.o.background = "dark"' >~/.vimrc.color
-    case light
-        echo 'vim.o.background = "light"' >~/.vimrc.color
-    case "*"
-        exit 1
-end
+set -l bg (theme_pick dark light); or exit 1
+
+echo "vim.o.background = \"$bg\"" >~/.vimrc.color

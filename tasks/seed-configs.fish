@@ -26,6 +26,7 @@ cp -f "$DOTFILES/zellij/config/config.kdl" ~/.config/zellij/config.kdl
 test -e ~/.config/zellij/themes; or ln -sf "$DOTFILES/zellij/config/themes" ~/.config/zellij/themes
 test -L ~/.config/zellij/layouts; and rm ~/.config/zellij/layouts
 mkdir -p ~/.config/zellij/layouts
+cp -f "$DOTFILES"/zellij/config/layouts/*.kdl ~/.config/zellij/layouts/ 2>/dev/null; or true
 cp -f "$DOTFILES"/zellij/scripts/*.sh ~/.config/zellij/scripts/ 2>/dev/null; or true
 chmod +x ~/.config/zellij/scripts/*.sh 2>/dev/null; or true
 

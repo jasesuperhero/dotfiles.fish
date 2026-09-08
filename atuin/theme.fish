@@ -6,13 +6,6 @@
 set -l config $HOME/.config/atuin/config.toml
 test -f $config; or exit 0
 
-switch $C_THEME
-    case dark
-        set theme catppuccin-mocha-mauve
-    case light
-        set theme catppuccin-latte-mauve
-    case "*"
-        exit 1
-end
+set -l theme (theme_pick catppuccin-mocha-mauve catppuccin-latte-mauve); or exit 1
 
 sed -i '' -E "s|^name = \".*\"|name = \"$theme\"|" $config

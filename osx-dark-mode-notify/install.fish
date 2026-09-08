@@ -40,7 +40,7 @@ echo -n "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
     <array>
         <string>$dark_notify</string>
         <string>-c</string>
-        <string>$DOTFILES/osx-dark-mode-notify/dark_mode_listener.fish</string>
+        <string>$DOTFILES/osx-dark-mode-notify/dark_mode_listener.sh</string>
     </array>
 </dict>
 </plist>" >$DOTFILES/osx-dark-mode-notify/$LAUNCH_AGENT_PLIST

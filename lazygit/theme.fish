@@ -1,12 +1,5 @@
 #!/usr/bin/env fish
 
-switch $C_THEME
-    case dark
-        set LAZYGIT_THEME "mocha.yml"
-    case light
-        set LAZYGIT_THEME "latte.yml"
-    case "*"
-        exit 1
-end
+set -l LAZYGIT_THEME (theme_pick mocha.yml latte.yml); or exit 1
 
 alias --save lazygit="lazygit --use-config-file=\"$DOTFILES/lazygit/config.yml,$DOTFILES/lazygit/themes/$LAZYGIT_THEME\"" >/dev/null 2>&1

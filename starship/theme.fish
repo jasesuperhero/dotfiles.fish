@@ -1,10 +1,5 @@
 #!/usr/bin/env fish
 
-switch $C_THEME
-    case dark
-        sed -i '' -E "s/^palette = .*/palette = \"catppuccin_mocha\"/" $HOME/.config/starship.toml
-    case light
-        sed -i '' -E "s/^palette = .*/palette = \"catppuccin_latte\"/" $HOME/.config/starship.toml
-    case "*"
-        exit 1
-end
+set -l palette (theme_pick catppuccin_mocha catppuccin_latte); or exit 1
+
+sed -i '' -E "s/^palette = .*/palette = \"$palette\"/" $HOME/.config/starship.toml

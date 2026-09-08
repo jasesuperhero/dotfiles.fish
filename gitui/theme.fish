@@ -1,12 +1,5 @@
 #!/usr/bin/env fish
 
-switch $C_THEME
-    case dark
-        set GITUI_THEME "mocha.ron"
-    case light
-        set GITUI_THEME "latte.ron"
-    case "*"
-        exit 1
-end
+set -l GITUI_THEME (theme_pick mocha.ron latte.ron); or exit 1
 
 alias --save gitui="gitui --theme \"$DOTFILES/gitui/$GITUI_THEME\"" &>/dev/null

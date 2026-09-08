@@ -7,13 +7,6 @@
 # console_palette_transparent (set in config.yaml) lets the terminal's actual
 # Catppuccin background show through for a cohesive look.
 
-switch $C_THEME
-    case dark
-        set MITM_PALETTE dark
-    case light
-        set MITM_PALETTE light
-    case "*"
-        exit 1
-end
+set -l MITM_PALETTE (theme_pick dark light); or exit 1
 
 alias --save mitmproxy="mitmproxy --set console_palette=$MITM_PALETTE" &>/dev/null

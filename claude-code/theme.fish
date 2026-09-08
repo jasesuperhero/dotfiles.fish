@@ -1,10 +1,5 @@
 #!/usr/bin/env fish
 
-switch $C_THEME
-    case dark
-        sed -i '' 's/"theme": "[^"]*"/"theme": "dark"/' "$HOME/.claude.json"
-    case light
-        sed -i '' 's/"theme": "[^"]*"/"theme": "light"/' "$HOME/.claude.json"
-    case "*"
-        exit 1
-end
+set -l theme (theme_pick dark light); or exit 1
+
+sed -i '' "s/\"theme\": \"[^\"]*\"/\"theme\": \"$theme\"/" "$HOME/.claude.json"

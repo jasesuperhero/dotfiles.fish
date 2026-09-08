@@ -5,16 +5,8 @@ set ZELLIJ_LAYOUT_FILE "$HOME/.config/zellij/layouts/default_start.kdl"
 set SCRIPTS_DIR "$HOME/.config/zellij/scripts"
 set TEMPLATE "$DOTFILES/zellij/config/layouts/default_start.kdl"
 
-switch $C_THEME
-    case dark
-        set zellij_theme catppuccin-mocha
-        set color_file "$DOTFILES/zellij/themes/zjstatus_mocha.kdl"
-    case light
-        set zellij_theme catppuccin-latte
-        set color_file "$DOTFILES/zellij/themes/zjstatus_latte.kdl"
-    case "*"
-        exit 1
-end
+set -l zellij_theme (theme_pick catppuccin-mocha catppuccin-latte); or exit 1
+set -l color_file (theme_pick "$DOTFILES/zellij/themes/zjstatus_mocha.kdl" "$DOTFILES/zellij/themes/zjstatus_latte.kdl")
 
 sed -i '' -E "s/^theme .*/theme \"$zellij_theme\"/" $ZELLIJ_CONFIG_FILE
 
