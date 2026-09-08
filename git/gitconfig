@@ -82,7 +82,6 @@ root = rev-parse --show-toplevel
 whitespace = fix
 
 [core]
-pager = delta
 pager = delta --features "$(test \"$C_THEME\" = \"dark\" && echo dark-mode || echo light-mode)"
 
 # Use custom `.gitignore` and `.gitattributes`
@@ -155,9 +154,6 @@ managed = true
 
 [interactive]
     diffFilter = delta --color-only --features "$(test \"$C_THEME\" = \"dark\" && echo dark-mode || echo light-mode)"
-
-[diff]
-tool = neovim
 
 [merge]
   tool = nvimmerge

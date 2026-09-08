@@ -6,9 +6,9 @@ end
 set main_branch (git main-branch)
 
 log "Removing merged branches..."
-set branches (git branch --merged | grep -v "^\*" | grep -v $main_branch | tr -d '\n')
-if test -n $branches
-	echo "$branches" | xargs git branch -d
+set branches (git branch --merged | grep -v "^\*" | grep -v $main_branch | string trim)
+if test (count $branches) -gt 0
+	printf '%s\n' $branches | xargs git branch -d
 end
 
 log "Removing branches squashed or merged into $main_branch..."

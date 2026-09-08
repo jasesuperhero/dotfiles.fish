@@ -1,13 +1,33 @@
 #!/bin/sh
+set -eu
 #
 # Nukes a branch or tag locally and on the origin remote.
 #
-# $1 - Branch name.
+# $1 - Branch or tag name.
 #
 # Examples
 #
 #   git nuke add-git-nuke
 
-git show-ref --verify refs/tags/"$1" && git tag -d "$1"
-git show-ref --verify refs/heads/"$1" && git branch -D "$1"
-git push origin :"$1"
+if [ -z "${1:-}" ]; then
+    echo "usage: git nuke <branch-or-tag>" >&2
+    exit 1
+fi
+
+printf 'Delete "%s" locally and on origin? [y/N] ' "$1"
+read -r reply
+case "$reply" in
+[Yy] | [Yy][Ee][Ss]) ;;
+*)
+    echo "Aborted." >&2
+    exit 1
+    ;;
+esac
+
+if git show-ref --verify --quiet "refs/tags/$1"; then
+    git tag -d "$1"
+fi
+if git show-ref --verify --quiet "refs/heads/$1"; then
+    git branch -D "$1"
+fi
+git push origin ":$1"

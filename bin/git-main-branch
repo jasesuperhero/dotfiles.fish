@@ -1,6 +1,14 @@
 #!/usr/bin/env fish
-set toplevel (git rev-parse --show-toplevel)
-and if test -f $toplevel/.git/refs/remotes/origin/main
+# Print the repository's default branch (main/master).
+# Robust to packed refs, worktrees and submodules (the old check for the loose
+# file .git/refs/remotes/origin/main broke after `git gc` packed the refs).
+
+set -l ref (git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null)
+test -z "$ref"; and set ref (git rev-parse --abbrev-ref origin/HEAD 2>/dev/null)
+
+if test -n "$ref"
+	string replace -r '^origin/' '' -- "$ref"
+else if git show-ref --verify --quiet refs/remotes/origin/main
 	echo main
 else
 	echo master
