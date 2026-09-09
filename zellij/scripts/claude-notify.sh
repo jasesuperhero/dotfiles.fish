@@ -16,6 +16,28 @@ ZELLIJ_BIN="$(command -v zellij 2>/dev/null || true)"
 done
 TERM_BUNDLE="com.mitchellh.ghostty"
 
+# Resolve jq for parsing the hook's stdin JSON (arch-aware, like ZELLIJ_BIN above).
+JQ_BIN="$(command -v jq 2>/dev/null || true)"
+[ -n "$JQ_BIN" ] || for c in /opt/homebrew/bin/jq /usr/local/bin/jq; do
+    [ -x "$c" ] && JQ_BIN="$c" && break
+done
+
+# Claude Code passes a JSON payload on stdin (cwd, transcript_path, session_id).
+# Read it only when stdin is a pipe (a real hook) so a manual `claude-notify.sh
+# stop` in a terminal doesn't block waiting for EOF. Used by the state file below.
+HOOK_CWD=""
+TRANSCRIPT=""
+SESSION_ID=""
+if [ ! -t 0 ]; then
+    input="$(cat)"
+    if [ -n "$input" ] && [ -n "$JQ_BIN" ]; then
+        HOOK_CWD="$(printf '%s' "$input" | "$JQ_BIN" -r '.cwd // empty' 2>/dev/null || true)"
+        TRANSCRIPT="$(printf '%s' "$input" | "$JQ_BIN" -r '.transcript_path // empty' 2>/dev/null || true)"
+        SESSION_ID="$(printf '%s' "$input" | "$JQ_BIN" -r '.session_id // empty' 2>/dev/null || true)"
+    fi
+fi
+[ -n "$HOOK_CWD" ] || HOOK_CWD="$PWD"
+
 # terminal-notifier (and, more rarely, osascript / zellij pipe) can deadlock
 # against a busy NotificationCenter and never return. Claude Code blocks on the
 # Stop hook until its child exits, so a wedged notifier shows up as an endless
@@ -99,18 +121,41 @@ attention() {
     guard 5 "$ZELLIJ_BIN" pipe --name "zellij-attention::$1::$ZELLIJ_PANE_ID" >/dev/null 2>&1 || true
 }
 
+# Persist per-pane state for the `claude-sessions` picker (a harpoon-style panel
+# listing every Claude session with status/cwd, that jumps to the chosen pane).
+# One key=value file per session+pane under the XDG cache dir. $1 = running|waiting|done.
+state_write() {
+    [ -n "${ZELLIJ_SESSION_NAME:-}" ] && [ -n "${ZELLIJ_PANE_ID:-}" ] || return 0
+    dir="${XDG_CACHE_HOME:-$HOME/.cache}/claude-sessions"
+    mkdir -p "$dir" 2>/dev/null || return 0
+    safe_sess="$(printf '%s' "$ZELLIJ_SESSION_NAME" | tr '/ ' '__')"
+    {
+        echo "status=$1"
+        echo "epoch=$(date +%s)"
+        echo "session=$ZELLIJ_SESSION_NAME"
+        echo "pane_id=$ZELLIJ_PANE_ID"
+        echo "tab=${ZELLIJ_TAB_NAME:-}"
+        echo "cwd=$HOOK_CWD"
+        echo "transcript=$TRANSCRIPT"
+        echo "session_id=$SESSION_ID"
+    } >"$dir/${safe_sess}__${ZELLIJ_PANE_ID}" 2>/dev/null || true
+}
+
 case "$EVENT" in
 stop)
     pipe "✻ done"
     attention completed
+    state_write done
     notify "✻ Task finished" >/dev/null 2>&1 &
     ;;
 notification)
     pipe "● waiting"
     attention waiting
+    state_write waiting
     notify "● Waiting for input" "Funk" >/dev/null 2>&1 &
     ;;
 clear | *)
     pipe ""
+    state_write running
     ;;
 esac

@@ -143,6 +143,10 @@ keybinds {
         bind "Ctrl Alt g" { SwitchToMode "Locked"; }
         bind "Ctrl Alt q" { Quit; }
         bind "Ctrl y" { LaunchOrFocusPlugin "harpoon" { floating true; move_to_focused_tab true; }; }
+        // Claude sessions picker: type the command into the focused pane. Safe here
+        // because autolock locks zellij on nvim/fzf/etc., so this only fires at a
+        // shell prompt (WriteChars is the only way to launch a shell command from a keybind).
+        bind "Ctrl Alt c" { WriteChars "claude-sessions"; Write 13; }
         bind "Alt n" { NewPane; }
         bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
         bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }

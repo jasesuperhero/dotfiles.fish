@@ -4,6 +4,7 @@ Configuration for [Claude Code](https://claude.com/claude-code) integrated with 
 
 - **Theme switching** — `~/.claude.json` theme follows macOS light/dark mode via `theme.fish`.
 - **Zellij notifier** — a per-tab attention icon (via the [zellij-attention](https://github.com/KiryuuLight/zellij-attention) plugin), a global status widget in the zjstatus bar, and a macOS banner when Claude finishes a turn or is waiting on you.
+- **Sessions picker** — `ccs` (or `Ctrl+Alt+c` in zellij) opens an fzf panel of all Claude sessions with status, cwd, and a transcript preview; Enter jumps to the pane (across zellij sessions).
 - **Claude.app icon** — extracted to `icon.png` and used by the macOS notifications.
 
 The script and layout pieces live in `bin/`, `zellij/scripts/`, and `zellij/config/layouts/` — only the icon and theme switcher live here.
@@ -114,6 +115,35 @@ Then start `claude` in a Zellij pane, ask a one-shot question, and confirm the b
 - **Tab name comes from a layout-set env var, not the zellij CLI.** `zellij action query-tab-names` and `current-tab-info` return *"There is no active session!"* when called from a Claude hook (a non-attached child process, even via `fish -c`, with a synthetic TTY, or with `--session <name>`). Only `zellij pipe` works headlessly. So the layout sets `ZELLIJ_TAB_NAME` per tab via fish `-C` (see [Tab name](#tab-name)), and the hook reads `$ZELLIJ_TAB_NAME` directly.
 - **Per-tab targeting comes from a plugin, not the CLI.** `zellij action rename-pane` only renames the *focused* pane, so it can't target the Claude pane if focus has moved — which is why the zjstatus widget is global. The zellij-attention **plugin** sidesteps this: a broadcast pipe (`--name`) carries the originating `$ZELLIJ_PANE_ID`, and the plugin (which has the full plugin API the CLI lacks) renames whichever tab holds that pane, regardless of focus. So the global widget and the per-tab icon are complementary.
 - **Sound only on "waiting".** "Done" fires often and gets noisy with sound. "Waiting" is rarer and worth interrupting for.
+
+## Sessions picker
+
+`claude-sessions` (abbr `ccs`, or `Ctrl+Alt+c` in zellij) opens an fzf panel listing every
+tracked Claude session — a harpoon-style menu across all your zellij sessions.
+
+- **Status icons:** `●` waiting · `▶` running · `✻` done (waiting sorts first).
+- **Each row:** `<session> · <tab> · <cwd>  (<age>)`; the preview shows the full state plus a
+  tail of that session's transcript.
+- **Enter** jumps to the pane — `focus-pane-id` within the current session, or
+  `switch-session --pane-id` across sessions. **Ctrl-X** forgets a stale entry.
+
+### How it works
+
+- `claude-notify.sh` writes a per-pane state file on every hook event under
+  `${XDG_CACHE_HOME:-~/.cache}/claude-sessions/<session>__<pane_id>` (key=value: status, cwd,
+  tab, transcript path, …). It reads Claude's hook **stdin JSON** for `cwd` / `transcript_path`
+  / `session_id` (guarded with `[ -t 0 ]` so manual runs don't block). State files are the only
+  cross-session-capable source — hooks run detached and can't call `zellij action` queries.
+- `02-fish/functions/claude-sessions.fish` reads those files, prunes any whose session is gone
+  (`zellij list-sessions`), and renders the fzf panel; `claude-code/claude-session-preview.sh`
+  renders the preview.
+- The `Ctrl+Alt+c` keybind uses `WriteChars` (zellij can't launch a shell command from a keybind
+  directly). It's safe because autolock locks zellij on nvim/fzf/etc., so it only fires at a
+  shell prompt.
+
+**Caveats:** Claude has no pane-close hook, so a closed pane's entry lingers until its session
+ends or you `Ctrl-X` it (the age column flags stale ones). `ZELLIJ_TAB_NAME` is best-effort (see
+[Tab name](#tab-name)). Cross-session jumps need zellij ≥ 0.44 (`switch-session --pane-id`).
 
 ## Tab name
 
