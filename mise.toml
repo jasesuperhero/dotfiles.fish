@@ -169,11 +169,21 @@ gping = "latest"
 "brew-cask:kitty" = { os = "macos" }
 "brew-cask:mitmproxy" = { os = "macos" }
 "brew-cask:obsidian" = { os = "macos" }
+"brew-cask:readdle-spark" = { os = "macos" }   # Spark (email)
 "brew-cask:rescuetime" = { os = "macos" }
 "brew-cask:stats" = { os = "macos" }
 "brew-cask:telegram-desktop" = { os = "macos" }
 "brew-cask:visual-studio-code" = { os = "macos" }
 "brew-cask:font-jetbrains-mono-nerd-font" = { os = "macos" }
+
+# ---------- macOS: Mac App Store apps via `mas` (os = "macos") ----------------
+# Keyed by App Store numeric ID (see `mas list`). Requires an Apple-ID sign-in
+# and the `mas` CLI (installed above via brew:mas). Apps that also ship as a
+# Homebrew cask (e.g. Spark -> brew-cask:readdle-spark) live in the casks block.
+"mas:1529448980" = { os = "macos" }   # Reeder
+"mas:441258766" = { os = "macos" }    # Magnet
+"mas:1017470484" = { os = "macos" }   # Next Meeting
+"mas:928871589" = { os = "macos" }    # Noizio
 
 # ---------- Ubuntu/Debian: apt (os = "linux") --------------------------------
 # Host packages only. bat/fd/fzf/ripgrep/gh moved to [tools], so the old
