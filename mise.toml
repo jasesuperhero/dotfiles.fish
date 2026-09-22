@@ -255,6 +255,7 @@ gping = "latest"
 
 # --- macOS-only application config -------------------------------------------
 "~/.config/kitty" = { source = "~/.dotfiles/kitty/config", mode = "symlink", os = "macos" }
+"~/.config/karabiner" = { source = "~/.dotfiles/karabiner/config", mode = "symlink", os = "macos" }
 "~/.mitmproxy" = { source = "~/.dotfiles/mitmproxy/config", mode = "symlink", os = "macos" }
 "~/Library/Application Support/com.mitchellh.ghostty/config" = { source = "~/.dotfiles/ghostty/config/config", mode = "symlink", os = "macos" }
 

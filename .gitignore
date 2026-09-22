@@ -7,5 +7,6 @@ dist
 # has its own sync — keep the bundle out of the repo.
 alfred/
 
-# Karabiner auto-generated dated backups (pure churn).
-mackup/data/Mackup/.config/karabiner/automatic_backups/
+# Karabiner auto-generated dated backups (pure churn). Karabiner-Elements writes
+# these into its config dir, which is symlinked to karabiner/config/.
+karabiner/config/automatic_backups/
