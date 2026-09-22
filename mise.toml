@@ -81,6 +81,7 @@ bat = "latest"
 ripgrep = "latest"      # provides `rg`
 fzf = "latest"
 gh = "latest"           # removes the Ubuntu GitHub-CLI apt repo entirely
+opencode = "latest"
 gum = "latest"
 jq = "latest"
 yazi = "latest"
