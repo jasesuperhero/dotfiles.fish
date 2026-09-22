@@ -85,6 +85,7 @@ gum = "latest"
 jq = "latest"
 yazi = "latest"
 gping = "latest"
+zoxide = "latest"       # frecency `cd`; gates the `cd`/`cdi` overrides in zoxide/conf.d
 
 # --- Node CLIs (was: npm install --global from npm_packages.txt) --------------
 "npm:cspell" = "latest"
