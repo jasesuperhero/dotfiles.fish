@@ -153,7 +153,7 @@ gping = "latest"
 # Apple / iOS development
 "brew:carthage" = { os = "macos" }
 "brew:mint" = { os = "macos" }
-"brew:xcodesorg/made/xcodes" = { os = "macos" }
+"brew:xcodes" = { os = "macos" }        # xcodes CLI (homebrew-core; NOT the xcodes-app GUI cask)
 # third-party taps (fully-qualified so mise fetches the tap)
 "brew:bensadeh/despell/despell" = { os = "macos" }
 "brew:cormacrelf/tap/dark-notify" = { os = "macos" }   # macOS appearance observer
