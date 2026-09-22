@@ -47,7 +47,7 @@ quit-after-last-window-closed = true
 keybind = cmd+n=new_window
 
 # shell — attach to the latest active zellij session, else create a new one
-command = /Users/daniel/.dotfiles/bin/zj-launch
+command = shell:exec "$HOME/.dotfiles/bin/zj-launch"
 
 # theme — auto-switches with macOS light/dark mode
 theme = dark:Catppuccin Mocha,light:Catppuccin Latte

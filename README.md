@@ -52,13 +52,13 @@ Supported: **macOS** (Apple Silicon; Intel works too) and **Ubuntu/Debian**
    eval "$(~/.local/bin/mise activate bash)"   # bash; use `activate zsh` for zsh
    ```
 
-2. Clone the repo:
+1. Clone the repo:
 
    ```sh
    git clone https://github.com/jasesuperhero/dotfiles.fish.git ~/.dotfiles
    ```
 
-3. Make the repo the global mise config. This symlinks
+1. Make the repo the global mise config. This symlinks
    `~/.config/mise/config.toml` → `~/.dotfiles/mise.toml` (backing up any
    existing global config) and seeds an untracked
    `~/.config/mise/config.local.toml` for machine-local tools:
@@ -67,7 +67,7 @@ Supported: **macOS** (Apple Silicon; Intel works too) and **Ubuntu/Debian**
    sh ~/.dotfiles/tasks/adopt-global-config.sh
    ```
 
-4. Provision:
+1. Provision:
 
    ```sh
    cd ~/.dotfiles && mise bootstrap
@@ -112,26 +112,29 @@ mise bootstrap macos defaults status
 
 **Cross-platform CLIs** (`[tools]` — same version on macOS and Ubuntu):
 
-| Tool | Description |
-| --- | --- |
-| [`neovim`](https://neovim.io) | Editor — see [nvim/README.md](nvim/README.md) |
-| [`bat`](https://github.com/sharkdp/bat) | `cat` with syntax highlighting |
-| [`delta`](https://github.com/dandavison/delta) | Better git diffs |
-| [`dust`](https://github.com/bootandy/dust) | Intuitive `du` replacement |
-| [`eza`](https://github.com/eza-community/eza) | Modern `ls` replacement |
-| [`fd`](https://github.com/sharkdp/fd) | Fast, user-friendly `find` |
-| [`fzf`](https://github.com/junegunn/fzf) | Fuzzy finder |
-| [`gh`](https://github.com/cli/cli) | GitHub CLI |
-| [`k9s`](https://k9scli.io) / [`kubectx`](https://github.com/ahmetb/kubectx) | Kubernetes TUI / context switching |
-| [`lazygit`](https://github.com/jesseduffield/lazygit) / [`lazydocker`](https://github.com/jesseduffield/lazydocker) | Git / Docker TUIs |
-| [`ripgrep`](https://github.com/BurntSushi/ripgrep) | Fast `grep` (`rg`) |
-| [`starship`](https://starship.rs) | Cross-shell prompt |
-| [`yazi`](https://yazi-rs.github.io) | Terminal file manager |
-| [`zellij`](https://zellij.dev) | Terminal multiplexer |
+| Tool                                                                                                                | Description                                   |
+| ------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
+| [`neovim`](https://neovim.io)                                                                                       | Editor — see [nvim/README.md](nvim/README.md) |
+| [`bat`](https://github.com/sharkdp/bat)                                                                             | `cat` with syntax highlighting                |
+| [`delta`](https://github.com/dandavison/delta)                                                                      | Better git diffs                              |
+| [`dust`](https://github.com/bootandy/dust)                                                                          | Intuitive `du` replacement                    |
+| [`eza`](https://github.com/eza-community/eza)                                                                       | Modern `ls` replacement                       |
+| [`fd`](https://github.com/sharkdp/fd)                                                                               | Fast, user-friendly `find`                    |
+| [`fzf`](https://github.com/junegunn/fzf)                                                                            | Fuzzy finder                                  |
+| [`gh`](https://github.com/cli/cli)                                                                                  | GitHub CLI                                    |
+| [`k9s`](https://k9scli.io) / [`kubectx`](https://github.com/ahmetb/kubectx)                                         | Kubernetes TUI / context switching            |
+| [`lazygit`](https://github.com/jesseduffield/lazygit) / [`lazydocker`](https://github.com/jesseduffield/lazydocker) | Git / Docker TUIs                             |
+| [`ripgrep`](https://github.com/BurntSushi/ripgrep)                                                                  | Fast `grep` (`rg`)                            |
+| [`starship`](https://starship.rs)                                                                                   | Cross-shell prompt                            |
+| [`yazi`](https://yazi-rs.github.io)                                                                                 | Terminal file manager                         |
+| [`zellij`](https://zellij.dev)                                                                                      | Terminal multiplexer                          |
 
 Plus runtimes managed by [mise](https://mise.jdx.dev) (Node, Python, Ruby, Rust,
 Lua) and their CLIs (`prettier`, `eslint`, `black`, `yamllint`, `solargraph`,
 `stylua`, …), including the Neovim Node/Python/Ruby providers.
+
+**Host packages:** [`btop`](https://github.com/aristocratos/btop) is installed
+by `mise bootstrap` through Homebrew on macOS and apt on Ubuntu/Debian.
 
 **Terminals:** [Kitty](https://sw.kovidgoyal.net/kitty) and
 [Ghostty](https://ghostty.org).
@@ -141,6 +144,9 @@ Lua) and their CLIs (`prettier`, `eslint`, `black`, `yamllint`, `solargraph`,
 
 **Editor configs** (symlinked from the repo): Neovim (`nvim/`), Zed
 (`zed/config/`), plus assorted app configs (bat, btop, k9s, yazi, ghostty, …).
+The generated gh-dash and Yazi theme files live in real directories under
+`~/.config`; the tracked files are templates and examples, so theme switches
+do not change the repo.
 
 **macOS apps** (Homebrew casks): Alfred, Bartender, Fork, IINA, Kap,
 Karabiner-Elements, Kitty, mitmproxy, Obsidian, RescueTime, Stats, Telegram,
@@ -153,7 +159,7 @@ mise.toml (== ~/.config/mise/config.toml)
 ├── [tools]              portable runtimes + cross-platform CLIs (macOS + Ubuntu)
 ├── [env]               EDITOR/DOTFILES/PROJECTS/GOPATH/locale + PATH
 ├── [bootstrap.packages] brew:/brew-cask: (macOS) + apt: (Ubuntu) — host deps only
-├── [dotfiles]          symlinks (per-file for fish; whole-dir for app configs)
+├── [dotfiles]          symlinks (per-file for fish; most app configs)
 ├── [bootstrap.macos.defaults]  macOS preferences
 └── [tasks.bootstrap]   idempotent exceptions: fisher, git identity, ssh,
                         config seeding, dark-notify, fonts, login shell

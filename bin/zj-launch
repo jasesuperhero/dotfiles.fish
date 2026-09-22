@@ -1,10 +1,9 @@
 #!/bin/bash
 # zj-launch — entry point used by ghostty.
 #
-# Ghostty invokes this via `bash --noprofile --norc`, which skips /etc/profile
-# and therefore skips /usr/libexec/path_helper. We run path_helper ourselves
-# so /opt/homebrew/bin (zellij, fish, mise, thefuck, grc, …) is on PATH before
-# we exec anything downstream.
+# Ghostty starts this without a login shell. Resolve the mise-managed zellij
+# explicitly so it works even before shell activation and on either Homebrew
+# prefix (or Linux).
 #
 # If any zellij sessions are running, present a numbered menu of the active
 # (non-EXITED) ones and ask which to attach to. Enter attaches to the most
@@ -16,7 +15,25 @@
 # NOTE: Ghostty runs this under macOS system /bin/bash (3.2), so we avoid
 # mapfile and other bash 4+ features.
 
-eval "$(/usr/libexec/path_helper -s)"
+if [ -x /usr/libexec/path_helper ]; then
+    eval "$(/usr/libexec/path_helper -s)"
+fi
+if [ -x /opt/homebrew/bin/brew ]; then
+    PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+fi
+export PATH="$HOME/.local/bin:$PATH"
+
+zellij_bin=""
+if command -v mise >/dev/null 2>&1; then
+    zellij_bin="$(mise which zellij 2>/dev/null)"
+fi
+if [ -z "$zellij_bin" ]; then
+    zellij_bin="$(command -v zellij 2>/dev/null)"
+fi
+if [ -z "$zellij_bin" ]; then
+    printf 'zj-launch: zellij is not installed; run mise bootstrap\n' >&2
+    exit 1
+fi
 
 if [ -n "$ZELLIJ" ]; then
     exec fish --login --interactive
@@ -26,12 +43,12 @@ fi
 sessions=()
 while IFS= read -r line; do
     [ -n "$line" ] && sessions+=("$line")
-done < <(zellij list-sessions --no-formatting --reverse 2>/dev/null |
+done < <("$zellij_bin" list-sessions --no-formatting --reverse 2>/dev/null |
     grep -v EXITED |
     awk '{print $1}')
 
 if [ ${#sessions[@]} -eq 0 ]; then
-    exec zellij
+    exec "$zellij_bin"
 fi
 
 echo "Active zellij sessions:"
@@ -45,19 +62,19 @@ read -r choice
 
 case "$choice" in
 "")
-    exec zellij attach "${sessions[0]}"
+    exec "$zellij_bin" attach "${sessions[0]}"
     ;;
 n | N)
-    exec zellij
+    exec "$zellij_bin"
     ;;
 *[!0-9]*)
-    exec zellij attach "${sessions[0]}"
+    exec "$zellij_bin" attach "${sessions[0]}"
     ;;
 *)
     if [ "$choice" -ge 1 ] && [ "$choice" -le "${#sessions[@]}" ]; then
-        exec zellij attach "${sessions[$((choice - 1))]}"
+        exec "$zellij_bin" attach "${sessions[$((choice - 1))]}"
     else
-        exec zellij attach "${sessions[0]}"
+        exec "$zellij_bin" attach "${sessions[0]}"
     fi
     ;;
 esac

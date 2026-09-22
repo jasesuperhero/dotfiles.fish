@@ -1,0 +1,4 @@
+# Example of a generated dark-mode theme; runtime output lives in ~/.config/yazi/theme.toml.
+[flavor]
+dark  = "catppuccin-mocha"
+light = "catppuccin-mocha"

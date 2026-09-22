@@ -1,7 +1,7 @@
 # Yazi main configuration
 # Keybindings: defaults only — Yazi is already vim-like (hjkl, gg/G, v, y/x/p,
 # dd, `/` find, `z` zoxide jump, `Z` fzf). Theming is handled via flavors in
-# theme.toml, switched by yazi/theme.fish in sync with ~/.theme (C_THEME).
+# ~/.config/yazi/theme.toml, switched by yazi/theme.fish in sync with ~/.theme (C_THEME).
 
 [mgr]
 show_hidden    = false

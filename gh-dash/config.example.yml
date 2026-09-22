@@ -1,3 +1,4 @@
+# Example dark-mode config. Runtime output: ~/.config/gh-dash/config.yml.
 # yaml-language-server: $schema=https://gh-dash.dev/schema.json
 prSections:
   - title: My Pull Requests
@@ -93,16 +94,16 @@ theme:
       compact: false
   colors:
     text:
-      primary: "#4c4f69"
-      secondary: "#1e66f5"
-      inverted: "#dce0e8"
-      faint: "#5c5f77"
-      warning: "#df8e1d"
-      success: "#40a02b"
-      error: "#d20f39"
+      primary: "#cdd6f4"
+      secondary: "#89b4fa"
+      inverted: "#11111b"
+      faint: "#bac2de"
+      warning: "#f9e2af"
+      success: "#a6e3a1"
+      error: "#f38ba8"
     background:
-      selected: "#ccd0da"
+      selected: "#313244"
     border:
-      primary: "#1e66f5"
-      secondary: "#bcc0cc"
-      faint: "#ccd0da"
+      primary: "#89b4fa"
+      secondary: "#45475a"
+      faint: "#313244"

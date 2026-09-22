@@ -33,6 +33,8 @@ jobs:
       GITHUB_TOKEN: ${{ github.token }}  # linux-extras font fetch
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install mise and expose ~/.dotfiles
         run: |
@@ -68,18 +70,23 @@ jobs:
       - name: Verify key binaries resolve
         run: |
           cd ~/.dotfiles
-          set -e
+          set -euo pipefail
           for t in nvim delta eza dust lazygit k9s zellij shfmt \
                    atuin tealdeer starship fd bat rg fzf gh jq gum; do
             echo "== $t =="
-            mise exec -- "$t" --version 2>/dev/null | head -1 \
-              || { echo "MISSING: $t"; exit 1; }
+            version=$(mise exec -- "$t" --version 2>&1) \
+              || { echo "MISSING or broken: $t: $version"; exit 1; }
+            echo "${version%%$'\n'*}"
           done
+          if [ "${{ matrix.full }}" = "true" ]; then
+            btop --version
+          fi
 
       - name: Shell startup smoke test
         if: matrix.full
         run: |
-          out=$(mise exec -- fish -ic 'echo __OK__' 2>&1) || true
+          out=$(mise exec -- fish -ic 'echo __OK__' 2>&1) \
+            || { printf '%s\n' "$out"; echo "fish failed to start"; exit 1; }
           printf '%s\n' "$out"
           echo "$out" | grep -q __OK__ \
             || { echo "fish did not start cleanly"; exit 1; }
@@ -87,3 +94,16 @@ jobs:
             echo "shell startup printed command-not-found"; exit 1
           fi
           echo "shell startup clean"
+
+      - name: Validate changed files with repository hooks
+        if: matrix.name == 'Ubuntu x86_64'
+        env:
+          BASE_SHA: >-
+            ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          cd ~/.dotfiles
+          base="$BASE_SHA"
+          if ! git cat-file -e "$base^{commit}" 2>/dev/null; then
+            base=$(git rev-parse HEAD^ 2>/dev/null || git rev-parse HEAD)
+          fi
+          mise exec -- prek run --from-ref "$base" --to-ref HEAD

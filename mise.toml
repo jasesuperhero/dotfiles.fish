@@ -121,6 +121,7 @@ zoxide = "latest"       # frecency `cd`; gates the `cd`/`cdi` overrides in zoxid
 [bootstrap.packages]
 
 # ---------- macOS: Homebrew formulae (os = "macos") --------------------------
+"brew:btop" = { os = "macos" }          # aqua backend only supports Linux
 "brew:fish" = { os = "macos" }
 "brew:mise" = { os = "macos" }
 "brew:git" = { os = "macos" }
@@ -215,9 +216,9 @@ zoxide = "latest"       # frecency `cd`; gates the `cd`/`cdi` overrides in zoxid
 # real repo regardless of how the config is loaded (project or global symlink).
 #
 # fish conf.d/functions use `symlink-each` (per-file) so fisher-generated files
-# in those dirs are never clobbered. atuin/zellij/starship are NOT here — their
-# theme scripts rewrite the files, so they are seeded as real files by
-# tasks/seed-configs.fish.
+# in those dirs are never clobbered. atuin/zellij/starship/gh-dash/yazi are NOT
+# here — their theme scripts write generated files, so they are seeded as real
+# files/directories by tasks/seed-configs.fish.
 # =============================================================================
 [dotfiles]
 
@@ -257,9 +258,7 @@ zoxide = "latest"       # frecency `cd`; gates the `cd`/`cdi` overrides in zoxid
 "~/.config/bat" = { source = "~/.dotfiles/bat/config", mode = "symlink" }
 "~/.config/btop" = { source = "~/.dotfiles/btop/config", mode = "symlink" }
 "~/.config/k9s" = { source = "~/.dotfiles/k9s/config", mode = "symlink" }
-"~/.config/yazi" = { source = "~/.dotfiles/yazi/config", mode = "symlink" }
 "~/.config/gitui" = { source = "~/.dotfiles/gitui/config", mode = "symlink" }
-"~/.config/gh-dash" = { source = "~/.dotfiles/gh-dash/config", mode = "symlink" }
 "~/.config/tealdeer" = { source = "~/.dotfiles/tealdeer/config", mode = "symlink" }
 "~/.config/ghostty" = { source = "~/.dotfiles/ghostty/config", mode = "symlink" }
 "~/.config/zed" = { source = "~/.dotfiles/zed/config", mode = "symlink-each" }

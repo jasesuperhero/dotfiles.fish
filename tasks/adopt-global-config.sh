@@ -19,20 +19,43 @@ localcfg="$HOME/.config/mise/config.local.toml"
 repo="$HOME/.dotfiles/mise.toml"
 
 mkdir -p "$HOME/.config/mise"
+[ -f "$repo" ] || {
+    echo "missing repo config: $repo" >&2
+    exit 1
+}
 
 if [ -L "$global" ]; then
-    echo "global config already a symlink -> $(readlink "$global")"
+    if [ "$(readlink "$global")" != "$repo" ]; then
+        echo "global config points elsewhere: $global -> $(readlink "$global")" >&2
+        exit 1
+    fi
+    echo "global config already a symlink -> $repo"
 elif [ -f "$global" ]; then
     backup="$global.pre-mise-bootstrap"
-    # Don't clobber an existing backup on a second run.
-    [ -e "$backup" ] || cp "$global" "$backup"
+    # A stale backup must never hide changes made to the current config.
+    if [ -e "$backup" ] || [ -L "$backup" ]; then
+        if ! cmp -s "$global" "$backup"; then
+            echo "existing backup differs from $global; reconcile them before adopting" >&2
+            exit 1
+        fi
+    else
+        cp -p "$global" "$backup"
+    fi
     echo "backed up existing global config -> $backup"
     echo ">> Move any machine/work-specific [tools] from that backup into"
     echo ">> $localcfg (untracked)."
-    rm "$global"
-    ln -s "$repo" "$global"
+    # Prepare the link first, then replace the backed-up file atomically.
+    pending="$global.pending.$$"
+    trap 'rm -f "$pending"' EXIT HUP INT TERM
+    ln -s "$repo" "$pending"
+    mv -f "$pending" "$global"
+    trap - EXIT HUP INT TERM
     echo "linked $global -> $repo"
 else
+    if [ -e "$global" ]; then
+        echo "global config exists but is not a regular file: $global" >&2
+        exit 1
+    fi
     ln -s "$repo" "$global"
     echo "linked $global -> $repo"
 fi

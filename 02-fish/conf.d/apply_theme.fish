@@ -10,9 +10,9 @@ function _debug --description "Print debug logs when THEME_DEBUG is set"
         "$argv"
 end
 
-# --- Run all theme scripts in parallel ---
+# --- Apply all theme scripts; keep failures visible to bootstrap/callers ---
 function _run_theme_scripts
-    set -l pids
+    set -l failed 0
 
     for theme_installer in $DOTFILES/*/theme.fish
         test -f "$theme_installer"; or continue
@@ -20,20 +20,14 @@ function _run_theme_scripts
 
         _debug "starting $theme_installer"
 
-        "$theme_installer" &
-        set -l pid $last_pid
-        set pids $pids $pid
-
-        _debug "spawned PID $pid for $theme_installer"
+        if not "$theme_installer"
+            echo "theme: failed to apply $theme_installer" >&2
+            set failed 1
+        end
     end
 
-    if test (count $pids) -gt 0
-        _debug "waiting for: $pids"
-        wait $pids
-        _debug "all themes finished"
-    else
-        _debug "no theme scripts found"
-    end
+    _debug "all themes finished"
+    return $failed
 end
 
 # --- Apply the on-disk theme once per theme value ---
@@ -46,6 +40,7 @@ function _apply_theme_if_stale --argument-names theme
     set -l marker ~/.theme.applied
     test -r $marker; and test (string trim <$marker 2>/dev/null) = "$theme"; and return
     _run_theme_scripts
+    or return 1
     echo $theme >$marker
 end
 
