@@ -286,6 +286,8 @@ WebAutomaticTextReplacementEnabled = true
 # UI
 AppleShowScrollBars = "Always"
 NSWindowResizeTime = 0.001
+# Finder
+AppleShowAllExtensions = true
 
 [bootstrap.macos.defaults."com.apple.screensaver"]
 askForPassword = 1
@@ -300,12 +302,17 @@ ShowPercent = true
 [bootstrap.macos.defaults."com.apple.dock"]
 mru-spaces = false
 tilesize = 45
+orientation = "right"
+show-recents = false
 expose-animation-duration = 0.1
 expose-group-by-app = true
 autohide-delay = 0.0
 autohide-time-modifier = 0.0
 autohide = true
 launchanim = false
+# Bottom-right hot corner -> Quick Note (wvous-br-corner = 14, no modifier).
+wvous-br-corner = 14
+wvous-br-modifier = 0
 
 [bootstrap.macos.defaults."com.apple.finder"]
 FXPreferredViewStyle = "Nlsv"
